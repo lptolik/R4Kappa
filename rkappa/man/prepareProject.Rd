@@ -9,7 +9,7 @@ and generate correspondent folder infrastructure}
     "var_prom_init.ka", "var_prom_rule.ka"), paramfile = c("var_prom_param.ka"), 
     k_min = 0.1, k_max = 10, exec.path = "~/kasim3/KaSim", shFile = "run.sh.templ", 
     jobFile = "job.sh.templ", jobCFile = "jobConc.sh", repReg = "_-", 
-    type = c("parallel", "concurrent", "both"))}
+    type = c("parallel", "concurrent", "both"), writeDir = FALSE)}
 \arguments{
   \item{project}{name of the project to be created, new folder will be created to contain the project 
 files}
@@ -28,6 +28,7 @@ match names in the content of \code{paramfile} files.}
   \item{jobCFile}{job management job template file for concurrent simulations}
   \item{repReg}{regular expression to be replaced with number of parameter set}
   \item{type}{type of the project}
+  \item{writeDir}{if TRUE project directory and its content will be created}
 }
 
 \value{project object}

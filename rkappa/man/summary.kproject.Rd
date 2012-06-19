@@ -2,9 +2,9 @@
 \alias{summary.kproject}
 \title{summary kproject}
 \description{Kproject class summary method}
-\usage{\method{summary}{kproject}(x, ...)}
+\usage{\method{summary}{kproject}(object, ...)}
 \arguments{
-  \item{x}{object to create summary for}
+  \item{object}{object to create summary for}
   \item{\dots}{
 }
 }

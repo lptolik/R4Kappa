@@ -1,9 +1,9 @@
 \name{project}
 \alias{project}
 \docType{data}
-\title{{\it E. coli} promoter transcription initiation model project}
+\title{\emph{E. coli} promoter transcription initiation model project}
 \description{
-The project is build around {\it E. coli} promoter transcription initiation model. The purpose of the project is to compare sensitivity of parameters of the model in parallel and concurrent regimes.
+The project is build around \emph{E. coli} promoter transcription initiation model. The purpose of the project is to compare sensitivity of parameters of the model in parallel and concurrent regimes.
 }
 \usage{data(project)}
 \format{

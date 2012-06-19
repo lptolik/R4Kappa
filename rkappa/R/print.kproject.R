@@ -11,9 +11,10 @@ x
 }
 summary.kproject<-function(
 ###Kproject class summary method
-x
+object
 ###object to create summary for
 , ...){
+	x<-object
 	res<-list(name=x$name,date=x$date,type=x$type)
 	res$param<-summary(x$pTable)
 	res$sets<-summary(x$paramSets)

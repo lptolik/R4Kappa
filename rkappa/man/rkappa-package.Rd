@@ -7,7 +7,7 @@
 \tabular{ll}{Package: \tab rkappa\cr
 Type: \tab Package\cr
 Title: \tab Kappa simulation Project\cr
-Version: \tab 1.0.120609\cr
+Version: \tab 1.0.120619\cr
 Date: \tab 2012-06-07\cr
 Author: \tab Anatoly Sorokin\cr
 Maintainer: \tab Anatoly Sorokin <lptolik@gmail.com>\cr

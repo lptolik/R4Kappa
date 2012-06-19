@@ -30,8 +30,10 @@ jobCFile='jobConc.sh',
 ###job management job template file for concurrent simulations
 repReg="_-",
 ###regular expression to be replaced with number of parameter set
-type=c('parallel','concurrent','both')
+type=c('parallel','concurrent','both'),
 ###type of the project
+writeDir=FALSE
+###if TRUE project directory and its content will be created
 ){
        if(!require(randtoolbox)){
          stop('Function is required package "randtoolbox"');
@@ -43,19 +45,9 @@ type=c('parallel','concurrent','both')
 kproject<-list(name=project,date=format(Sys.time(), "%Y%m%d%H%M%S"))
 	class(kproject)<-'kproject'
 	if(is.na(pTable)){pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]}
-	cF<-list();
-	for(file in constantfiles){
-		nmLines<-readLines(file)
-		cF[file]<-list(nmLines)
-	}
-	kproject$constLines<-cF
+	kproject$constLines<-readFiles(constantfiles)
 	#files that need to be modified
-	tF<-list();
-	for(file in templatefiles){
-		nmLines<-readLines(file)
-		tF[file]<-list(nmLines)
-	}
-	kproject$templateLines<-tF
+	kproject$templateLines<-readFiles(templatefiles)
 	kproject$replaceRegexp<-repReg
 	kproject$nRep<-10
 	kproject$nSets<-numSets
@@ -95,6 +87,7 @@ kproject<-list(name=project,date=format(Sys.time(), "%Y%m%d%H%M%S"))
 	kproject$paramLines<-nL
 #	browser()
 	if(dim(pTable)[1]>0){
+		pTable$param=trim(pTable$param)
 		for(i in 1:dim(pTable)[1]){
 			paramTab[paramTab$name==pTable[i,'param'],c('min','max')]<-pTable[i,c('Min','Max')]
 		}
@@ -113,22 +106,108 @@ kproject<-list(name=project,date=format(Sys.time(), "%Y%m%d%H%M%S"))
 		x1[,i]<-paramTab$max[i]
 	}
 	kproject$paramSets<-data.frame(x1)
-	system(paste('mkdir -p',project))
-	shLines<-readLines(shFile)
-	kproject$shLines[shFile]<-list(shLines)
+	kproject$shLines<-readFiles(shFile)
+	kproject$jLines<-readFiles(jobFile)
+	kproject$jCLines<-readFiles(jobCFile)
+	if(writeDir){
+		write.kproject(kproject)
+	}
+#	save(x1,paramTab,project,numSets,ptFile,constantfiles,templatefiles,paramfile,exec.path,shFile,jobFile,repReg,file=paste(project,'/param.Rdat',sep=''))
+	return(kproject)
+###project object
+}
+
+recreate.kproject<-function(
+###Function creates clone of existing project with modification according to 
+###values of arguments. NA values will be kept the same as original project
+project,##<<original project to be used as template
+name=NA,##<<name for the new project
+constantfiles=NA,##<<list of file names containing constant part of the model 
+templatefiles=NA,##<<list of template file names to be used to create model
+paramfile=NA,##<<list of names for parameter file to be generated
+exec.path=NA,##<<path to kappa language simulator executables in simulation environment
+shFile=NA,##<<run script template file name
+jobFile=NA,##<<job management job file template
+jobCFile=NA,##<<job management job template file for concurrent simulations
+repReg=NA,##<<regular expression to be replaced with number of parameter set
+type=c('parallel','concurrent','both')
+###type of the project
+){
+##note<<The main reason to have \dQuote{recreate} method is to have an ability to compare behaviour of various model setups. During the process of \dQuote{recreation} the only part of the project that is never change is \code{kproject$paramSet}. So updated model will be executed with the same set of parameter values make an appropriate comparisons.
+       if(!require(gdata)){
+         stop('Function is required package "gdata"');
+       }
+	res<-project
+	res$date=format(Sys.time(), "%Y%m%d%H%M%S")
+	if(!is.na(name)){
+		res$name<-name
+	}else{
+	#to prevent name collapse
+		res$name<-paste(res$name,'_cl_',res$date)
+	}
+	if(!is.na(constantfiles)){
+		res$constLines<-readFiles(constantfiles)
+	}
+	if(!is.na(templatefiles)){
+		res$templateLines<-readFiles(templatefiles)
+	}
+	if(!is.na(paramfile)){
+	}
+	if(!is.na(exec.path)){
+		res$execPath<-exec.path
+	}
+	if(!is.na(repReg)){
+		res$replaceRegexp<-repReg
+	}
+	if(!is.na(shFile)){
+		res$shLines<-readFiles(shFile)
+	}
+	if(!is.na(jobFile)){
+		res$jLines<-readFiles(jobFile)
+	}
+	if(!is.na(jobCFile)){
+		res$jCLines<-readFiles(jobCFile)
+	}
+	res$type<-type
+	return(res)
+}
+readFiles<-function(
+###Read file contents into character list
+files##<<vector of file names to read
+){
+	cF<-list();
+	if(!is.na(files)){
+		for(file in files){
+			nmLines<-readLines(file)
+			cF[file]<-list(nmLines)
+		}
+	}
+	return(cF)
+###list of contents of the files. Each element of the list named after a file it contains.
+}
+
+write.kproject<-function(
+###Write content of the \code{kproject} to the folder
+kproject,##<<object to write
+projectdir=kproject$name##<<optional new destination for the writing
+){
+	system(paste('mkdir -p',projectdir))
+	shLines<-kproject$shLines[[1]]
+	jLines<-kproject$jLines[[1]];
+	jCLines<-kproject$jCLines[[1]];
 	cLine<-''
-	if(length(cF)>0){
-		for(i in 1:length(cF)){
-			writeLines(cF[[i]],paste(project,'/',names(cF[i]),sep=''))
-			cLine<-paste(cLine,'-i',names(cF[i]))
+	if(length(kproject$constLines)>0){
+		for(i in 1:length(kproject$constLines)){
+			writeLines(kproject$constLines[[i]],paste(projectdir,'/',names(kproject$constLines[i]),sep=''))
+			cLine<-paste(cLine,'-i',names(kproject$constLines[i]))
 		}
 	}
 	constLine<-cLine
 	for(i in 1:dim(x1)[1]){
 		cLineL<-''
-		for(j in names(tF)){
-			tLines<-gsub(repReg,i,tF[[j]])
-			writeLines(tLines,paste(project,'/',j,'.',i,sep=''))
+		for(j in names(kproject$templateLines)){
+			tLines<-gsub(repReg,i,kproject$templateLines[[j]])
+			writeLines(tLines,paste(projectdir,'/',j,'.',i,sep=''))
 			cLineL<-paste(cLineL,'-i',paste(j,'.',i,sep=''))
 		}
 #		browser()
@@ -136,29 +215,25 @@ kproject<-list(name=project,date=format(Sys.time(), "%Y%m%d%H%M%S"))
 		for(k in 1:dim(paramTab)[1]){
 			pLines[k+1]<-paste("%var: '",gsub(repReg,i,paramTab[k,'name']),"' ",x1[i,k],sep='')
 		}
-		writeLines(pLines,paste(project,'/param.ka.',i,sep=''))
+		writeLines(pLines,paste(projectdir,'/param.ka.',i,sep=''))
 		cLineL<-paste(cLineL,'-i',paste('param.ka.',i,sep=''))
 		cLine<-paste(cLine,cLineL)
-		if(type=='parallel'|type=='both'){
+		if(kproject$type=='parallel'|kproject$type=='both'){
 			shLinesL<-gsub('\\*\\*\\*',i,gsub(repReg,paste(constLine,cLineL),shLines))
-			writeLines(shLinesL,paste(project,'/run',i,'.sh',sep=''))
-			system(paste('chmod a+x ',project,'/run',i,'.sh',sep=''))
+			writeLines(shLinesL,paste(projectdir,'/run',i,'.sh',sep=''))
+			system(paste('chmod a+x ',projectdir,'/run',i,'.sh',sep=''))
 		}
 	}
-	if(type=='concurrent'|type=='both'){
+	if(kproject$type=='concurrent'|kproject$type=='both'){
 		shLines<-gsub('\\*\\*\\*','Conc',gsub(repReg,cLine,shLines))
-		writeLines(shLines,paste(project,'/runConc.sh',sep=''))
-		system(paste('chmod a+x ',project,'/runConc.sh',sep=''))
-		jLines<-readLines(jobCFile);
-		kproject$shLines[jobCFile]<-list(jLines)
-		writeLines(gsub('KKKKKK',exec.path,jLines),paste(project,'/jobConc.sh',sep=''))
+		writeLines(shLines,paste(projectdir,'/runConc.sh',sep=''))
+		system(paste('chmod a+x ',projectdir,'/runConc.sh',sep=''))
+		writeLines(gsub('KKKKKK',kproject$execPath,jLines),
+			paste(projectdir,'/jobConc.sh',sep=''))
 	}
-	if(type=='parallel'|type=='both'){
-		jLines<-readLines(jobFile);
-		kproject$shLines[jobFile]<-list(jLines)
-		writeLines(gsub('KKKKKK',exec.path,jLines),paste(project,'/job.sh',sep=''))
+	if(kproject$type=='parallel'|kproject$type=='both'){
+		writeLines(gsub('KKKKKK',kproject$execPath,jLines),
+			paste(projectdir,'/job.sh',sep=''))
 	}
-#	save(x1,paramTab,project,numSets,ptFile,constantfiles,templatefiles,paramfile,exec.path,shFile,jobFile,repReg,file=paste(project,'/param.Rdat',sep=''))
-	return(kproject)
-###project object
+	save(kproject,file=paste(projectdir,'/project.Rdat',sep=''))
 }
