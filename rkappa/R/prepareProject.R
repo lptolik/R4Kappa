@@ -195,6 +195,7 @@ projectdir=kproject$name##<<optional new destination for the writing
 	shLines<-kproject$shLines[[1]]
 	jLines<-kproject$jLines[[1]];
 	jCLines<-kproject$jCLines[[1]];
+	repReg<-kproject$replaceRegexp
 	cLine<-''
 	if(length(kproject$constLines)>0){
 		for(i in 1:length(kproject$constLines)){
@@ -203,8 +204,9 @@ projectdir=kproject$name##<<optional new destination for the writing
 		}
 	}
 	constLine<-cLine
-	for(i in 1:dim(x1)[1]){
-		cLineL<-''
+	for(i in 1:dim(kproject$paramSets)[1]){
+		cLineL<-paste('-i',paste('param.ka.',i,sep=''))
+#		cLineL<-''
 		for(j in names(kproject$templateLines)){
 			tLines<-gsub(repReg,i,kproject$templateLines[[j]])
 			writeLines(tLines,paste(projectdir,'/',j,'.',i,sep=''))
@@ -212,11 +214,10 @@ projectdir=kproject$name##<<optional new destination for the writing
 		}
 #		browser()
 		pLines<-c(paste('#parameters for set',i))
-		for(k in 1:dim(paramTab)[1]){
-			pLines[k+1]<-paste("%var: '",gsub(repReg,i,paramTab[k,'name']),"' ",x1[i,k],sep='')
+		for(k in 1:dim(kproject$pTable)[1]){
+			pLines[k+1]<-paste("%var: '",gsub(repReg,i,kproject$pTable[k,'name']),"' ",kproject$paramSets[i,k],sep='')
 		}
 		writeLines(pLines,paste(projectdir,'/param.ka.',i,sep=''))
-		cLineL<-paste(cLineL,'-i',paste('param.ka.',i,sep=''))
 		cLine<-paste(cLine,cLineL)
 		if(kproject$type=='parallel'|kproject$type=='both'){
 			shLinesL<-gsub('\\*\\*\\*',i,gsub(repReg,paste(constLine,cLineL),shLines))

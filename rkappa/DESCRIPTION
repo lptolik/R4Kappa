@@ -1,7 +1,7 @@
 Package: rkappa
 Type: Package
 Title: Kappa simulation Project
-Version: 1.0.120619
+Version: 1.0.120624
 Date: 2012-06-07
 Author: Anatoly Sorokin
 Maintainer: Anatoly Sorokin <lptolik@gmail.com>
