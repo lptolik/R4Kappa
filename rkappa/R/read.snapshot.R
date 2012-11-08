@@ -1,3 +1,53 @@
+read.snapshot.kproject<-function(
+###function to read and parse KaSim simulation results
+kproject,##<<project to handle
+dir##<<name of the folder with project simulation results
+){
+	if(!require(futile.logger)){
+         stop('Function is required package "futile.logger"');
+	}
+	config_logger()
+	logger<-getLogger()
+	logger(INFO,'start')
+	res<-read.snap.folder(paste(dir,'pset1',sep='/'))
+	res$Set<-1;
+	logger(INFO,paste('snap',1))
+	for(i in 2:kproject$nSets){
+		r<-read.snap.folder(paste(dir,paste('pset',i,sep=''),sep='/'))
+		if(!is.na(r)){
+			r$Set<-i;
+			res<-rbind(res,r);
+		}
+	logger(INFO,paste('snap',i))
+	}
+	return(res);
+}
+read.snap.folder<-function(
+###utulity function to read content of one \code{pset} folder
+file##<<location of the folder to read
+){
+	if(!require(futile.logger)){
+         stop('Function is required package "futile.logger"');
+	}
+	config_logger()
+	logger<-getLogger()
+	dir(file,pattern='try*')->tries
+	res<-NA
+	for(t in tries){
+		fka<-dir(paste(file,t,sep='/'),pattern='*.ka$');
+		for(f in fka){
+			r<-read.snapshot(paste(file,t,f,sep='/'));
+			r$Try<-t;
+			if(all(is.na(res))){
+				res<-r;
+			}else{
+				res<-rbind(res,r);
+			}
+		}
+		logger(INFO,paste('snap',t,sep='.'))
+	}
+	return(res);
+}
 read.snapshot <-function(
 ###function to read KaSim snapshot kappa files
 file
@@ -16,4 +66,13 @@ for(i in 1:(N/2-1)){
 }
 return(dat)
 
+}
+makeBrutto<-function(kappa){
+ table(gsub('\\(.*$','',unlist(strsplit(kappa,'),',fixed=TRUE))))->brutto
+ return(brutto)
+}
+makeBruttoStr<-function(kappa){
+ brutto<-makeBrutto(kappa)
+ bstring<-paste(c(rbind(names(brutto),paste(brutto))),collapse='.')
+ return(bstring)
 }

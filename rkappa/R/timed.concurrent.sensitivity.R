@@ -6,13 +6,13 @@ outName="Prot[0-9]+",##<<name of observable to calculate sensitivity
 nboot=0,##<<number of bootstrap runs
 plot=FALSE##<<flag should be true, if graphical representation is required
 ){
-timedSC<-data.frame(time=0,param='',value=0,pval=0)[FALSE,]
-for(i in unique(obsSens$time)){
-cs0<-concurrent.sensitivity(res,obsSens,time=i,outName,nboot)
-timedSC<-rbind(timedSC,data.frame(time=i,param=rownames(cs0$prcc),value=cs0$prcc$sc,pval=cs0$prcc$pval))
-cat(paste(i,'\n'))
-
-}
-return(timedSC);
-###data frame of parameter PRCC coefficients at each time point
+  timedSC<-data.frame(time=0,param='',value=0,pval=0)[FALSE,]
+  for(i in unique(obsSens$time)){
+    cs0<-concurrent.sensitivity(res,obsSens,time=i,outName,nboot)
+    timedSC<-rbind(timedSC,data.frame(time=i,param=rownames(cs0$prcc),value=cs0$prcc$sc,pval=cs0$prcc$pval))
+    cat(paste(i,'\n'))
+    
+  }
+  return(timedSC);
+  ###data frame of parameter PRCC coefficients at each time point
 }

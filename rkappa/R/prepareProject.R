@@ -130,8 +130,8 @@ shFile=NA,##<<run script template file name
 jobFile=NA,##<<job management job file template
 jobCFile=NA,##<<job management job template file for concurrent simulations
 repReg=NA,##<<regular expression to be replaced with number of parameter set
-type=c('parallel','concurrent','both')
-###type of the project
+type=project$type
+###type of the project,c('parallel','concurrent','both')
 ){
 ##note<<The main reason to have \dQuote{recreate} method is to have an ability to compare behaviour of various model setups. During the process of \dQuote{recreation} the only part of the project that is never change is \code{kproject$paramSet}. So updated model will be executed with the same set of parameter values make an appropriate comparisons.
        if(!require(gdata)){
@@ -143,12 +143,12 @@ type=c('parallel','concurrent','both')
 		res$name<-name
 	}else{
 	#to prevent name collapse
-		res$name<-paste(res$name,'_cl_',res$date)
+		res$name<-paste(res$name,'cl',res$date,sep='_')
 	}
-	if(!is.na(constantfiles)){
+	if(!any(is.na(constantfiles))){
 		res$constLines<-readFiles(constantfiles)
 	}
-	if(!is.na(templatefiles)){
+	if(!any(is.na(templatefiles))){
 		res$templateLines<-readFiles(templatefiles)
 	}
 	if(!is.na(paramfile)){
@@ -176,7 +176,7 @@ readFiles<-function(
 files##<<vector of file names to read
 ){
 	cF<-list();
-	if(!is.na(files)){
+	if(!any(is.na(files))){
 		for(file in files){
 			nmLines<-readLines(file)
 			cF[file]<-list(nmLines)
@@ -229,7 +229,7 @@ projectdir=kproject$name##<<optional new destination for the writing
 		shLines<-gsub('\\*\\*\\*','Conc',gsub(repReg,cLine,shLines))
 		writeLines(shLines,paste(projectdir,'/runConc.sh',sep=''))
 		system(paste('chmod a+x ',projectdir,'/runConc.sh',sep=''))
-		writeLines(gsub('KKKKKK',kproject$execPath,jLines),
+		writeLines(gsub('KKKKKK',kproject$execPath,jCLines),
 			paste(projectdir,'/jobConc.sh',sep=''))
 	}
 	if(kproject$type=='parallel'|kproject$type=='both'){

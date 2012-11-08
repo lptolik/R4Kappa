@@ -1,1 +1,2 @@
 exportPattern("^[[:alpha:]]+")
+#S3method(read.observables,kproject)

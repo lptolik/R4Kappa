@@ -7,13 +7,13 @@
 \tabular{ll}{Package: \tab rkappa\cr
 Type: \tab Package\cr
 Title: \tab Kappa simulation Project\cr
-Version: \tab 1.0.120619\cr
-Date: \tab 2012-06-07\cr
+Version: \tab 1.0.120709\cr
+Date: \tab 2012-08-03\cr
 Author: \tab Anatoly Sorokin\cr
 Maintainer: \tab Anatoly Sorokin <lptolik@gmail.com>\cr
 License: \tab GPL (>= 2)\cr
 Copyright: \tab Anatoly Sorokin 2012\cr
-Suggests: \tab randtoolbox,gdata,sensitivity,igraph\cr}
+Suggests: \tab randtoolbox,gdata,sensitivity,igraph,plyr\cr}
 }
 \author{Anatoly Sorokin}
 

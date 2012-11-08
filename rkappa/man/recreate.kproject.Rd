@@ -5,8 +5,7 @@
 values of arguments. NA values will be kept the same as original project}
 \usage{recreate.kproject(project, name = NA, constantfiles = NA, templatefiles = NA, 
     paramfile = NA, exec.path = NA, shFile = NA, jobFile = NA, 
-    jobCFile = NA, repReg = NA, type = c("parallel", "concurrent", 
-        "both"))}
+    jobCFile = NA, repReg = NA, type = project$type)}
 \arguments{
   \item{project}{original project to be used as template}
   \item{name}{name for the new project}
@@ -18,7 +17,7 @@ values of arguments. NA values will be kept the same as original project}
   \item{jobFile}{job management job file template}
   \item{jobCFile}{job management job template file for concurrent simulations}
   \item{repReg}{regular expression to be replaced with number of parameter set}
-  \item{type}{type of the project}
+  \item{type}{type of the project,c('parallel','concurrent','both')}
 }
 
 

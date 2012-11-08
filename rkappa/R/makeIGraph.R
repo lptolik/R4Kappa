@@ -3,7 +3,7 @@ makeIGraph <-function(
 kappa
 ###complex definition in kappa language
 ){
-       if(!require(igraph)){
+       if(!require(igraph0)){
          stop('Function is required package "igraph"');
        }
        k<-sub('\\)$','',kappa)
