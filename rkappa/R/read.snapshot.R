@@ -67,11 +67,17 @@ for(i in 1:(N/2-1)){
 return(dat)
 
 }
-makeBrutto<-function(kappa){
+makeBrutto<-function(
+### calculate brutto formula table from kappa complex definition string
+  kappa##<<kappa complex definition string
+  ){
  table(gsub('\\(.*$','',unlist(strsplit(kappa,'),',fixed=TRUE))))->brutto
  return(brutto)
 }
-makeBruttoStr<-function(kappa){
+makeBruttoStr<-function(
+### create string representation of brutto formula from kappa complex definition string  
+  kappa##<<kappa complex definition string
+  ){
  brutto<-makeBrutto(kappa)
  bstring<-paste(c(rbind(names(brutto),paste(brutto))),collapse='.')
  return(bstring)
