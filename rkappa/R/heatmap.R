@@ -40,3 +40,4 @@ plot.point.sensitivity<-function(kasens,npar=30,conf.value=0.05){
   levelplot(t(x1[(abs(x1[,1])+abs(x1[,2]))>scTRO[20],]),axis=axisOrt,xlab='',ylab='',at=seq(-1,1,by=0.1),col.regions=b1(200),main='TotRObs')
   
 }
+

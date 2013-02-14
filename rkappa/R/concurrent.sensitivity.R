@@ -1,11 +1,9 @@
-concurrent.sensitivity <-function(
+parallel.sensitivity <-function(
   ###function calculate PRCC sensitivity coefficients of the model parameters
   res,
   ###data frame of parameter sets. Each row is a set, each column is a parameter
   obsSens,
   ###data frame of observables obtained in the model simulations 
-  time=max(obsSens$time),
-  ###time point at which sensitiviti is going to be calculated
   outName="Prot[0-9]+",
   ###name of observable to calculate sensitivity
   nboot=0
@@ -19,8 +17,6 @@ res,
 ###data frame of parameter sets. Each row is a set, each column is a parameter
 obsSens,
 ###data frame of observables obtained in the model simulations 
-time=max(obsSens$time),
-###time point at which sensitiviti is going to be calculated
 outName="Prot[0-9]+",
 ###name of observable to calculate sensitivity
 nboot=0
@@ -30,7 +26,7 @@ nboot=0
          stop('Function is required package "sensitivity"');
        }
 grep(outName,names(obsSens))->prot
-c<-as.vector(t(obsSens[obsSens$time==time,prot]))
+c<-as.vector(t(obsSens[,prot]))
 ind<-which(diff(sapply(res,range))!=0)
 sens<-pcc(res[,ind],c, rank = TRUE,nboot=nboot);
 p<-(length(ind)-1)
