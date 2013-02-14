@@ -82,3 +82,12 @@ makeBruttoStr<-function(
  bstring<-paste(c(rbind(names(brutto),paste(brutto))),collapse='.')
  return(bstring)
 }
+
+igraph.brutto.str<-function(graph){
+  if(!require(igraph)){
+    stop('Function is required package "igraph" version 0.6');
+  }
+  brutto<-table(V(graph)$type) ;
+	bstring<-paste(c(rbind(names(brutto),paste(brutto))),collapse='.')
+	return(bstring)
+}

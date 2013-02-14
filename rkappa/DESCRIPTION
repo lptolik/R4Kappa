@@ -1,12 +1,12 @@
 Package: rkappa
 Type: Package
 Title: Kappa simulation Project
-Version: 1.0.121203
-Date: 2012-12-03
+Version: 1.0.130121
+Date: 2013-01-21
 Author: Anatoly Sorokin
 Maintainer: Anatoly Sorokin <lptolik@gmail.com>
 Description: The package provides a infrastructure required to simulate kappa model with various parameter sets and analyse results of such simulations.
 License: GPL (>= 2)
-Copyright: Anatoly Sorokin 2012
-Depends: R (>= 2.14.0),randtoolbox,gdata,sensitivity,igraph,plyr
-Suggests: lattice
+Copyright: Anatoly Sorokin 2012-2013
+Depends: R (>= 2.14.0),randtoolbox,gdata,igraph,plyr
+Suggests: lattice,sensitivity

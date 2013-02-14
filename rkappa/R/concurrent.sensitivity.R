@@ -1,4 +1,19 @@
 concurrent.sensitivity <-function(
+  ###function calculate PRCC sensitivity coefficients of the model parameters
+  res,
+  ###data frame of parameter sets. Each row is a set, each column is a parameter
+  obsSens,
+  ###data frame of observables obtained in the model simulations 
+  time=max(obsSens$time),
+  ###time point at which sensitiviti is going to be calculated
+  outName="Prot[0-9]+",
+  ###name of observable to calculate sensitivity
+  nboot=0
+  ###number of bootstrap runs
+){
+  return(concurrent.sensitivity(res=res,obsSens=obsSens,time=time,outName=outName,nboot=nboot))
+}
+concurrent.sensitivity <-function(
 ###function calculate PRCC sensitivity coefficients of the model parameters
 res,
 ###data frame of parameter sets. Each row is a set, each column is a parameter
