@@ -32,8 +32,8 @@ levelplot.point.sensitivity<-function(
   if(!require(lattice)){
     stop('Function is required package "lattice"');
   }
-  if(!require(sensitivity)){
-    stop('Function is required package "sensitivity"');
+  if(!require(RColorBrewer)){
+    stop('Function is required package "RColorBrewer"');
   }
   if(is.na(b1)){
     b1<-colorRampPalette(brewer.pal(11,'RdGy'),interpolate='spline')#!!! middle is white

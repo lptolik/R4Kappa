@@ -9,4 +9,4 @@ Description: The package provides a infrastructure required to simulate kappa mo
 License: GPL (>= 2)
 Copyright: Anatoly Sorokin 2012-2013
 Depends: R (>= 2.14.0),randtoolbox,gdata,igraph,plyr
-Suggests: lattice,sensitivity
+Suggests: lattice,sensitivity,RColorBrewer
