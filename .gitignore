@@ -1,2 +1,5 @@
 rkappa.Rcheck
 .Rproj.user
+.RData
+.Rhistory
+*.tar.gz
