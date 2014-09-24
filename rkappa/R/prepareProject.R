@@ -35,13 +35,13 @@ type=c('parallel','concurrent','both'),
 writeDir=FALSE
 ###if TRUE project directory and its content will be created
 ){
-       if(!require(randtoolbox)){
-         stop('Function is required package "randtoolbox"');
-       }
-       if(!require(gdata)){
-         stop('Function is required package "gdata"');
-       }
-#files that do not need to be modified by the code
+#       if(!require(randtoolbox)){
+#         stop('Function is required package "randtoolbox"');
+#       }
+#       if(!require(gdata)){
+#         stop('Function is required package "gdata"');
+#       }
+##files that do not need to be modified by the code
 	kproject<-make.kproject(project,numSets,exec.path,repReg,type)
 	if(missing(pTable)){
 		pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]
@@ -51,6 +51,12 @@ writeDir=FALSE
 	paramTab<-data.frame(i=0,name="n",min=0.00,max=0.00,stringsAsFactors=FALSE)[FALSE,]
 	n<-1
 	nL<-list()
+	if(!any(is.na(constantfiles))){
+		kproject$constLines<-readFiles(constantfiles)
+	}
+	if(!any(is.na(templatefiles))){
+		kproject$templateLines<-readFiles(templatefiles)
+	}
 	for(file in paramfile){
 		nmLines<-readLines(file)
 		nL[file]<-list(nmLines)
@@ -169,9 +175,9 @@ type=project$type
 ###type of the project,c('parallel','concurrent','both')
 ){
 ##note<<The main reason to have \dQuote{recreate} method is to have an ability to compare behaviour of various model setups. During the process of \dQuote{recreation} the only part of the project that is never change is \code{kproject$paramSet}. So updated model will be executed with the same set of parameter values make an appropriate comparisons.
-       if(!require(gdata)){
-         stop('Function is required package "gdata"');
-       }
+#       if(!require(gdata)){
+#         stop('Function is required package "gdata"');
+#       }
 	res<-project
 	res$date=format(Sys.time(), "%Y%m%d%H%M%S")
 	if(!is.na(name)){

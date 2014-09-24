@@ -15,7 +15,7 @@ Maintainer: \tab Anatoly Sorokin <lptolik@gmail.com>\cr
 License: \tab GPL (>= 2)\cr
 Copyright: \tab Anatoly Sorokin 2012-2014\cr
 VignetteBuilder: \tab knitr\cr
-Depends: \tab R (>= 3.0.0),randtoolbox,gdata,igraph,plyr\cr
+Depends: \tab R (>= 3.0.0),randtoolbox,gdata,igraph,plyr,futile.logger\cr
 Suggests: \tab lattice,sensitivity,RColorBrewer,knitr (>= 1.6)\cr}
 }
 \author{Anatoly Sorokin}

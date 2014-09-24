@@ -9,10 +9,11 @@ parallel.sensitivity <-function(
   nboot=0
   ###number of bootstrap runs
 ){
-  res<-concurrent.sensitivity(res=res,obsSens=obsSens,time=time,outName=outName,nboot=nboot)
+  res<-concurrent.sensitivity(res=res,obsSens=obsSens,outName=outName,nboot=nboot)
   names(res)<-sub(pattern='sc.','sp.',names(res$prcc))
   return(res)
 }
+
 concurrent.sensitivity <-function(
 ###function calculate PRCC sensitivity coefficients of the model parameters
 res,

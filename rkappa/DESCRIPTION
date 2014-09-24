@@ -9,5 +9,5 @@ Description: The package provides a infrastructure required to simulate kappa mo
 License: GPL (>= 2)
 Copyright: Anatoly Sorokin 2012-2014
 VignetteBuilder: knitr
-Depends: R (>= 3.0.0),randtoolbox,gdata,igraph,plyr
+Depends: R (>= 3.0.0),randtoolbox,gdata,igraph,plyr,futile.logger
 Suggests: lattice,sensitivity,RColorBrewer,knitr (>= 1.6)

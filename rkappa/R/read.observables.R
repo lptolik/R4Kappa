@@ -11,7 +11,8 @@ file,##<<name of the observable file
 ...##<<other parameters
 ){
 l<-readLines(file)
-l[1]<-sub('#','s',l[1])
+l[1]<-sub('#','',l[1])
+l<-sub('^ *','',l)
 top<-options(show.error.messages=FALSE)
 dat<-try(read.table(header=TRUE,text=l,sep=' '))
 if(inherits(dat,'try-error')){
@@ -28,23 +29,16 @@ read.observables.kproject<-function(
 kproject,##<<project to handle
 dir##<<name of the folder with project simulation results
 ){
-	if(!require(plyr)){
-         stop('Function is required package "plyr"');
-	}
-	if(!require(futile.logger)){
-         stop('Function is required package "futile.logger"');
-	}
-	config_logger()
-	logger<-getLogger()
-	logger(INFO,'start')
+	flog.threshold(WARN)
+	flog.info("This one won't")
 	pConc<-NA
 	if(kproject$type=='concurrent'|kproject$type=='both'){
-		logger(INFO,'Concurrent file is reading')
+		flog.info('Concurrent file is reading')
 		p<-read.sim.folder(paste(dir,'psetConc',sep='/'),aggregate=TRUE)
 		if(length(p)>0){
 			pConc<-p
 #			pConc<-ddply(p, .(time), colMeans,.progress = "text")
-			logger(INFO,'Concurrent is done')
+			flog.info('Concurrent is done')
 			gc()
 		}
 	}
@@ -53,7 +47,7 @@ dir##<<name of the folder with project simulation results
 		p<-read.sim.folder(paste(dir,'pset1',sep='/'))
 		pPar<-ddply(p, .(time), colMeans)
 		names(pPar)->n
-		logger(INFO,paste('parallel',1))
+		flog.info(paste('parallel',1))
 		for(i in 2:kproject$nSets){
 			p<-read.sim.folder(paste(dir,paste('pset',i,sep=''),sep='/'))
 			if(length(p)>0){
@@ -61,7 +55,7 @@ dir##<<name of the folder with project simulation results
 				if(any(names(s) %in% n)){
 					names(s)[names(s) %in% n]<-paste(names(s)[names(s) %in% n],i,sep='')
 				}
-				if(dim(pPar)[1]!=dim(s)){
+				if(dim(pPar)[1]!=dim(s)[1]){
 					if(dim(pPar)[1]>dim(s)[1]){
 						s[dim(pPar)[1],]<-NA
 					}else if(dim(pPar)[1]<dim(s)[1]){
@@ -69,7 +63,7 @@ dir##<<name of the folder with project simulation results
 					}
 				}
 				pPar<-cbind(pPar,s)
-				logger(INFO,paste('parallel',i))
+				flog.info(paste('parallel',i))
 			}
 		}
 	}
@@ -85,20 +79,12 @@ file,##<<location of the folder to read
 aggregate=FALSE,##<<wether aggregate data on the fly or return raw dataset
 block.size=10##<<number of simulations to aggregate
 ){
-	if(!require(plyr)){
-         stop('Function is required package "plyr"');
-	}
-	if(!require(futile.logger)){
-         stop('Function is required package "futile.logger"');
-	}
-	config_logger()
-	logger<-getLogger()
 	dir(file,pattern='try*')->tries
 	res<-c();
 	if(length(tries)>0){
 		res<-read.observables(paste(file,tries[1],'data.out',sep='/'))
 		res<-cbind(res,data.frame(N=1))
-		logger(INFO,paste(file,tries[1],'data.out',sep='/'))
+		flog.info(paste(file,tries[1],'data.out',sep='/'))
 		block<-1;
 		for(i in tries[-1]){
 			r<-read.observables(paste(file,i,'data.out',sep='/'))
@@ -108,18 +94,18 @@ block.size=10##<<number of simulations to aggregate
 			if(aggregate){
 				if(block>=block.size){
 					block=0;
-					logger(INFO,'aggregate start')
+					flog.info('aggregate start')
 					res<-ddply(res,.(time),function(.x)colSums(.x[,names(.x)!='time']))
-					logger(INFO,'aggregate over')
+					flog.info('aggregate over')
 				}
 			}
 			block<-block+1;
-			logger(INFO,paste(block,paste(file,i,'data.out',sep='/')))
+			flog.info(paste(block,paste(file,i,'data.out',sep='/')))
 		}
 		if(aggregate){
-			logger(INFO,'aggregate start')
+			flog.info('aggregate start')
 			res<-ddply(res,.(time),function(.x)colSums(.x[,names(.x)!='time']))
-			logger(INFO,'aggregate over')
+			flog.info('aggregate over')
 			ind<-!names(res)%in%c('time','N')
 			res[,ind]<-res[,ind]/res$N;
 		}
