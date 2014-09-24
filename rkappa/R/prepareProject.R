@@ -272,10 +272,12 @@ projectdir=kproject$name##<<optional new destination for the writing
 		system(paste('chmod a+x ',projectdir,'/runConc.sh',sep=''))
 		writeLines(gsub('KKKKKK',kproject$execPath,jCLines),
 			paste(projectdir,'/jobConc.sh',sep=''))
+			system(paste('chmod a+x ',projectdir,'/jobConc.sh',sep=''))
 	}
 	if(kproject$type=='parallel'|kproject$type=='both'){
 		writeLines(gsub('KKKKKK',kproject$execPath,jLines),
 			paste(projectdir,'/job.sh',sep=''))
+			system(paste('chmod a+x ',projectdir,'/job.sh',sep=''))
 	}
   r4kproject<-kproject
 	save(r4kproject,file=paste(projectdir,'/project.Rdat',sep=''))
