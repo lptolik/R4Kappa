@@ -9,9 +9,56 @@ parallel.sensitivity <-function(
   nboot=0
   ###number of bootstrap runs
 ){
-  res<-concurrent.sensitivity(res=res,obsSens=obsSens,outName=outName,nboot=nboot)
-  names(res)<-sub(pattern='sc.','sp.',names(res$prcc))
-  return(res)
+  if(!require(sensitivity)){
+    stop('Function is required package "sensitivity"');
+  }
+  grep(outName,names(obsSens))->prot
+  if(length(prot)==0){
+    stop(paste('There is no columns in obsSens named like "',outName,'"',sep=''))
+  }
+  ind<-which(diff(sapply(res,range))!=0)
+  nm<-sort(unique(sub(outName,'',names(obsSens)[prot])),decreasing=TRUE)
+    p<-(length(ind)-1)
+    N<-dim(res)[1]
+  i<-1
+    if(nm[i] !=''){
+    pn<-grep(nm[i],names(obsSens)[prot])
+    c<-t(obsSens[,prot[pn]])
+    cname<-sub(outName,sub('\\[.*\\]\\*?\\+?','',outName), names(obsSens)[prot[pn[1]]])
+    prot<-prot[-pn]
+    }else{
+    c<-t(obsSens[,prot])
+    cname<-sub(outName,sub('\\[.*\\]\\*?\\+?','',outName), names(obsSens)[prot[1]])
+    }
+    colnames(c)<-cname
+    sens<-pcc(res[,ind],c, rank = TRUE,nboot=nboot);
+    prcc<-data.frame(sc=sens$PRCC$original)
+    rownames(prcc)<-rownames(sens$PRCC)
+    prcc$T<-prcc$sc*sqrt((N-2-p)/(1-prcc$sc^2))
+    prcc$pval<-1-pt(prcc$T,(N-2-p))
+    names(prcc) <- paste(names(prcc),cname,sep='.')
+  for(i in 2:length(nm)){
+    if(nm[i] !=''){
+    pn<-grep(nm[i],names(obsSens)[prot])
+    c<-t(obsSens[,prot[pn]])
+    cname<-sub(outName,sub('\\[.*\\]\\*?\\+?','',outName), names(obsSens)[prot[pn[1]]])
+    prot<-prot[-pn]
+    }else{
+    c<-t(obsSens[,prot])
+    cname<-sub(outName,sub('\\[.*\\]\\*?\\+?','',outName), names(obsSens)[prot[1]])
+    }
+    colnames(c)<-cname
+    sens<-pcc(res[,ind],c, rank = TRUE,nboot=nboot);
+    pc<-data.frame(sc=sens$PRCC$original)
+    rownames(pc)<-rownames(sens$PRCC)
+    pc$T<-pc$sc*sqrt((N-2-p)/(1-pc$sc^2))
+    pc$pval<-1-pt(pc$T,(N-2-p))
+    names(pc) <- paste(names(pc),cname,sep='.')
+    prcc<-cbind(prcc,pc)
+  }
+  out<-list(N=N,p=p,prcc=prcc)
+  class(out)<-'kappasens'
+  return(out)
 }
 
 concurrent.sensitivity <-function(

@@ -18,11 +18,12 @@ timed.parallel.sensitivity <-function(
   ){
     timedSC<-data.frame(time=0,param='',value=0,pval=0)[FALSE,]
   for(i in unique(obsSens$time)){
-    cs0<-concurrent.sensitivity(res,obsSens[obsSens$time==i,],outName,nboot)
-    timedSC<-rbind(timedSC,data.frame(time=i,param=rownames(cs0$prcc),value=cs0$prcc$sc,pval=cs0$prcc$pval))
+    cs0<-parallel.sensitivity(res,obsSens[obsSens$time==i,],outName,nboot)
+    timedSC<-rbind(timedSC,cbind(data.frame(time=i,param = rownames(cs0$prcc)),cs0$prcc))
     cat(paste(i,'\n'))
-    
   }
+  attr(timedSC,'N')<-cs0$N
+  attr(timedSC,'p')<-cs0$p
   return(timedSC);
   ###data frame of parameter PRCC coefficients at each time point
 }
