@@ -22,11 +22,11 @@ k_max= 10,
 ###maximum parameter value factor to be used if \code{pTable==NA}
 exec.path="~/kasim3/KaSim",
 ###path to kappa language simulator executables in simulation environment
-shFile='run.sh.templ',
+shFile=NA,#'run.sh.templ',
 ###run script template file name
-jobFile='job.sh.templ',
+jobFile=NA,#'job.sh.templ',
 ###job management job file template
-jobCFile='jobConc.sh',
+jobCFile=NA,#'jobConc.sh',
 ###job management job template file for concurrent simulations
 repReg="_-",
 ###regular expression to be replaced with number of parameter set
@@ -102,9 +102,13 @@ writeDir=FALSE
 # 		x1[,i]<-paramTab$max[i]
 # 	}
 # 	kproject$paramSets<-data.frame(x1)
-	kproject$shLines<-readFiles(shFile)
-	kproject$jLines<-readFiles(jobFile)
-	kproject$jCLines<-readFiles(jobCFile)
+	if(is.na(shFile) | is.na(jobFile) | is.na(jobCFile)){
+		data(templProject)
+			kproject$shLines<-templProject$shLines
+	}
+	if(!is.na(shFile)) kproject$shLines[['run.sh.templ']]<-readFiles(shFile)
+	if(!is.na(jobFile)) kproject$shLines[['job.sh.templ']]<-readFiles(jobFile)
+	if(!is.na(jobCFile)) kproject$shLines[['jobConc.sh.templ']]<-readFiles(jobCFile)
 	if(writeDir){
 		write.kproject(kproject)
 	}
