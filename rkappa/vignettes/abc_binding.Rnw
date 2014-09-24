@@ -78,6 +78,7 @@ What is clearly needed is a method that facilitates the development and analysis
 In addition to traditional GSA that we call here “parallel” for simplicity, we have introduced a computational experimental setup based upon the distinctive compositionality feature of rule-based models, which was named “concurrent” sensitivity. 
 
 \section{ABC binding toy model description}
+\subsection{Basic model}
 Here we illustrate the concept with small toy model of interaction of three agents A, B and C.  The kappa model is in Listing~\ref{code:cABC} and the graphical representation of interactions between agents are shown on the Fig.~\ref{fig:contact.map}. According them B can bind either A or C, but not both (lines~\ref{lst:a.not.c},~\ref{lst:c.not.a} on the Listing~\ref{code:cABC}). We going to calculate sensitivity of AB fraction of B agent.
 
 \begin{figure}[htbp]
@@ -127,7 +128,7 @@ Here we illustrate the concept with small toy model of interaction of three agen
 %obs: 'AB fraction' 'AB' / 'B'
 
 # Snapshot definition
-%mod: repeat ([E+] [mod] 1000)=0 do $SNAPSHOT "cABC" until [false]
+%mod: repeat ([E+] > 1) && ([E+] [mod] 1000)=0 do $SNAPSHOT "iABCD" until [false]
 \end{lstlisting}
 %\end{verbatim}
   \caption{The toy kappa model of B interacting with A and C.}
@@ -135,7 +136,18 @@ Here we illustrate the concept with small toy model of interaction of three agen
 
 \end{program}
 
-\section{Project definition}
+\subsection{Model split}
+The key feature of RKappa simulation strategy is ability to run simulation of different parameter sets in parallel and combine their results after completion. It is possible because in any model we are clearly designate parts that depends upon parameters varied in the experiment either directly or by, for example, storing results of simulation that could be mixed between different parameter sets. So we separate three parts in the model:
+
+\begin{description}
+\item[constant part] is the part of the model, which neither depends on nor modified by the application of the new values to the parameter set. In our toy model the only statement that belongs to that part is the snapshot definition.
+\item[parameter part] is the definition of variables that is substituted by new parameter value assignment (listing~\ref{code:paramfile}).
+\item[variable part] is the part that while is not modified by the parameter assignment, influenced by the parameter values directly, like reaction rules, or indirectly, like observables (listing~\ref{code:varfile}).
+\end{description}
+
+In theory for parallel sensitivity we could keep most of the model in constant part, moving to the variable part only reaction rules and observables, but for concurrent sensitivity, when we are going to merge many models into one metamodel, it is important to keep constant part as small as possible.
+
+\section{Project definition. Parallel sensitivity}
 
 We will start working with library rkappa by loading it:
 <<load-library, include = TRUE, cache=FALSE, results='hide'>>=
@@ -164,7 +176,7 @@ abcProj<-prepareProject(project='abc',
      type='parallel')
 @
 
-In our case we goin to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We also split our original model into two part: parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). There is no constant part in our model, so we provide empty list into the $constantfiles$ parameter.
+In our case we goin to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We already split our original model into two part: parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). There is no constant part in our model, so we provide empty list into the $constantfiles$ parameter.
 
 \begin{program}[htbp]
 \lstinputlisting{cABC_templ.ka}

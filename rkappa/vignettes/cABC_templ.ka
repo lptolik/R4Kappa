@@ -27,5 +27,3 @@
 %obs: 'B_-' B_-(s,t)
 %obs: 'AB_- fraction' 'AB_-' / 'B_-'
 
-# Snapshot definition
-%mod: repeat ([E+] [mod] 1000)=0 do $SNAPSHOT "cABC_-" until [false]
