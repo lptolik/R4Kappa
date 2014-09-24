@@ -86,7 +86,7 @@ writeDir=FALSE
 	}
 	kproject$pTable<-paramTab
   kproject$seed<-as.integer(Sys.time())
-  pr<-addSets(kproject,nStart=1,nSets=kproject$numSets,seed =kproject$seed)
+  pr<-addSets(kproject,nStart=1,nSets=kproject$nSets,seed =kproject$seed)
   kproject$paramSets<-pr$paramSets
   rm(pr)
 # 	ind<-which((paramTab$max-paramTab$min)>0)
@@ -269,4 +269,34 @@ projectdir=kproject$name##<<optional new destination for the writing
 	}
   r4kproject<-kproject
 	save(r4kproject,file=paste(projectdir,'/project.Rdat',sep=''))
+}
+
+addSets<-function(
+###Prepare new set of parameter vectors for \code{kproject}
+kproject,##<<project to prepare sets for
+nStart=1,##<<start index of the set
+nSets=500,##<<number of the set
+seed = 100##<<random generator seed to expand existing set in the project use \code{kproject$seed}
+){
+  kproject$pTable->paramTab
+  ind<-which((paramTab$max-paramTab$min)>0)
+  numSets<-nStart+nSets-1
+  x<-randtoolbox::sobol(numSets,dim=length(ind),scrambling=1,seed=seed)
+  #x1<-sapply(1:dim(paramTab)[1],function(.x) x[,.x]*(paramTab$max[.x]-paramTab$min[.x])+paramTab$min[.x])
+  x1<-matrix(nrow=numSets,ncol=dim(paramTab)[1])
+  colnames(x1)<-gsub(kproject$replaceRegexp,'',paramTab$name)
+  x1[,ind]<-sapply(1:length(ind),function(.x) x[,.x]*(paramTab$max[ind[.x]]-paramTab$min[ind[.x]])+paramTab$min[ind[.x]])
+  if(any(is.na(x1[1,]))){
+  ind<-which(is.na(x1[1,]))
+  for(i in ind){
+    x1[,i]<-paramTab$max[i]
+  }
+  }
+  paramSets<-data.frame(x1)
+  if(is.null(kproject$paramSets)||dim(kproject$paramSets)[2]!=dim(paramSets)[2]){
+    kproject$paramSets<-paramSets[nStart:numSets,]
+  }else{
+    kproject$paramSets[nStart:numSets,]<-paramSets[nStart:numSets,]
+  }
+  invisible(kproject) 
 }
