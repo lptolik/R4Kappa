@@ -44,11 +44,11 @@ columns=fullflexible,						%makes character spacing nice
 %\VignetteIndexEntry{MplusAutomation Examples}
 
 \begin{document}
-<<setup, include=FALSE, cache=FALSE>>=
+<<setup, include = FALSE, cache=FALSE>>=
 library(knitr)
 # set global chunk options
 opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
-options(formatR.arrow=TRUE,width=90)
+options(formatR.arrow=TRUE,width=70)
 library(xtable)
 @
 
@@ -136,9 +136,9 @@ Here we illustrate the concept with small toy model of interaction of three agen
 
 \section{Project definition}
 
-Let's load the library and start working with it:
-<<load-library,  cache=FALSE>>=
-library(kappa)
+We will start working with library rkappa by loading it:
+<<load-library, include = TRUE, cache=FALSE, results='hide'>>=
+library(rkappa)
 @
 
 The model depends upon three parameters: system volume $vol$ (line~\ref{lst:vol.def}); binding rate constant $BDB$ (line~\ref{lst:bdb.def}); and dissociation rate constant $BRK$ (line~\ref{lst:brk.def}). For analysis we have to provide boundaries for those parameters. In our case we set boundaries for all parameters so that their value will be always between $10^{-9}$ and $1$:
@@ -151,5 +151,40 @@ result is shown below:
 xtable(parTable)
 @
 
-During preparation of the simulation experiment package will 
+The key element of the RKappa library is the kproject class. Objects of that class stores all information required for generation of 
+
+<<make-project, cache=TRUE,warning=FALSE>>=
+abcProj<-prepareProject(project='abc',
+     numSets=50,
+     exec.path="~/kasim3/KaSim",
+     constantfiles=c(),
+     templatefiles=c("cABC_templ.ka"),
+     paramfile=c("cABC_param.ka"),
+     type='parallel')
+@
+
+<<list-shells, cache=FALSE>>=
+print(abcProj$shLines)
+@
+
+<<update-run.sh, cache=FALSE,tidy_source=TRUE>>=
+abcProj$shLines[["run.sh.templ"]][2]<-"numEv=2"
+abcProj$shLines[["run.sh.templ"]][16]<-
+"$KASIM_EXE _- -e $time -p 100 -d \"./pset***/try$i\" -make-sim prom.kasim"
+abcProj$shLines[["run.sh.templ"]][21]<-
+"$KASIM_EXE -e $time -p 100 -d \"./pset***/try$i\" -load-sim  ./pset***/try1/prom.kasim"
+
+ abcProj$shLines[["run.sh.templ"]]
+@
+
+<<update-job.sh, cache=FALSE,tidy_source=TRUE>>=
+ abcProj$shLines[["job.sh.templ"]][20]<-"#N=$SGE_TASK_ID"
+ abcProj$shLines[["job.sh.templ"]][21]<-"for runN in $(ls run*.sh)"
+ abcProj$shLines[["job.sh.templ"]][22]<-"do"
+ abcProj$shLines[["job.sh.templ"]][23]<-"echo $runN"
+ abcProj$shLines[["job.sh.templ"]][24]<-"./$runN"
+ abcProj$shLines[["job.sh.templ"]][25]<-"done"
+
+ abcProj$shLines[["job.sh.templ"]]
+@
 \end{document}

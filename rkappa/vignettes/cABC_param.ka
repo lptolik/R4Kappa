@@ -1,0 +1,6 @@
+
+# Reaction kinetic parameters
+%var: 'vol_-' 0.1
+%var: 'MOD_-' 0.0005
+%var: 'BRK_-' 0.1
+
