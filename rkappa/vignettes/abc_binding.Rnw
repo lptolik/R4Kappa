@@ -14,6 +14,7 @@
 %\usepackage[colorlinks,urlcolor=blue]{hyperref} 
 \usepackage{float}
 \usepackage{alltt}
+\usepackage{rotating}
 
 \usepackage{color}
 \definecolor{lightgray}{gray}{0.95}
@@ -41,7 +42,7 @@ columns=fullflexible,						%makes character spacing nice
 
 
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{MplusAutomation Examples}
+%\VignetteIndexEntry{RKappa ABC Binding Model Analysis Examples}
 
 \begin{document}
 <<setup, include = FALSE, cache=FALSE>>=
@@ -76,7 +77,7 @@ What is clearly needed is a method that facilitates the development and analysis
 
 In addition to traditional GSA that we call here “parallel” for simplicity, we have introduced a computational experimental setup based upon the distinctive compositionality feature of rule-based models, which was named “concurrent” sensitivity. 
 
-\section{Illustration model description}
+\section{ABC binding toy model description}
 Here we illustrate the concept with small toy model of interaction of three agents A, B and C.  The kappa model is in Listing~\ref{code:cABC} and the graphical representation of interactions between agents are shown on the Fig.~\ref{fig:contact.map}. According them B can bind either A or C, but not both (lines~\ref{lst:a.not.c},~\ref{lst:c.not.a} on the Listing~\ref{code:cABC}). We going to calculate sensitivity of AB fraction of B agent.
 
 \begin{figure}[htbp]
@@ -151,7 +152,7 @@ result is shown below:
 xtable(parTable)
 @
 
-The key element of the RKappa library is the kproject class. Objects of that class stores all information required for generation of 
+The key element of the RKappa library is the kproject class. Objects of that class stores all information required for generation of the simulation task. To create new project we need to specify number of parameters:
 
 <<make-project, cache=TRUE,warning=FALSE>>=
 abcProj<-prepareProject(project='abc',
@@ -163,10 +164,38 @@ abcProj<-prepareProject(project='abc',
      type='parallel')
 @
 
-<<list-shells, cache=FALSE>>=
+In our case we goin to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We also split our original model into two part: parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). There is no constant part in our model, so we provide empty list into the $constantfiles$ parameter.
+
+\begin{program}[htbp]
+\lstinputlisting{cABC_templ.ka}
+  \caption{The variable part of the toy model.}
+  \label{code:paramfile}
+
+\end{program}
+
+
+Original project template contains scripts for execution on SGE MPI job management system:
+
+ <<list-shells, cache=FALSE>>=
 print(abcProj$shLines)
 @
 
+\begin{program}[htbp]
+\lstinputlisting{cABC_param.ka}
+  \caption{The parameter definition of the toy kappa model .}
+  \label{code:varfile}
+
+\end{program}
+
+
+We going to change shell templates to be able to run it locally on average Linux or Mac system. There are three shell script templates in the project: 
+\begin{description}
+\item[run.sh.templ] the script defining some basic steps to evaluate one parameter set. The script repeat simulation of the defined model several times and store results in predefined set of folders. It is this script that defines the simulation engine and it has to be modified for use with different version of KaSim or other simulation engine (NFsim for example).
+\item[job.sh.templ] the whole job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+\item[jobConc.sh] the concurrent sensitivity job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+\end{description}
+
+To optimize our project for local execution we need to modify run.sh.templ and job.sh.templ. In the run.sh.templ we first decrease simulation time (replace 1000 seconds with 1000 events in lines 16 and 21 of the template). Another way to run simulation faster is to decrease number of model evaluation runs. Each parameter set is evaluated several times (by default 10 times) to moderate the influence of stochastic nature of the kappa simulation engine. At the analysis stage we are averaging results for calculation of the sensitivity coefficients. Here with the toy model we going to degrease number of evaluation runs to two ($numEv=2$):
 <<update-run.sh, cache=FALSE,tidy_source=TRUE>>=
 abcProj$shLines[["run.sh.templ"]][2]<-"numEv=2"
 abcProj$shLines[["run.sh.templ"]][16]<-
@@ -177,6 +206,7 @@ abcProj$shLines[["run.sh.templ"]][21]<-
  abcProj$shLines[["run.sh.templ"]]
 @
 
+After modifications made in run.sh.template execution time come down to several seconds and nowe we are ready to run it locally. There is no need for batch-queuing system on the local machine so cannot rely on it in execution all our jobs. So we are going to modify job.sh.templ to make it loop through all jobs and execute them one by one:
 <<update-job.sh, cache=FALSE,tidy_source=TRUE>>=
  abcProj$shLines[["job.sh.templ"]][20]<-"#N=$SGE_TASK_ID"
  abcProj$shLines[["job.sh.templ"]][21]<-"for runN in $(ls run*.sh)"
@@ -187,4 +217,90 @@ abcProj$shLines[["run.sh.templ"]][21]<-
 
  abcProj$shLines[["job.sh.templ"]]
 @
+
+To run the project we need to create set of executables in the local or remote machine:
+
+<<write-project, eval=FALSE>>=
+write.kproject(abcProj)
+@
+
+That command would create folder with name of your project\$name and write all required files there. The next step is to execute the simulator with all model parameter sets. 
+call the system command for execution job.sh:
+
+<<run-job, eval=FALSE>>=
+system('./abc/job.sh')
+@
+
+The results of the simulation could be then loaded to the R system with command:
+
+<<read-obs, eval=FALSE>>=
+abcObs<-read.observables(abcProj,dir='abc')
+@
+
+<<load-obs, include=FALSE>>=
+data(abcProject)
+@
+Now we can plot time series for our observables at different parameter sets (graph is shown on fig~\ref{fig:val-xplot}):
+
+<<val-xplot,fig.cap='Concentration of AB complex at different parameter sets',tidy_source=TRUE>>=
+library(lattice)
+par.settings <- list(superpose.symbol = list(col = c("red", 
+"blue", "green"), fill = c("red", "blue", "green")), superpose.line = list(col = 
+c("red", "blue", "green")) ) 
+
+grep('AB[0-9]+$',names(abcObs$resPar))->ind
+tabPlot<-abcObs$resPar[,c(1,ind[1:9])]
+t<-cbind(data.frame(time=tabPlot$time),stack(tabPlot,select=-time))
+xyplot(values~time|ind,t)
+@
+
+The PRCC sensitivity value could be calculated with command:
+<<timed-parallel-sens, results='hide', cache=TRUE,tidy_source=TRUE>>=
+tcs<-timed.concurrent.sensitivity(abcProj$paramSet, 
+           abcObs$resPar, outName='AB[0-9]+', nboot=0)
+@
+the result is a data.frame with time dependent sensitivity value of selected variable against all parameters. Summary of that data.frame is shown in the table~\ref{tab:tcs.sum}. For each observable there are sensitivity coefficient in the column with prefix 'sc', p-value of accepting the null hypothesis that sensitivity value is equal to zero in the column with prefix 'pval', and value of T-statistics in the column with prefix 'T'.
+
+<<timed-parallel-res, results='asis',tidy_source=TRUE>>=
+xts<-xtable(summary(tcs), label='tab:tcs.sum', 
+            caption='Summary of timed sensitivity analysis results')
+ print(xts, floating.environment = 'sidewaystable') 
+@
+
+The last thing is to plot the time series for the sensitivity coefficient:
+
+<<sc-plot,fig.cap='Sensitivity coefficients of three parameters relative to concentration of AB complex'>>=
+xyplot(sc.AB  ~time|param,tcs,type='l',title='abc binding'
+       , par.settings = par.settings)
+@
+
+We can see that initially when concentration of AB complex is small and fluctuating sensitivity coefficients are close to zero and only whith time it achieves its real value. It is even better seen on the significance plot (fig~\ref{fig:pval-xplot}), where we plot the probability that real sensitivity is equals to zero.
+<<pval-xplot,fig.cap='Significance of the sensitivity coefficients of three parameters relative to concentration of AB complex',out.width='.75\\linewidth'>>=
+xyplot(pval.AB  ~time,tcs,groups=param,type='l',title='abc binding'
+       , par.settings = par.settings
+       ,scales=list(y = list(log = TRUE))
+       ,auto.key = list( 
+               text = paste(sort(unique(tcs$param))), 
+               lines = TRUE,
+               points = FALSE,
+               columns=2
+       ) 
+)
+@
+
+It is also possible to estimate the value below which sensitivity coefficient is insignificant at certain value:
+
+<<sig-level, results = 'asis'>>=
+N<-att(tcs,'N')
+p<-att(tcs,'p')
+tset<-qt(c(1e-3,1e-2,5e-2),(N-2-p))
+sqrt(tset^2/(tset^2+(N-2-p)))->gms
+threshold<-t(data.frame(sig.level=c("0.1%","1%","5%"),sens.level=gms))
+xths<-xtable(threshold, label='tab:sig.level', 
+            caption='Sensitivity value thresholds for different significance levels')
+ print(xths, floating.environment = 'table') 
+
+@
+
+
 \end{document}
