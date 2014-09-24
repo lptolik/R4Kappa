@@ -170,21 +170,27 @@ The key element of the RKappa library is the kproject class. Objects of that cla
 abcProj<-prepareProject(project='abc',
      numSets=50,
      exec.path="~/kasim3/KaSim",
-     constantfiles=c(),
+     constantfiles=c('cABC_const.ka'),
      templatefiles=c("cABC_templ.ka"),
      paramfile=c("cABC_param.ka"),
      type='parallel')
 @
 
-In our case we goin to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We already split our original model into two part: parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). There is no constant part in our model, so we provide empty list into the $constantfiles$ parameter.
+In our case we goin to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We already split our original model into three parts: constant part of the model (listing~\ref{code:constfile}), parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). 
+
+\begin{program}[htbp]
+\lstinputlisting{cABC_const.ka}
+  \caption{The constant part of the toy model.}
+  \label{code:constfile}
+
+\end{program}
 
 \begin{program}[htbp]
 \lstinputlisting{cABC_templ.ka}
   \caption{The variable part of the toy model.}
-  \label{code:paramfile}
+  \label{code:varfile}
 
 \end{program}
-
 
 Original project template contains scripts for execution on SGE MPI job management system:
 
@@ -195,7 +201,7 @@ print(abcProj$shLines)
 \begin{program}[htbp]
 \lstinputlisting{cABC_param.ka}
   \caption{The parameter definition of the toy kappa model .}
-  \label{code:varfile}
+  \label{code:paramfile}
 
 \end{program}
 
