@@ -1,5 +1,5 @@
 parallel.sensitivity <-function(
-  ###function calculate PRCC sensitivity coefficients of the model parameters
+  ###function calculates PRCC sensitivity coefficients of the model parameters
   res,
   ###data frame of parameter sets. Each row is a set, each column is a parameter
   obsSens,
@@ -64,7 +64,7 @@ parallel.sensitivity <-function(
 }
 
 significancePVal<-function(
-###function calculate significance level of the PRCC sensitivity coefficients. 
+###function calculates significance level of the PRCC sensitivity coefficients. 
 ### At the moment there is no correction for multiple testing in significance calculation.
 ### This feature will be added in the next version of the software.
 gamma, ##<< the PRCC coefficient
@@ -78,7 +78,7 @@ p ##<< the number of discarded parameters
 
 
 concurrent.sensitivity <-function(
-###function calculate PRCC sensitivity coefficients of the model parameters
+###function calculates PRCC sensitivity coefficients of the model parameters
 res,
 ###data frame of parameter sets. Each row is a set, each column is a parameter
 obsSens,
