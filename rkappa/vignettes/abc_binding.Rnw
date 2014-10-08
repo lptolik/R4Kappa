@@ -311,9 +311,7 @@ It is also possible to estimate the value below which sensitivity coefficient is
 <<sig-level, results = 'asis'>>=
 N<-attr(tcs,'N')
 p<-attr(tcs,'p')
-tset<-qt(c(1e-3,1e-2,5e-2),(N-2-p))
-sqrt(tset^2/(tset^2+(N-2-p)))->gms
-threshold<-t(data.frame(sig.level=c("0.1%","1%","5%"),sens.level=gms))
+threshold<-prccConfidenceInterval(c(1e-3,5e-3,1e-2,5e-2,1e-1),N,p)
 xths<-xtable(threshold, label='tab:sig.level', 
             caption='Sensitivity value thresholds for different significance levels')
  print(xths, floating.environment = 'table') 
