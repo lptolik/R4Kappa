@@ -1,7 +1,7 @@
 \name{concurrent.sensitivity}
 \alias{concurrent.sensitivity}
 \title{concurrent sensitivity}
-\description{function calculate PRCC sensitivity coefficients of the model parameters}
+\description{function calculates PRCC sensitivity coefficients of the model parameters}
 \usage{concurrent.sensitivity(res, obsSens, outName = "Prot[0-9]+", 
     nboot = 0)}
 \arguments{
