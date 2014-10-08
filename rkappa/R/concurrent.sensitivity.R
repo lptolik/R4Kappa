@@ -34,8 +34,9 @@ parallel.sensitivity <-function(
     sens<-pcc(res[,ind],c, rank = TRUE,nboot=nboot);
     prcc<-data.frame(sc=sens$PRCC$original)
     rownames(prcc)<-rownames(sens$PRCC)
-    prcc$T<-prcc$sc*sqrt((N-2-p)/(1-prcc$sc^2))
-    prcc$pval<-1-pt(prcc$T,(N-2-p))
+    sig<-significancePVal(prcc$sc,N,p)
+    prcc$T<-sig$T
+    prcc$pval<-sig$pval
     names(prcc) <- paste(names(prcc),cname,sep='.')
   for(i in 2:length(nm)){
     if(nm[i] !=''){
@@ -51,8 +52,9 @@ parallel.sensitivity <-function(
     sens<-pcc(res[,ind],c, rank = TRUE,nboot=nboot);
     pc<-data.frame(sc=sens$PRCC$original)
     rownames(pc)<-rownames(sens$PRCC)
-    pc$T<-pc$sc*sqrt((N-2-p)/(1-pc$sc^2))
-    pc$pval<-1-pt(pc$T,(N-2-p))
+    sig<-significancePVal(pc$sc,N,p)
+    pc$T<-sig$T
+    pc$pval<-sig$pval
     names(pc) <- paste(names(pc),cname,sep='.')
     prcc<-cbind(prcc,pc)
   }
@@ -60,6 +62,20 @@ parallel.sensitivity <-function(
   class(out)<-'kappasens'
   return(out)
 }
+
+significancePVal<-function(
+###function calculate significance level of the PRCC sensitivity coefficients. 
+### At the moment there is no correction for multiple testing in significance calculation.
+### This feature will be added in the next version of the software.
+gamma, ##<< the PRCC coefficient
+N, ##<< the number of samples
+p ##<< the number of discarded parameters
+){
+    T<-gamma*sqrt((N-2-p)/(1-gamma^2))
+    pval<-2*(1-pt(abs(T),(N-2-p))
+    return list(T=T,pval=pval)
+}
+
 
 concurrent.sensitivity <-function(
 ###function calculate PRCC sensitivity coefficients of the model parameters
@@ -87,8 +103,9 @@ nboot=0
   N<-dim(res)[1]
   prcc<-data.frame(sc=sens$PRCC$original)
   rownames(prcc)<-rownames(sens$PRCC)
-  prcc$T<-prcc$sc*sqrt((N-2-p)/(1-prcc$sc^2))
-  prcc$pval<-dt(prcc$T,(N-2-p))
+  sig<-significancePVal(prcc$sc,N,p)
+  prcc$T<-sig$T
+  prcc$pval<-sig$pval
   names(prcc)<-paste(names(prcc),names(obsSens)[i],sep='.')
   for(k in 2:length(prot)){
     i<-prot[k]
@@ -96,8 +113,9 @@ nboot=0
     sens<-pcc(res[,ind],c, rank = TRUE,nboot=nboot);
     pc<-data.frame(sc=sens$PRCC$original)
     rownames(pc)<-rownames(sens$PRCC)
-    pc$T<-pc$sc*sqrt((N-2-p)/(1-pc$sc^2))
-    pc$pval<-dt(pc$T,(N-2-p))
+    sig<-significancePVal(pc$sc,N,p)
+    pc$T<-sig$T
+    pc$pval<-sig$pval
     names(pc)<-paste(names(pc),names(obsSens)[i],sep='.')
     prcc<-cbind(prcc,pc)
   }
