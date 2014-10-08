@@ -79,7 +79,7 @@ In addition to traditional GSA that we call here “parallel” for simplicity, 
 
 \section{ABC binding toy model description}
 \subsection{Basic model}
-Here we illustrate the concept with small toy model of interaction of three agents A, B and C.  The kappa model is in Listing~\ref{code:cABC} and the graphical representation of interactions between agents are shown on the Fig.~\ref{fig:contact.map}. According them B can bind either A or C, but not both (lines~\ref{lst:a.not.c},~\ref{lst:c.not.a} on the Listing~\ref{code:cABC}). We going to calculate sensitivity of AB fraction of B agent.
+Here we illustrate the concept with small toy model of interaction of three agents A, B and C.  The kappa model is in Listing~\ref{code:cABC} and the graphical representation of interactions between agents are shown on the Fig.~\ref{fig:contact.map}. According them B can bind either A or C, but not both (lines~\ref{lst:a.not.c},~\ref{lst:c.not.a} on the Listing~\ref{code:cABC}). We are going to calculate sensitivity of AB fraction of B agent.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -176,7 +176,7 @@ abcProj<-prepareProject(project='abc',
      type='parallel')
 @
 
-In our case we goin to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We already split our original model into three parts: constant part of the model (listing~\ref{code:constfile}), parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). 
+In this case we are going to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We already split our original model into three parts: constant part of the model (listing~\ref{code:constfile}), parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). 
 
 \begin{program}[htbp]
 \lstinputlisting{cABC_const.ka}
@@ -206,14 +206,14 @@ print(abcProj$shLines)
 \end{program}
 
 
-We going to change shell templates to be able to run it locally on average Linux or Mac system. There are three shell script templates in the project: 
+We are going to change shell templates to be able to run it locally on average Linux or Mac system. There are three shell script templates in the project: 
 \begin{description}
 \item[run.sh.templ] the script defining some basic steps to evaluate one parameter set. The script repeat simulation of the defined model several times and store results in predefined set of folders. It is this script that defines the simulation engine and it has to be modified for use with different version of KaSim or other simulation engine (NFsim for example).
 \item[job.sh.templ] the whole job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
 \item[jobConc.sh] the concurrent sensitivity job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
 \end{description}
 
-To optimize our project for local execution we need to modify run.sh.templ and job.sh.templ. In the run.sh.templ we first decrease simulation time (replace 1000 seconds with 1000 events in lines 16 and 21 of the template). Another way to run simulation faster is to decrease number of model evaluation runs. Each parameter set is evaluated several times (by default 10 times) to moderate the influence of stochastic nature of the kappa simulation engine. At the analysis stage we are averaging results for calculation of the sensitivity coefficients. Here with the toy model we going to degrease number of evaluation runs to two ($numEv=2$):
+To optimize our project for local execution we need to modify run.sh.templ and job.sh.templ. In the run.sh.templ we first decrease simulation time (replace 1000 seconds with 1000 events in lines 16 and 21 of the template). Another way to run simulation faster is to decrease number of model evaluation runs. Each parameter set is evaluated several times (by default 10 times) to moderate the influence of stochastic nature of the kappa simulation engine. At the analysis stage we are averaging results for calculation of the sensitivity coefficients. Here with the toy model we are going to degrease number of evaluation runs to two ($numEv=2$):
 <<update-run.sh, cache=FALSE,tidy_source=TRUE>>=
 abcProj$shLines[["run.sh.templ"]][2]<-"numEv=2"
 abcProj$shLines[["run.sh.templ"]][16]<-
@@ -309,8 +309,8 @@ xyplot(pval.AB  ~time,tcs,groups=param,type='l',title='abc binding'
 It is also possible to estimate the value below which sensitivity coefficient is insignificant at certain value:
 
 <<sig-level, results = 'asis'>>=
-N<-att(tcs,'N')
-p<-att(tcs,'p')
+N<-attr(tcs,'N')
+p<-attr(tcs,'p')
 tset<-qt(c(1e-3,1e-2,5e-2),(N-2-p))
 sqrt(tset^2/(tset^2+(N-2-p)))->gms
 threshold<-t(data.frame(sig.level=c("0.1%","1%","5%"),sens.level=gms))
