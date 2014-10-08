@@ -72,8 +72,32 @@ N, ##<< the number of samples
 p ##<< the number of discarded parameters
 ){
     T<-gamma*sqrt((N-2-p)/(1-gamma^2))
-    pval<-2*(1-pt(abs(T),(N-2-p))
-    return list(T=T,pval=pval)
+    pval<-2*(1-pt(abs(T),(N-2-p)))
+    return(list(T=T,pval=pval))
+    ###list with T-statistics value and Pvalue.
+}
+
+prccConfidenceInterval<-function(
+###function calulates confidence interval for a PRCC sensitivity coefficients.
+### Finding expression for coefficient values with Maxima
+###(%i6) solve(T^2-g^2*(N-2-p)/(1-g^2),g);
+###
+###                            T                         T
+###(%o6)       [g = - --------------------, g = --------------------]
+###                         2                         2
+###                   sqrt(T  + N - p - 2)      sqrt(T  + N - p - 2)
+###
+pval,##<< significance levels to calculate interval at
+N, ##<< the number of samples
+p ##<< the number of discarded parameters
+){
+    res<-data.frame(pval=pval,lower=-Inf,upper=Inf)
+    tval<-qt(pval/2,(N-2-p))
+    g<-abs(tval/sqrt(tval^2+N-p-2))
+    res$lower=-g
+    res$upper=g
+    return(res)
+    ### data.frame with lower and upper boundaries for each significance level
 }
 
 
