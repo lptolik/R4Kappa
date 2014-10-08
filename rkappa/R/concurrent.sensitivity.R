@@ -91,7 +91,7 @@ pval,##<< significance levels to calculate interval at
 N, ##<< the number of samples
 p ##<< the number of discarded parameters
 ){
-    res<-data.frame(pval=pval,lower=-Inf,upper=Inf)
+    res<-data.frame(sig.level=paste(100*pval,'%',sep=''),lower=-Inf,upper=Inf)
     tval<-qt(pval/2,(N-2-p))
     g<-abs(tval/sqrt(tval^2+N-p-2))
     res$lower=-g
