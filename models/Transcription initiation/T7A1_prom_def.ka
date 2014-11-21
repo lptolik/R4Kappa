@@ -1,0 +1,19 @@
+#variable promoter part description
+%agent: promoterT7A1(ns,up,s35,s10~f~open~close,gene)#10 has values open~close
+%agent: proteinT7A1()
+
+%obs: 'promRNAPT7A1' RNAP (dna!1,st~pr),promoterT7A1 (ns!1)
+%obs: 'promT7A1_F' promoterT7A1 (s10~f)
+%obs: 'promT7A1_O' promoterT7A1 (s10~open?)
+#%obs: 'doubleRNAP' RNAP (sigmaS!0),promoterT7A1 (s35!2,s10~close!5), sigma (rnap!0,S35!2), RNAP (sigmaS!3), sigma (rnap!3,S10!5)
+#%obs: 'doubleProm' RNAP(alpha,dna!0,sigmaS!1,st~pr),RNAP(alpha,dna!2,sigmaS!3,st~pr),sigma(S10!4,S35,rnap!1),sigma(S10,S35!5,rnap!3),promoterT7A1(ns!2,s10!4,s35!5,up),promoterT7A1(ns!0,s10~f,s35,up)
+%obs: 'single link' promoterT7A1 (s10~open!2,ns), sigma (S10!2,rnap)
+%obs: 'promT7A1_C' promoterT7A1 (s10~close?)
+%obs: 'promT7A1_El' RNAP (dna!1,st~el,sigmaS!0,alpha?),promoterT7A1 (ns!1), sigma (rnap!0) 
+%var: 'promT7A1_Tandem' promoterT7A1 (ns!_,gene!_)
+%obs: 'promT7A1_T' 'promT7A1_Tandem'
+#%mod: [true] set $TRACK 'ProtT7A1'[true]
+#%mod: [T]>10 set $TRACK 'ProtT7A1'[false]
+#%mod: [true] set $TRACK 'doubleRNAP'[true]
+#%mod: [T]>10 set $TRACK 'doubleRNAP'[false]
+%mod: 'promT7A1_Tandem'>0 do $SNAPSHOT "tandem"
