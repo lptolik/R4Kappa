@@ -3,9 +3,9 @@ makeIGraph <-function(
 kappa
 ###complex definition in kappa language
 ){
-       if(!require(igraph)){
-         stop('Function is required package "igraph"');
-       }
+#       if(!require(igraph)){
+#         stop('Function is required package "igraph"');
+#       }
        edges<-list()
        g <- graph.empty(n = 0, directed =FALSE)
        cl<-colors()
