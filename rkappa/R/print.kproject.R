@@ -5,7 +5,7 @@ x
 , ...){
 	cat("Name: '",x$name,"'\n")
 	cat("Created:",x$date,"\n")
-	cat("Parameters:",dim(x$paramTab)[1],"\n")
+	cat("Parameters:",dim(x$pTable)[1],"\n")
 	cat("Sets:",x$nSets,"\n")
 	cat("---------------\n")
 }

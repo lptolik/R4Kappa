@@ -8,17 +8,17 @@ dir##<<name of the folder with project simulation results
 	}
 	config_logger()
 	logger<-getLogger()
-	logger(INFO,'start')
+	flog.info('start')
 	res<-read.snap.folder(paste(dir,'pset1',sep='/'))
 	res$Set<-1;
-	logger(INFO,paste('snap',1))
+	flog.info(paste('snap',1))
 	for(i in 2:kproject$nSets){
 		r<-read.snap.folder(paste(dir,paste('pset',i,sep=''),sep='/'))
 		if(!is.na(r)){
 			r$Set<-i;
 			res<-rbind(res,r);
 		}
-	logger(INFO,paste('snap',i))
+	flog.info(paste('snap',i))
 	}
 	return(res);
 }
@@ -26,11 +26,6 @@ read.snap.folder<-function(
 ###utulity function to read content of one \code{pset} folder
 file##<<location of the folder to read
 ){
-	if(!require(futile.logger)){
-         stop('Function is required package "futile.logger"');
-	}
-	config_logger()
-	logger<-getLogger()
 	dir(file,pattern='try*')->tries
 	res<-NA
 	for(t in tries){
@@ -44,7 +39,7 @@ file##<<location of the folder to read
 				res<-rbind(res,r);
 			}
 		}
-		logger(INFO,paste('snap',t,sep='.'))
+		flog.info(paste('snap',t,sep='.'))
 	}
 	return(res);
 }
@@ -81,4 +76,13 @@ makeBruttoStr<-function(
  brutto<-makeBrutto(kappa)
  bstring<-paste(c(rbind(names(brutto),paste(brutto))),collapse='.')
  return(bstring)
+}
+
+igraph.brutto.str<-function(graph){
+  if(!require(igraph)){
+    stop('Function is required package "igraph" version 0.6');
+  }
+  brutto<-table(V(graph)$type) ;
+	bstring<-paste(c(rbind(names(brutto),paste(brutto))),collapse='.')
+	return(bstring)
 }

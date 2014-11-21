@@ -1,0 +1,23 @@
+#T7A1_prom_rule.ka
+'promoterT7A1 nonspec' RNAP (dna,st~f),promoterT7A1 (ns,s35,s10~f)-> RNAP (dna!1,st~n),promoterT7A1 (ns!1,s35,s10~f) @ ('kns'*'pnsT7A1')#'kns_pT7A1' #3
+'promT7A1 ns diss' RNAP (dna!1,st~n),promoterT7A1 (ns!1,s35,s10~f) -> RNAP (dna,st~f),promoterT7A1 (ns,s35,s10~f) @ ('k_ns'*'p_nsT7A1')#'k_p_nsT7A1' #4
+'recognitionUpT7A1'  RNAP (sigmaS!_,dna!1,st~n,alpha),promoterT7A1 (ns!1,up) -> RNAP (sigmaS!_,dna!1,st~pr,alpha!2),promoterT7A1 (ns!1,up!2) @ 'kUPT7A1'
+'recognition35T7A1'  RNAP (sigmaS!0,dna!1,st~n),promoterT7A1 (ns!1,s35), sigma (rnap!0,S35) -> RNAP (sigmaS!0,dna!1,st~pr),promoterT7A1 (ns!1,s35!2), sigma (rnap!0,S35!2) @ 0('k35T7A1')
+'recognition35iT7A1' RNAP (sigmaS!0,dna!1,st~pr),promoterT7A1 (ns!1,s35), sigma (rnap!0,S35) -> RNAP (sigmaS!0,dna!1,st~pr),promoterT7A1 (ns!1,s35!2), sigma (rnap!0,S35!2) @ 0('k35iT7A1')
+'recognition10T7A1' RNAP (sigmaS!0,dna!1,st~n),promoterT7A1 (ns!1,s10~f), sigma (rnap!0,S10)-> RNAP (sigmaS!0,dna!1,st~pr),promoterT7A1 (ns!1,s10~close!3),sigma(rnap!0,S10!3) @ 0('kb10T7A1')
+'recognition10iT7A1' RNAP (sigmaS!0,dna!1,st~pr),promoterT7A1 (ns!1,s10~f), sigma (rnap!0,S10)-> RNAP (sigmaS!0,dna!1,st~pr),promoterT7A1 (ns!1,s10~close!3),sigma(rnap!0,S10!3) @ 0('kb10iT7A1')
+'disssUPT7A1' RNAP (dna!1,alpha!2),promoterT7A1 (ns!1,up!2) -> RNAP (dna!1,alpha),promoterT7A1 (ns!1,up) @ 'k_UPT7A1'
+'disss35T7A1' promoterT7A1 (s35!2), sigma (S35!2) -> promoterT7A1 (s35), sigma (S35) @ 'k_35T7A1'
+'diss10T7A1' promoterT7A1 (s10~close!3),sigma(S10!3)-> promoterT7A1 (s10~f),sigma(S10) @ 'kb_10T7A1'
+'closingT7A1'RNAP (dna!1,st~pr,sigmaS!0), promoterT7A1 (ns!1,s10~open!3),sigma(rnap!0,S10!3)-> RNAP (dna!1,st~pr,sigmaS!0),promoterT7A1 (ns!1,s10~close!3),sigma(rnap!0,S10!3) @ 'k_10T7A1'
+'openingT7A1' RNAP (dna!1,st~pr,sigmaS!0),promoterT7A1 (ns!1,s35!2,s10~close!3), sigma (rnap!0,S35!2,S10!3)->RNAP (dna!1,st~pr,sigmaS!0),promoterT7A1 (ns!1,s35!2,s10~open!3), sigma (rnap!0,S35!2,S10!3) @ 'k10T7A1'
+'abortive syntT7A1' RNAP (dna!1,st~pr,sigmaS!0,alpha),promoterT7A1 (ns!1,s10~open!3,s35!2,up), sigma (rnap!0,S35!2,S10!3) -> RNAP (dna!1,st~el,sigmaS!0,alpha),promoterT7A1 (ns!1,s10~open!3,s35!2,up), sigma (rnap!0,S35!2,S10!3) @ 'kelongT7A1'
+'abortive restT7A1' RNAP (dna!1,st~el),promoterT7A1 (ns!1,s10~open!_) -> RNAP (dna!1,st~pr),promoterT7A1 (ns!1,s10~open!_) @ 'kresetT7A1'
+'initiateT7A1'  RNAP (dna!1,st~el,sigmaS!0,alpha?),promoterT7A1 (ns!1,s10?,s35?,gene), sigma (rnap!0,S35?,S10?) ->  RNAP (dna,st~el!1,sigmaS,alpha),promoterT7A1 (ns,s10~f,s35,gene!1), sigma (rnap,S35,S10) @ 'kinitT7A1'
+'sigma dissT7A1'  promoterT7A1 (ns,s10~open!3,s35?), sigma (rnap,S35?,S10!3) -> promoterT7A1 (ns,s10~f,s35), sigma (rnap,S35,S10)  @ 'ksigmaT7A1'
+'synthesisT7A1' RNAP (sigmaS,st~el!1),promoterT7A1 (gene!1) -> RNAP (sigmaS,st~f),promoterT7A1 (gene),proteinT7A1() @ 'ksyntT7A1'
+'untouch_promT7A1' RNAP (sigmaS!0,dna!1,st~pr,alpha),promoterT7A1 (ns!1,s35,s10,up), sigma (rnap!0,S35,S10)->RNAP (sigmaS!0,dna!1,st~n,alpha),promoterT7A1 (ns!1,s35,s10,up), sigma (rnap!0,S35,S10) @ 'kuntouchT7A1'
+
+#set specific parameters that is a expression of other parameters
+#%var: 'k_p_nsT7A1'  'k_ns'*'k_f_nsT7A1' #promoter unbinding constant value
+

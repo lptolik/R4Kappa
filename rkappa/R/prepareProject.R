@@ -6,7 +6,7 @@ project=paste("multi",format(Sys.time(), "%Y%m%d%H%M%S"),sep=''),
 ###files
 numSets=500,
 ###number of parameter sets to be generated
-pTable=NA,
+pTable,
 ###Parameter ranges data frame. Should contain columns \code{param} with parameter names, 
 ###\code{Min} and \code{Max} with parameter ranges. Names in \code{param} column should 
 ###match names in the content of \code{paramfile} files.
@@ -22,11 +22,11 @@ k_max= 10,
 ###maximum parameter value factor to be used if \code{pTable==NA}
 exec.path="~/kasim3/KaSim",
 ###path to kappa language simulator executables in simulation environment
-shFile='run.sh.templ',
+shFile=NA,#'run.sh.templ',
 ###run script template file name
-jobFile='job.sh.templ',
+jobFile=NA,#'job.sh.templ',
 ###job management job file template
-jobCFile='jobConc.sh',
+jobCFile=NA,#'jobConc.sh',
 ###job management job template file for concurrent simulations
 repReg="_-",
 ###regular expression to be replaced with number of parameter set
@@ -35,30 +35,28 @@ type=c('parallel','concurrent','both'),
 writeDir=FALSE
 ###if TRUE project directory and its content will be created
 ){
-       if(!require(randtoolbox)){
-         stop('Function is required package "randtoolbox"');
-       }
-       if(!require(gdata)){
-         stop('Function is required package "gdata"');
-       }
-#files that do not need to be modified by the code
-kproject<-list(name=project,date=format(Sys.time(), "%Y%m%d%H%M%S"))
-	class(kproject)<-'kproject'
-	if(is.na(pTable)){pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]}
-	kproject$constLines<-readFiles(constantfiles)
-	#files that need to be modified
-	kproject$templateLines<-readFiles(templatefiles)
-	kproject$replaceRegexp<-repReg
-	kproject$nRep<-10
-	kproject$nSets<-numSets
-	kproject$execPath<-exec.path
-	kproject$type<-type
-	kproject$shLines<-list()
-	#replace regex, string supposed to be replaced with index of the param set
+#       if(!require(randtoolbox)){
+#         stop('Function is required package "randtoolbox"');
+#       }
+#       if(!require(gdata)){
+#         stop('Function is required package "gdata"');
+#       }
+##files that do not need to be modified by the code
+	kproject<-make.kproject(project,numSets,exec.path,repReg,type)
+	if(missing(pTable)){
+		pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]
+	}
+#replace regex, string supposed to be replaced with index of the param set
 	parTest<-paste("^'[0-9A-Za-z_-]+",repReg,"'$",sep="")
-	paramTab<-data.frame(i=0,name="n",str=0,min=0.00,max=0.00,stringsAsFactors=FALSE)[FALSE,]
+	paramTab<-data.frame(i=0,name="n",min=0.00,max=0.00,stringsAsFactors=FALSE)[FALSE,]
 	n<-1
 	nL<-list()
+	if(!any(is.na(constantfiles))){
+		kproject$constLines<-readFiles(constantfiles)
+	}
+	if(!any(is.na(templatefiles))){
+		kproject$templateLines<-readFiles(templatefiles)
+	}
 	for(file in paramfile){
 		nmLines<-readLines(file)
 		nL[file]<-list(nmLines)
@@ -75,9 +73,9 @@ kproject<-list(name=project,date=format(Sys.time(), "%Y%m%d%H%M%S"))
 						stop(paste("wrong parameter value format: '",s,"'\n suppose to be '%var: 'param' value # comment'",sep=''))
 					}
 					if(dim(pTable)[1]>0){
-						paramTab[n,]<-data.frame(i=n,name=gsub("'",'',pd[2]),str=i,min=v,max=v,stringsAsFactors=FALSE)
+						paramTab[n,]<-data.frame(i=n,name=gsub("'",'',pd[2]),min=v,max=v,stringsAsFactors=FALSE)
 					}else{
-						paramTab[n,]<-data.frame(i=n,name=gsub("'",'',pd[2]),str=i,min=v*k_min,max=v*k_max,stringsAsFactors=FALSE)
+						paramTab[n,]<-data.frame(i=n,name=gsub("'",'',pd[2]),min=v*k_min,max=v*k_max,stringsAsFactors=FALSE)
 					}
 					n<-n+1
 				}
@@ -93,28 +91,71 @@ kproject<-list(name=project,date=format(Sys.time(), "%Y%m%d%H%M%S"))
 		}
 	}
 	kproject$pTable<-paramTab
-	ind<-which((paramTab$max-paramTab$min)>0)
-	#x<-randtoolbox::sobol(numSets,dim=dim(paramTab)[1],scrambling=1,seed=100)
-	x<-randtoolbox::sobol(numSets,dim=length(ind),scrambling=1,seed=100)
-	#x1<-sapply(1:dim(paramTab)[1],function(.x) x[,.x]*(paramTab$max[.x]-paramTab$min[.x])+paramTab$min[.x])
-	x1<-matrix(nrow=numSets,ncol=dim(paramTab)[1])
-	colnames(x1)<-gsub(repReg,'',paramTab$name)
-	x1[,ind]<-sapply(1:length(ind),function(.x) x[,.x]*(paramTab$max[ind[.x]]-paramTab$min[ind[.x]])+paramTab$min[ind[.x]])
-	
-	ind<-which(is.na(x1[1,]))
-	for(i in ind){
-		x1[,i]<-paramTab$max[i]
+  kproject$seed<-as.integer(Sys.time())
+  pr<-addSets(kproject,nStart=1,nSets=kproject$nSets,seed =kproject$seed)
+  kproject$paramSets<-pr$paramSets
+  rm(pr)
+# 	ind<-which((paramTab$max-paramTab$min)>0)
+# 	#x<-randtoolbox::sobol(numSets,dim=dim(paramTab)[1],scrambling=1,seed=100)
+# 	x<-randtoolbox::sobol(numSets,dim=length(ind),scrambling=1,seed=100)
+# 	#x1<-sapply(1:dim(paramTab)[1],function(.x) x[,.x]*(paramTab$max[.x]-paramTab$min[.x])+paramTab$min[.x])
+# 	x1<-matrix(nrow=numSets,ncol=dim(paramTab)[1])
+# 	colnames(x1)<-gsub(repReg,'',paramTab$name)
+# 	x1[,ind]<-sapply(1:length(ind),function(.x) x[,.x]*(paramTab$max[ind[.x]]-paramTab$min[ind[.x]])+paramTab$min[ind[.x]])
+# 	
+# 	ind<-which(is.na(x1[1,]))
+# 	for(i in ind){
+# 		x1[,i]<-paramTab$max[i]
+# 	}
+# 	kproject$paramSets<-data.frame(x1)
+	if(is.na(shFile) | is.na(jobFile) | is.na(jobCFile)){
+		data(templProject)
+			kproject$shLines<-templProject$shLines
 	}
-	kproject$paramSets<-data.frame(x1)
-	kproject$shLines<-readFiles(shFile)
-	kproject$jLines<-readFiles(jobFile)
-	kproject$jCLines<-readFiles(jobCFile)
+	if(!is.na(shFile)) kproject$shLines[['run.sh.templ']]<-readFiles(shFile)
+	if(!is.na(jobFile)) kproject$shLines[['job.sh.templ']]<-readFiles(jobFile)
+	if(!is.na(jobCFile)) kproject$shLines[['jobConc.sh.templ']]<-readFiles(jobCFile)
 	if(writeDir){
 		write.kproject(kproject)
 	}
 #	save(x1,paramTab,project,numSets,ptFile,constantfiles,templatefiles,paramfile,exec.path,shFile,jobFile,repReg,file=paste(project,'/param.Rdat',sep=''))
+	kproject$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
 	return(kproject)
 ###project object
+}
+
+make.kproject<-function(
+###Creates a infrastructure required to simulate kappa model with various parameter sets 
+###and generate correspondent folder infrastructure
+project=paste("multi",format(Sys.time(), "%Y%m%d%H%M%S"),sep=''),
+###name of the project to be created, new folder will be created to contain the project 
+###files
+numSets=500,
+###list of parameter file names
+exec.path="~/kasim3/KaSim",
+###path to kappa language simulator executables in simulation environment
+repReg="_-",
+###regular expression to be replaced with number of parameter set
+type=c('parallel','concurrent','both')
+###type of the project
+){
+kproject<-list(name=project,createDate=format(Sys.time(), "%Y%m%d%H%M%S"))
+	class(kproject)<-'kproject'
+	paramTab<-data.frame(i=0, name="n", min=0.00, max=0.00, stringsAsFactors=FALSE)[FALSE,]
+	kproject$constLines<-list()
+	#files that need to be modified
+	kproject$templateLines<-list()
+	kproject$replaceRegexp<-repReg
+	kproject$nRep<-10
+	kproject$nSets<-numSets
+	kproject$execPath<-exec.path
+	kproject$type<-type
+	kproject$shLines<-list()
+	kproject$paramLines<-list()
+	kproject$pTable<-paramTab
+	kproject$paramSets<-NULL
+  kproject$dateC<-format(Sys.time(), "%Y%m%d%H%M%S")
+	return(kproject)
 }
 
 recreate.kproject<-function(
@@ -134,9 +175,9 @@ type=project$type
 ###type of the project,c('parallel','concurrent','both')
 ){
 ##note<<The main reason to have \dQuote{recreate} method is to have an ability to compare behaviour of various model setups. During the process of \dQuote{recreation} the only part of the project that is never change is \code{kproject$paramSet}. So updated model will be executed with the same set of parameter values make an appropriate comparisons.
-       if(!require(gdata)){
-         stop('Function is required package "gdata"');
-       }
+#       if(!require(gdata)){
+#         stop('Function is required package "gdata"');
+#       }
 	res<-project
 	res$date=format(Sys.time(), "%Y%m%d%H%M%S")
 	if(!is.na(name)){
@@ -160,13 +201,13 @@ type=project$type
 		res$replaceRegexp<-repReg
 	}
 	if(!is.na(shFile)){
-		res$shLines<-readFiles(shFile)
+		res$shLines[['run.sh.templ']]<-readFiles(shFile)
 	}
 	if(!is.na(jobFile)){
-		res$jLines<-readFiles(jobFile)
+		res$shLines[['job.sh.templ']]<-readFiles(jobFile)
 	}
 	if(!is.na(jobCFile)){
-		res$jCLines<-readFiles(jobCFile)
+		res$shLines[['jobConc.sh.templ']]<-readFiles(jobCFile)
 	}
 	res$type<-type
 	return(res)
@@ -192,9 +233,9 @@ kproject,##<<object to write
 projectdir=kproject$name##<<optional new destination for the writing
 ){
 	system(paste('mkdir -p',projectdir))
-	shLines<-kproject$shLines[[1]]
-	jLines<-kproject$jLines[[1]];
-	jCLines<-kproject$jCLines[[1]];
+	shLines<-kproject$shLines[['run.sh.templ']]
+	jLines<-kproject$shLines[['job.sh.templ']];
+	jCLines<-kproject$shLines[['jobConc.sh.templ']];
 	repReg<-kproject$replaceRegexp
 	cLine<-''
 	if(length(kproject$constLines)>0){
@@ -231,10 +272,43 @@ projectdir=kproject$name##<<optional new destination for the writing
 		system(paste('chmod a+x ',projectdir,'/runConc.sh',sep=''))
 		writeLines(gsub('KKKKKK',kproject$execPath,jCLines),
 			paste(projectdir,'/jobConc.sh',sep=''))
+			system(paste('chmod a+x ',projectdir,'/jobConc.sh',sep=''))
 	}
 	if(kproject$type=='parallel'|kproject$type=='both'){
 		writeLines(gsub('KKKKKK',kproject$execPath,jLines),
 			paste(projectdir,'/job.sh',sep=''))
+			system(paste('chmod a+x ',projectdir,'/job.sh',sep=''))
 	}
-	save(kproject,file=paste(projectdir,'/project.Rdat',sep=''))
+  r4kproject<-kproject
+	save(r4kproject,file=paste(projectdir,'/project.Rdat',sep=''))
+}
+
+addSets<-function(
+###Prepare new set of parameter vectors for \code{kproject}
+kproject,##<<project to prepare sets for
+nStart=1,##<<start index of the set
+nSets=500,##<<number of the set
+seed = 100##<<random generator seed to expand existing set in the project use \code{kproject$seed}
+){
+  kproject$pTable->paramTab
+  ind<-which((paramTab$max-paramTab$min)>0)
+  numSets<-nStart+nSets-1
+  x<-randtoolbox::sobol(numSets,dim=length(ind),scrambling=1,seed=seed)
+  #x1<-sapply(1:dim(paramTab)[1],function(.x) x[,.x]*(paramTab$max[.x]-paramTab$min[.x])+paramTab$min[.x])
+  x1<-matrix(nrow=numSets,ncol=dim(paramTab)[1])
+  colnames(x1)<-gsub(kproject$replaceRegexp,'',paramTab$name)
+  x1[,ind]<-sapply(1:length(ind),function(.x) x[,.x]*(paramTab$max[ind[.x]]-paramTab$min[ind[.x]])+paramTab$min[ind[.x]])
+  if(any(is.na(x1[1,]))){
+  ind<-which(is.na(x1[1,]))
+  for(i in ind){
+    x1[,i]<-paramTab$max[i]
+  }
+  }
+  paramSets<-data.frame(x1)
+  if(is.null(kproject$paramSets)||dim(kproject$paramSets)[2]!=dim(paramSets)[2]){
+    kproject$paramSets<-paramSets[nStart:numSets,]
+  }else{
+    kproject$paramSets[nStart:numSets,]<-paramSets[nStart:numSets,]
+  }
+  invisible(kproject) 
 }

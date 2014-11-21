@@ -4,12 +4,12 @@
 \description{Creates a infrastructure required to simulate kappa model with various parameter sets 
 and generate correspondent folder infrastructure}
 \usage{prepareProject(project = paste("multi", format(Sys.time(), "\%Y\%m\%d\%H\%M\%S"), 
-    sep = ""), numSets = 500, pTable = NA, constantfiles = c("main_rnap_def_rule.ka", 
+    sep = ""), numSets = 500, pTable, constantfiles = c("main_rnap_def_rule.ka", 
     "main_rnap_init.ka", "main_rnap_param.ka"), templatefiles = c("var_prom_def.ka", 
     "var_prom_init.ka", "var_prom_rule.ka"), paramfile = c("var_prom_param.ka"), 
-    k_min = 0.1, k_max = 10, exec.path = "~/kasim3/KaSim", shFile = "run.sh.templ", 
-    jobFile = "job.sh.templ", jobCFile = "jobConc.sh", repReg = "_-", 
-    type = c("parallel", "concurrent", "both"), writeDir = FALSE)}
+    k_min = 0.1, k_max = 10, exec.path = "~/kasim3/KaSim", shFile = NA, 
+    jobFile = NA, jobCFile = NA, repReg = "_-", type = c("parallel", 
+        "concurrent", "both"), writeDir = FALSE)}
 \arguments{
   \item{project}{name of the project to be created, new folder will be created to contain the project 
 files}
