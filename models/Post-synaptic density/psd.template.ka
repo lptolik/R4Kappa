@@ -1,0 +1,698 @@
+
+
+'NRa.lines:2.NR2/NR.a/a.lines:2.NR1/NR.a/a' NR1(a) , NR2(a) -> NR1(a!1) , NR2(a!1)  @ 'k61'
+'NRa_dis.lines:2.NR2/NR.a/a.lines:2.NR1/NR.a/a' NR1(a!1) , NR2(a!1) -> NR1(a) , NR2(a)  @ 'k_61'
+'NR_tetra.lines:2.NR2/NR.a/a.b/b.lines:2.NR1/NR.a/a.b/b' NR1(a!1,b),NR2(a!1,b),NR1(a!2,b),NR2(a!2,b) -> NR1(a!1,b!3),NR2(a!1,b!4),NR1(a!2,b!4),NR2(a!2,b!3)  @ 'k261'
+'NR_tetra_diss.lines:2.NR2/NR.a/a.b/b.lines:2.NR1/NR.a/a.b/b' NR1(a!_,b!1) , NR2(a!_,b!1) -> NR1(a!_,b) , NR2(a!_,b)  @ 'k_261'
+'NR_tetra.lines_1:2.NR2/NR.a/a.b/b.lines:2.NR1/NR.a/a.b/b' NR1(a,b!1),NR2(a,b!1),NR1(a,b!2),NR2(a,b!2) -> NR1(a!3,b!1),NR2(a!4,b!1),NR1(a!4,b!2),NR2(a!3,b!2)  @ 'k261'
+'NR_tetra-full' NR1(a!0,b),NR2(a!0,b!1),NR1(b!1,a!2),NR2(a!2,b) -> NR1(a!0,b!3),NR2(a!0,b!1),NR1(b!1,a!2),NR2(a!2,b!3)  @ 'k1261'
+'NR_tetra-full_1' NR1(a,b!1),NR2(a!0,b!1),NR1(b!2,a!0),NR2(a,b!2) -> NR1(a!3,b!1),NR2(a!0,b!1),NR1(b!2,a!0),NR2(a!3,b!2)  @ 'k1261'
+'PSD_oligo.lines:9,1.PSD95/PSD.NH2/NH2.lines:9,1.PSD93/PSD.NH2/NH2' PSD93(NH2) , PSD95(NH2) -> PSD93(NH2!0) , PSD95(NH2!0)  @ 'k11'
+'PSD_oligo.lines:9,1.PSD93/PSD.NH2/NH2.lines:9,1.PSD93/PSD.NH2/NH2' PSD93(NH2) , PSD93(NH2) -> PSD93(NH2!0) , PSD93(NH2!0)  @ 'k11'
+'PSD_oligo.lines:9,1.PSD95/PSD.NH2/NH2.lines:9,1.PSD95/PSD.NH2/NH2' PSD95(NH2) , PSD95(NH2) -> PSD95(NH2!0) , PSD95(NH2!0)  @ 'k11'
+'PSD_oligo_diss.lines:9,1.PSD95/PSD.NH2/NH2.lines:9,1.PSD93/PSD.NH2/NH2' PSD93(NH2!0) , PSD95(NH2!0) -> PSD93(NH2) , PSD95(NH2)  @ 'k_11'
+'PSD_oligo_diss.lines:9,1.PSD93/PSD.NH2/NH2.lines:9,1.PSD93/PSD.NH2/NH2' PSD93(NH2!0) , PSD93(NH2!0) -> PSD93(NH2) , PSD93(NH2)  @ 'k_11'
+'PSD_oligo_diss.lines:9,1.PSD95/PSD.NH2/NH2.lines:9,1.PSD95/PSD.NH2/NH2' PSD95(NH2!0) , PSD95(NH2!0) -> PSD95(NH2) , PSD95(NH2)  @ 'k_11'
+'PSD_SH3/GK.lines:9,1.PSD95/PSD.GK/GK.lines:9,1.PSD93/PSD.SH3/SH3' PSD93(SH3) , PSD95(GK) -> PSD93(SH3!0) , PSD95(GK!0)  @ 'k101'
+'PSD_SH3/GK.lines:9,1.PSD93/PSD.GK/GK.lines:9,1.PSD93/PSD.SH3/SH3' PSD93(SH3) , PSD93(GK) -> PSD93(SH3!0) , PSD93(GK!0)  @ 'k101'
+'PSD_SH3/GK.lines:9,1.PSD95/PSD.GK/GK.lines:9,1.PSD95/PSD.SH3/SH3' PSD95(SH3) , PSD95(GK) -> PSD95(SH3!0) , PSD95(GK!0)  @ 'k101'
+'PSD_SH3/GK_dis.lines:9,1.PSD95/PSD.GK/GK.lines:9,1.PSD93/PSD.SH3/SH3' PSD93(SH3!0) , PSD95(GK!0) -> PSD93(SH3) , PSD95(GK)  @ 'k_101'
+'PSD_SH3/GK_dis.lines:9,1.PSD93/PSD.GK/GK.lines:9,1.PSD93/PSD.SH3/SH3' PSD93(SH3!0) , PSD93(GK!0) -> PSD93(SH3) , PSD93(GK)  @ 'k_101'
+'PSD_SH3/GK_dis.lines:9,1.PSD95/PSD.GK/GK.lines:9,1.PSD95/PSD.SH3/SH3' PSD95(SH3!0) , PSD95(GK!0) -> PSD95(SH3) , PSD95(GK)  @ 'k_101'
+'NR2_DLG_PDZ1.lines:16,2.NR2/NR2.c/c.lines:1.PSD93/DLG.PDZ1/PDZ1' PSD93(PDZ1) , NR2(c) -> PSD93(PDZ1!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ1.lines:16,2.NR2/NR2.c/c.lines:1.PSD95/DLG.PDZ1/PDZ1' PSD95(PDZ1) , NR2(c) -> PSD95(PDZ1!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ1.lines:16,2.NR2/NR2.c/c.lines:1.SAP102/DLG.PDZ1/PDZ1' SAP102(PDZ1) , NR2(c) -> SAP102(PDZ1!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ1.lines:16,2.NR2/NR2.c/c.lines:1.SAP97/DLG.PDZ1/PDZ1' SAP97(PDZ1) , NR2(c) -> SAP97(PDZ1!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ1_diss.lines:16,2.NR2/NR2.c/c.lines:1.PSD93/DLG.PDZ1/PDZ1' PSD93(PDZ1!1) , NR2(c!1) -> PSD93(PDZ1) , NR2(c)  @ 'k_81'
+'NR2_DLG_PDZ1_diss.lines:16,2.NR2/NR2.c/c.lines:1.PSD95/DLG.PDZ1/PDZ1' PSD95(PDZ1!1) , NR2(c!1) -> PSD95(PDZ1) , NR2(c)  @ 'k_81'
+'NR2_DLG_PDZ1_diss.lines:16,2.NR2/NR2.c/c.lines:1.SAP102/DLG.PDZ1/PDZ1' SAP102(PDZ1!1) , NR2(c!1) -> SAP102(PDZ1) , NR2(c)  @ 'k_81'
+'NR2_DLG_PDZ1_diss.lines:16,2.NR2/NR2.c/c.lines:1.SAP97/DLG.PDZ1/PDZ1' SAP97(PDZ1!1) , NR2(c!1) -> SAP97(PDZ1) , NR2(c)  @ 'k_81'
+'NR2_DLG_PDZ2.lines:16,2.NR2/NR2.c/c.lines:1.PSD93/DLG.PDZ2/PDZ2' PSD93(PDZ2) , NR2(c) -> PSD93(PDZ2!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ2.lines:16,2.NR2/NR2.c/c.lines:1.PSD95/DLG.PDZ2/PDZ2' PSD95(PDZ2) , NR2(c) -> PSD95(PDZ2!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ2.lines:16,2.NR2/NR2.c/c.lines:1.SAP102/DLG.PDZ2/PDZ2' SAP102(PDZ2) , NR2(c) -> SAP102(PDZ2!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ2.lines:16,2.NR2/NR2.c/c.lines:1.SAP97/DLG.PDZ2/PDZ2' SAP97(PDZ2) , NR2(c) -> SAP97(PDZ2!1) , NR2(c!1)  @ 'k81'
+'NR2_DLG_PDZ2_diss.lines:16,2.NR2/NR2.c/c.lines:1.PSD93/DLG.PDZ2/PDZ2' PSD93(PDZ2!1) , NR2(c!1) -> PSD93(PDZ2) , NR2(c)  @ 'k_81'
+'NR2_DLG_PDZ2_diss.lines:16,2.NR2/NR2.c/c.lines:1.PSD95/DLG.PDZ2/PDZ2' PSD95(PDZ2!1) , NR2(c!1) -> PSD95(PDZ2) , NR2(c)  @ 'k_81'
+'NR2_DLG_PDZ2_diss.lines:16,2.NR2/NR2.c/c.lines:1.SAP102/DLG.PDZ2/PDZ2' SAP102(PDZ2!1) , NR2(c!1) -> SAP102(PDZ2) , NR2(c)  @ 'k_81'
+'NR2_DLG_PDZ2_diss.lines:16,2.NR2/NR2.c/c.lines:1.SAP97/DLG.PDZ2/PDZ2' SAP97(PDZ2!1) , NR2(c!1) -> SAP97(PDZ2) , NR2(c)  @ 'k_81'
+'SAP_dimer.lines:8,1.SAP97/SAP.L27/L27.lines:8,1.SAP102/SAP.L27/L27' SAP102(L27) , SAP97(L27) -> SAP102(L27!1) , SAP97(L27!1)  @ 'k11'
+'SAP_dimer.lines:8,1.SAP102/SAP.L27/L27.lines:8,1.SAP102/SAP.L27/L27' SAP102(L27) , SAP102(L27) -> SAP102(L27!1) , SAP102(L27!1)  @ 'k11'
+'SAP_dimer.lines:8,1.SAP97/SAP.L27/L27.lines:8,1.SAP97/SAP.L27/L27' SAP97(L27) , SAP97(L27) -> SAP97(L27!1) , SAP97(L27!1)  @ 'k11'
+'SAP_dimer_diss.lines:8,1.SAP97/SAP.L27/L27.lines:8,1.SAP102/SAP.L27/L27' SAP102(L27!1) , SAP97(L27!1) -> SAP102(L27) , SAP97(L27)  @ 'k_11'
+'SAP_dimer_diss.lines:8,1.SAP102/SAP.L27/L27.lines:8,1.SAP102/SAP.L27/L27' SAP102(L27!1) , SAP102(L27!1) -> SAP102(L27) , SAP102(L27)  @ 'k_11'
+'SAP_dimer_diss.lines:8,1.SAP97/SAP.L27/L27.lines:8,1.SAP97/SAP.L27/L27' SAP97(L27!1) , SAP97(L27!1) -> SAP97(L27) , SAP97(L27)  @ 'k_11'
+'NR_spectrin(NR1)' NR1(SBS~u),Spectrin(NRB) -> NR1(SBS~u!1),Spectrin(NRB!1)  @ 'k41'
+'NR_spectrin(NR2)' NR2(SBS~u),Spectrin(NRB) -> NR2(SBS~u!1),Spectrin(NRB!1)  @ 'k41'
+'NR_spectrin_diss(NR1)' NR1(SBS~u!1),Spectrin(NRB!1) -> NR1(SBS~u),Spectrin(NRB)  @ 'k_41'
+'NR_spectrin_diss(NR2)' NR2(SBS~u!1),Spectrin(NRB!1) -> NR2(SBS~u),Spectrin(NRB)  @ 'k_41'
+'NR2_TK(Src)' NR2(TyrP),Src(SH2) -> NR2(TyrP!1),Src(SH2!1)   @ 'k51'
+'NR2_TK(FYN)' NR2(TyrP),FYN(SH2) -> NR2(TyrP!1),FYN(SH2!1)   @ 'k51'
+'NR2_TK_diss(Src)' NR2(TyrP!1),Src(SH2!1) -> NR2(TyrP),Src(SH2)  @ 'k_51'
+'NR2_TK_diss(FYN)' NR2(TyrP!1),FYN(SH2!1) -> NR2(TyrP),FYN(SH2)  @ 'k_51'
+'NR2_PTP1D' NR2(TyrP),PTP1D(SH2) -> NR2(TyrP!1),PTP1D(SH2!1)   @ 'k51'
+'NR2_PTP1D_diss' NR2(TyrP!1),PTP1D(SH2!1) -> NR2(TyrP),PTP1D(SH2)  @ 'k_51'
+'Dab1_PTP1D' DAB1(TyrP),PTP1D(SH2) -> DAB1(TyrP!1),PTP1D(SH2!1)   @ 'k51'
+'DAB1_PTP1D_diss' DAB1(TyrP!1),PTP1D(SH2!1) -> DAB1(TyrP),PTP1D(SH2)  @ 'k_51'
+'PTP1D_Grb2' PTP1D(TyrP),Grb2(SH2) -> PTP1D(TyrP!1),Grb2(SH2!1)  @ 'k51'
+'PTP1D_Grb2_dis' PTP1D(TyrP!1),Grb2(SH2!1) -> PTP1D(TyrP),Grb2(SH2)  @ 'k_51'
+'NR2_PLCg' NR2(TyrP),PLCg(SH2) -> NR2(TyrP!1),PLCg(SH2!1)   @ 'k51'
+'NR2_PLCg_diss'  NR2(TyrP!1),PLCg(SH2!1) -> NR2(TyrP),PLCg(SH2)  @ 'k_51'
+'NR1_PKC' NR1(pkc),PKC(k) -> NR1(pkc!1),PKC(k!1)   @ 'k71'
+'NR1_PKC_diss' NR1(pkc!1),PKC(k!1) -> NR1(pkc),PKC(k)  @ 'k_71'
+'NR1_PKA' NR1(pkc),PKA(k) -> NR1(pkc!1),PKA(k!1)   @ 'k71'
+'NR1_PKA_diss' NR1(pkc!1),PKA(k!1) -> NR1(pkc),PKA(k) @ 'k_71'
+'S-SCAM_NR2.lines:16,2.NR2/NR2.c/c' S-SCAM(PDZ1) , NR2(c) -> S-SCAM(PDZ1!1) , NR2(c!1)  @ 'k81'
+'S-SCAM_NR2_diss.lines:16,2.NR2/NR2.c/c' S-SCAM(PDZ1!1) , NR2(c!1) -> S-SCAM(PDZ1) , NR2(c)  @ 'k_81'
+'PSD_NOS(PSD95)' PSD95(PDZ2),NOS(ihfm) -> PSD95(PDZ2!1),NOS(ihfm!1)  @ 'k111'
+'PSD_NOS(PSD93)' PSD93(PDZ2),NOS(ihfm) -> PSD93(PDZ2!1),NOS(ihfm!1)  @ 'k111'
+'PSD_NOS(SAP102)' SAP102(PDZ2),NOS(ihfm) -> SAP102(PDZ2!1),NOS(ihfm!1)  @ 'k111'
+'PSD_NOS(SAP97)' SAP97(PDZ2),NOS(ihfm) -> SAP97(PDZ2!1),NOS(ihfm!1)  @ 'k111'
+'PSD_NOS_dis(PSD95)' PSD95(PDZ2!1),NOS(ihfm!1) -> PSD95(PDZ2),NOS(ihfm)  @ 'k_111'
+'PSD_NOS_dis(PSD93)' PSD93(PDZ2!1),NOS(ihfm!1) -> PSD93(PDZ2),NOS(ihfm)  @ 'k_111'
+'PSD_NOS_dis(SAP102)' SAP102(PDZ2!1),NOS(ihfm!1) -> SAP102(PDZ2),NOS(ihfm)  @ 'k_111'
+'PSD_NOS_dis(SAP97)' SAP97(PDZ2!1),NOS(ihfm!1) -> SAP97(PDZ2),NOS(ihfm)  @ 'k_111'
+'NOS_PKA' NOS(pka),PKA(k) -> NOS(pka!1),PKA(k!1)  @ 'k71'
+'NOS_PKA_dis' NOS(pka!1),PKA(k!1) -> NOS(pka),PKA(k)  @ 'k_71'
+'Spectrin_dim'Spectrin(SL),Spectrin(SL) -> Spectrin(SL!1),Spectrin(SL!1)   @ 'k11'
+'Spectrin_dim_dis' Spectrin(SL!1),Spectrin(SL!1) -> Spectrin(SL),Spectrin(SL)  @ 'k_11'
+'Spectrin_RACK1' Spectrin(PH),RACK1(WD) -> Spectrin(PH!1),RACK1(WD!1)   @ 'k121'
+'Spectrin_RACK1_dis' Spectrin(PH!1),RACK1(WD!1) -> Spectrin(PH),RACK1(WD)  @ 'k_121'
+'Dynamin_RACK1' DYN(PH),RACK1(WD) -> DYN(PH!1),RACK1(WD!1)   @ 'k121'
+'Dynamin_RACK1_dis' DYN(PH!1),RACK1(WD!1) -> DYN(PH),RACK1(WD)  @ 'k_121'
+'RACK1_dimer' RACK1(WD40),RACK1(WD40) -> RACK1(WD40!0),RACK1(WD40!0)  @ 'k11'
+'RACK1_dimer_dis' RACK1(WD40!0),RACK1(WD40!0) -> RACK1(WD40),RACK1(WD40)  @ 'k_11'
+'RACK1_G_bg' RACK1(WD40),G_bg(WD40) -> RACK1(WD40!0),G_bg(WD40!0)  @ 'k11'
+'RACK1_G_bg_dis' RACK1(WD40!0),G_bg(WD40!0) -> RACK1(WD40),G_bg(WD40)  @ 'k_11'
+'RACK1_PKC' RACK1(WD1),PKC(PH) -> RACK1(WD1!1),PKC(PH!1)   @ 'k121'
+'RACK1_PKC_dis' RACK1(WD1!1),PKC(PH!1) -> RACK1(WD1),PKC(PH)  @ 'k_121'
+'RACK1_FYN' RACK1(WD6~p),FYN(SH2) -> RACK1(WD6~p!1),FYN(SH2!1)   @ 'k51'
+'RACK1_FYN_dis' RACK1(WD6~p!1),FYN(SH2!1) -> RACK1(WD6~p),FYN(SH2)  @ 'k_51'
+'RACK1_NR2' RACK1(WD6~p),NR2(rack) -> RACK1(WD6~p!1),NR2(rack!1)   @ 'k131'
+'RACK1_NR2_dis' RACK1(WD6~p!1),NR2(rack!1) -> RACK1(WD6~p),NR2(rack)  @ 'k_131'
+'RACK1_Src' RACK1(WD6~p),Src(SH2) -> RACK1(WD6~p!1),Src(SH2!1)   @ 'k51'
+'RACK1_TK_dis' RACK1(WD6~p!1),Src(SH2!1) -> RACK1(WD6~p),Src(SH2)  @ 'k_51'
+'RACK1_PLCg' RACK1(WD6~p),PLCg(SH2) -> RACK1(WD6~p!1),PLCg(SH2!1)   @ 'k51'
+'RACK1_PLCg_dis' RACK1(WD6~p!1),PLCg(SH2!1) -> RACK1(WD6~p),PLCg(SH2)  @ 'k_51'
+'GluR6_PSD95' PSD95(PDZ1),GluR6(c) -> PSD95(PDZ1!0),GluR6(c!0)   @ 'k81'
+'GluR6_PSD95_diss' PSD95(PDZ1!0),GluR6(c!0) -> PSD95(PDZ1),GluR6(c)  @ 'k_81'
+'GluR6_SAP(SAP102)' SAP102(PDZ1),GluR6(c) -> SAP102(PDZ1!0),GluR6(c!0)   @ 'k81'
+'GluR6_SAP_diss(SAP102)' SAP102(PDZ1!0),GluR6(c!0) -> SAP102(PDZ1),GluR6(c)  @ 'k_81'
+'GluR6_SAP(SAP97)' SAP97(PDZ1),GluR6(c) -> SAP97(PDZ1!0),GluR6(c!0)   @ 'k81'
+'GluR6_SAP_diss(SAP97)' SAP97(PDZ1!0),GluR6(c!0) -> SAP97(PDZ1),GluR6(c)  @ 'k_81'
+'GluR6_PICK1' GluR6(c),PICK1(PDZ) -> GluR6(c!1),PICK1(PDZ!1)  @ 'k81'
+'GluR6_PICK1_dis' GluR6(c!1),PICK1(PDZ!1) -> GluR6(c),PICK1(PDZ)  @ 'k_81'
+'GluR6_GRIP' GluR6(c),GRIP(PDZ) -> GluR6(c!1),GRIP(PDZ!1)  @ 'k81'
+'GluR6_GRIP_dis' GluR6(c!1),GRIP(PDZ!1) -> GluR6(c),GRIP(PDZ)  @ 'k_81'
+'ACTN_dimer' ACTN(cc),ACTN(cc) -> ACTN(cc!1),ACTN(cc!1) @ 'k11'
+'ACTN_dimer_dis' ACTN(cc!1),ACTN(cc!1) -> ACTN(cc),ACTN(cc)  @ 'k_11'
+'ACTN_NR(NR1)' ACTN(SR),NR1(c0) -> ACTN(SR!1),NR1(c0!1)   @ 'k141'
+'ACTN_NR_dis(NR1)' ACTN(SR!1),NR1(c0!1) -> ACTN(SR),NR1(c0)  @ 'k_141'
+'ACTN_NR(NR2)' ACTN(SR),NR2(c0) -> ACTN(SR!1),NR2(c0!1)   @ 'k141'
+'ACTN_NR_dis(NR2)' ACTN(SR!1),NR2(c0!1) -> ACTN(SR),NR2(c0)  @ 'k_141'
+'CaMKII_cluster' CaMKII(c),CaMKII(c) -> CaMKII(c!0),CaMKII(c!0)   @ 'k11'
+'CaMKII_cluster_dis' CaMKII(c!0),CaMKII(c!0) -> CaMKII(c),CaMKII(c)  @ 'k_11'
+'CaMKII_NR2' CaMKII(k1),NR2(camkbd) -> CaMKII(k1!1), NR2(camkbd!1)   @ 'k151'
+'CaMKII_NR2_dis' CaMKII(k1!1), NR2(camkbd!1) -> CaMKII(k1),NR2(camkbd)  @ 'k_151'
+'CaMKII_ACTN' CaMKII(k2),ACTN(camkbd) -> CaMKII(k2!1),ACTN(camkbd!1)   @ 'k161'
+'CaMKII_ACTN_dis' CaMKII(k2!1),ACTN(camkbd!1) -> CaMKII(k2),ACTN(camkbd)  @ 'k_161'
+'CAMKII_LRRC7' CaMKII(ad),LRRC7(camkbd) -> CaMKII(ad!1),LRRC7(camkbd!1)  @ 'k31'
+'CAMKII_LRRC7_dis' CaMKII(ad!1),LRRC7(camkbd!1) -> CaMKII(ad),LRRC7(camkbd)  @ 'k_31'
+'LRRC7_ACTN' LRRC7(PDZ),ACTN(c) -> LRRC7(PDZ!1),ACTN(c!1)  @ 'k271'
+'LRRC7_ACTN_dis'LRRC7(PDZ!1),ACTN(c!1) -> LRRC7(PDZ),ACTN(c)  @ 'k_271'
+'CaMKII_CaM' CaMKII(k),CaM(h) -> CaMKII(k!1),CaM(h!1)   @ 'k171'
+'CaMKII_CaM_dis' CaMKII(k!1),CaM(h!1) -> CaMKII(k),CaM(h)  @ 'k_171'
+'CaM_NR1' CaM(h),NR1(c0) -> CaM(h!0),NR1(c0!0)   @ 'k91'
+'CaM_NR1_dis' CaM(h!0),NR1(c0!0) -> CaM(h),NR1(c0)  @ 'k_91'
+'CaMKII_NR1' NR1(c0),CaMKII(k1) -> NR1(c0!1),CaMKII(k1!1)   @ 'k181'
+'CaMKII_NR1_dis' NR1(c0!1),CaMKII(k1!1) -> NR1(c0),CaMKII(k1)  @ 'k_181'
+'CaM_SBS_NR1' CaM(h),NR1(SBS~u) -> CaM(h!1),NR1(SBS~u!1)   @ 'k91'
+'CaM_SBS_NR1_dis' CaM(h!1),NR1(SBS~u!1) -> CaM(h),NR1(SBS~u)  @ 'k_91'
+'Cam_Spectrin' CaM(h),Spectrin(NRB) ->  CaM(h!1),Spectrin(NRB!1)   @ 'k91'
+'Cam_Spectrin_dis' CaM(h!1),Spectrin(NRB!1) -> CaM(h),Spectrin(NRB)  @ 'k_91'
+'SynGAP_DLG(PSD95)' PSD95(PDZ3),SynGAPa(c~u) -> PSD95(PDZ3!1),SynGAPa(c~u!1)   @ 'k191'
+'SynGAP_DLG_dis(PSD95)' PSD95(PDZ3!1),SynGAPa(c~u!1) -> PSD95(PDZ3),SynGAPa(c~u)  @ 'k_191'
+'SynGAP_DLG(PSD93)' PSD93(PDZ3),SynGAPa(c~u) -> PSD93(PDZ3!1),SynGAPa(c~u!1)   @ 'k191'
+'SynGAP_DLG_dis(PSD93)' PSD93(PDZ3!1),SynGAPa(c~u!1) -> PSD93(PDZ3),SynGAPa(c~u)  @ 'k_191'
+'SynGAP_DLG(SAP102)' SAP102(PDZ3),SynGAPa(c~u) -> SAP102(PDZ3!1),SynGAPa(c~u!1)   @ 'k191'
+'SynGAP_DLG_dis(SAP102)' SAP102(PDZ3!1),SynGAPa(c~u!1) -> SAP102(PDZ3),SynGAPa(c~u)  @ 'k_191'
+'SynGAP_DLG(SAP97)' SAP97(PDZ3),SynGAPa(c~u) -> SAP97(PDZ3!1),SynGAPa(c~u!1)   @ 'k191'
+'SynGAP_DLG_dis(SAP97)' SAP97(PDZ3!1),SynGAPa(c~u!1) -> SAP97(PDZ3),SynGAPa(c~u)  @ 'k_191'
+'PDZ3_IRSp53_PSD(PSD95)' PSD95(PDZ3),IRSp53(c) -> PSD95(PDZ3!1),IRSp53(c!1)   @ 'k191'
+'PDZ3_IRSp53_PSD_dis(PSD95)' PSD95(PDZ3!1),IRSp53(c!1) ->  PSD95(PDZ3),IRSp53(c)  @ 'k_191'
+'PDZ3_IRSp53_PSD(PSD93)' PSD93(PDZ3),IRSp53(c) -> PSD93(PDZ3!1),IRSp53(c!1)   @ 'k191'
+'PDZ3_IRSp53_PSD_dis(PSD93)' PSD93(PDZ3!1),IRSp53(c!1) ->  PSD93(PDZ3),IRSp53(c)  @ 'k_191'
+'PDZ1_stargazin_PSD(PSD95)' PSD95(PDZ1),stargazin(c~u) -> PSD95(PDZ1!0),stargazin(c~u!0)   @ 'k81'
+'PDZ1_stargazin_PSD_dis(PSD95)' PSD95(PDZ1!0),stargazin(c~u!0) -> PSD95(PDZ1),stargazin(c~u)  @ 'k_81'
+'PDZ1_stargazin_PSD(PSD93)' PSD93(PDZ1),stargazin(c~u) -> PSD93(PDZ1!0),stargazin(c~u!0)   @ 'k81'
+'PDZ1_stargazin_PSD_dis(PSD93)' PSD93(PDZ1!0),stargazin(c~u!0) -> PSD93(PDZ1),stargazin(c~u)  @ 'k_81'
+'PDZ2_stargazin_PSD(PSD95)' PSD95(PDZ2),stargazin(c~u) -> PSD95(PDZ2!0),stargazin(c~u!0)   @ 'k81'
+'PDZ2_stargazin_PSD_dis(PSD95)' PSD95(PDZ2!0),stargazin(c~u!0) -> PSD95(PDZ2),stargazin(c~u)  @ 'k_81'
+'PDZ2_stargazin_PSD(PSD93)' PSD93(PDZ2),stargazin(c~u) -> PSD93(PDZ2!0),stargazin(c~u!0)   @ 'k81'
+'PDZ2_stargazin_PSD_dis(PSD93)' PSD93(PDZ2!0),stargazin(c~u!0) -> PSD93(PDZ2),stargazin(c~u)  @ 'k_81'
+'PDZ1_stargazin_SAP102' SAP102(PDZ1),stargazin(c~u) -> SAP102(PDZ1!0),stargazin(c~u!0)   @ 'k81'
+'PDZ1_stargazin_SAP102_dis' SAP102(PDZ1!0),stargazin(c~u!0) -> SAP102(PDZ1),stargazin(c~u)  @ 'k_81'
+'PDZ2_stargazin_SAP102' SAP102(PDZ2),stargazin(c~u) -> SAP102(PDZ2!0),stargazin(c~u!0)   @ 'k81'
+'PDZ2_stargazin_SAP102_dis' SAP102(PDZ2!0),stargazin(c~u!0) -> SAP102(PDZ2),stargazin(c~u)  @ 'k_81'
+'PDZ1_stargazin_S-SCAM' S-SCAM(PDZ1),stargazin(c~u) -> S-SCAM(PDZ1!0),stargazin(c~u!0)   @ 'k81'
+'PDZ1_stargazin_S-SCAM_dis' S-SCAM(PDZ1!0),stargazin(c~u!0) -> S-SCAM(PDZ1),stargazin(c~u)  @ 'k_81'
+'PDZ3_stargazin_S-SCAM' S-SCAM(PDZ3),stargazin(c~u) -> S-SCAM(PDZ3!0),stargazin(c~u!0)   @ 'k81'
+'PDZ3_stargazin_S-SCAM_dis' S-SCAM(PDZ3!0),stargazin(c~u!0) -> S-SCAM(PDZ3),stargazin(c~u)  @ 'k_81'
+'PDZ5_stargazin_S-SCAM' S-SCAM(PDZ5),stargazin(c~u) -> S-SCAM(PDZ5!0),stargazin(c~u!0)   @ 'k81'
+'PDZ5_stargazin_S-SCAM_dis' S-SCAM(PDZ5!0),stargazin(c~u!0) -> S-SCAM(PDZ5),stargazin(c~u)  @ 'k_81'
+'stargazin_PKA' stargazin(c~u,pka),PKA(k) -> stargazin(c~p,pka!1),PKA(k!1)  @ 'k71'
+'stargazin_PKA_dis' stargazin(c~p,pka!1),PKA(k!1) -> stargazin(c~p,pka),PKA(k)  @ 'k_71'
+'GluR1_SAP97' SAP97(PDZ1),GluR1(c~u) -> SAP97(PDZ1!1),GluR1(c~u!1)   @ 'k81'
+'GluR1_SAP97_dis' SAP97(PDZ1!1),GluR1(c~u!1) -> SAP97(PDZ1),GluR1(c~u)  @ 'k_81'
+'GluR1_PKA' GluR1(c~u,pka),PKA(k) -> GluR1(c~p,pka!1),PKA(k!1)  @ 'k71'
+'GluR1_PKA_dis' GluR1(c~p,pka!1),PKA(k!1) -> GluR1(c~p,pka),PKA(k)  @ 'k_71'
+'GluR1_PKc' GluR1(s818~u,pkc),PKC(k) -> GluR1(s818~p,pkc!1),PKC(k!1)  @ 'k71'
+'GluR1_PKC_dis' GluR1(s818~p,pkc!1),PKC(k!1) -> GluR1(s818~p,pkc),PKC(k)  @ 'k_71'
+'GluR1_CamKII' GluR1(s831~u,camkbd),CaMKII(k) -> GluR1(s831~p,camkbd!1),CaMKII(k!1)  @ 'k151'
+'GluR1_CaMKII_dis' GluR1(s831~p,camkbd!1),CaMKII(k!1) -> GluR1(s831~p,camkbd),CaMKII(k)  @ 'k_151'
+'MUPP1_SynGapa' MUPP1(PDZ13),SynGAPa(c~u) -> MUPP1(PDZ13!1),SynGAPa(c~u!1)  @ 'k191'
+'MUPP1_SynGapa_dis' MUPP1(PDZ13!1),SynGAPa(c~u!1) -> MUPP1(PDZ13),SynGAPa(c~u)  @ 'k_191'
+'MUPP1_CaMKII' MUPP1(PDZ2),CaMKII(ihfm) -> MUPP1(PDZ2!1),CaMKII(ihfm!1)  @ 'k111'
+'MUPP1_CaMKII_dis' MUPP1(PDZ2!1),CaMKII(ihfm!1) -> MUPP1(PDZ2),CaMKII(ihfm)  @ 'k_111'
+'SynGapa_P' MUPP1(PDZ13!1,PDZ2!_),SynGAPa(c~u!1) -> MUPP1(PDZ13!1,PDZ2!_),SynGAPa(c~p!1)  @ 'k191'
+'SynGapa_U' MUPP1(PDZ13!1,PDZ2!_),SynGAPa(c~p!1) -> MUPP1(PDZ13,PDZ2!_),SynGAPa(c~u)  @ 'k_191'
+'SynGapa_Ras(H-RAS)' SynGAPa(RasGAP),H-RAS(gap~GTP) -> SynGAPa(RasGAP!1),H-RAS(gap~GTP!1)  @ 'k381'
+'SynGapa_Ras(Rap1)' SynGAPa(RasGAP),Rap1(gap~GTP) -> SynGAPa(RasGAP!1),Rap1(gap~GTP!1)  @ 'k381'
+'SynGapb_Ras(H-RAS)' SynGAPb(RasGAP),H-RAS(gap~GTP) -> SynGAPb(RasGAP!1),H-RAS(gap~GTP!1)  @ 'k381'
+'SynGapb_Ras(Rap1)' SynGAPb(RasGAP),Rap1(gap~GTP) -> SynGAPb(RasGAP!1),Rap1(gap~GTP!1)  @ 'k381'
+'SPAR_Rap1'SPAR(RasGAP),Rap1(gap~GTP) -> SPAR(RasGAP!1),Rap1(gap~GTP!1)   @ 'k381'
+'Ras_GDP(Rap1)' Rap1(gap~GTP!_) -> Rap1(gap~GDP)  @ 'k_381'
+'SPAR_Rap2'SPAR(RasGAP),RAP2(gap~GTP) -> SPAR(RasGAP!1),RAP2(gap~GTP!1)   @ 'k381'
+'Ras_GDP(RAP2)' RAP2(gap~GTP!_) -> RAP2(gap~GDP)  @ 'k_381'
+#'Rap_PKA' Rap1(gap~GTP,pka),PKA(k) -> Rap1(gap~GDP,pka!1),PKA(k!1)  @ 'k71'
+#'Rap_PKA_dis' Rap1(gap~GDP,pka!1),PKA(k!1) -> Rap1(gap~GDP,pka),PKA(k)  @ 'k_71'
+'Ras_GDP(H-RAS)' H-RAS(gap~GTP!_) -> H-RAS(gap~GDP)  @ 'k_381'
+'SOS_FYN' SOS(PRD1),FYN(SH3) -> SOS(PRD1!1),FYN(SH3!1)  @ 'k291'
+'SOS_FYN_dis' SOS(PRD1!1),FYN(SH3!1) -> SOS(PRD1),FYN(SH3)  @ 'k_291'
+'H-Ras_Sos' SOS(GEF),H-RAS(gef) -> SOS(GEF!1),H-RAS(gef!1)   @ 'k221'
+'Rap1_nRapGEF' nRapGEF(GEF),Rap1(gef) -> nRapGEF(GEF!1),Rap1(gef!1)   @ 'k221'
+'Ras_GTP(Rap1)' Rap1(gef!_,gap~GDP) -> Rap1(gef,gap~GTP)  @ 'k_221'
+'Rap2_nRapGEF' nRapGEF(GEF),RAP2(gef) -> nRapGEF(GEF!1),RAP2(gef!1)   @ 'k221'
+'Ras_GTP(Rap2)' RAP2(gef!_,gap~GDP) -> RAP2(gef,gap~GTP)  @ 'k_221'
+'Ras_GTP(H-RAS)' H-RAS(gef!_,gap~GDP) -> H-RAS(gef,gap~GTP)  @ 'k_221'
+'NF1_H-Ras' NF1(RasGAP),H-RAS(gap~GTP) -> NF1(RasGAP!1),H-RAS(gap~GTP!1)  @ 'k381'
+'H-Ras_PI3K' H-RAS(k,gap~GTP),PI3K(RBD) -> H-RAS(k!1,gap~GTP),PI3K(RBD!1)  @ 'k411'
+'H-Ras_PI3K_dis' H-RAS(k!1,gap~GTP),PI3K(RBD!1) -> H-RAS(k,gap~GTP),PI3K(RBD)  @ 'k_411'
+'H-Ras_Raf1' H-RAS(k,gap~GTP),RAF1(RBD~u) -> H-RAS(k!1,gap~GTP),RAF1(RBD~u!1)  @ 'k411'
+'H-Ras_Raf1_dis' H-RAS(k!1,gap~GTP),RAF1(RBD~u!1) -> H-RAS(k,gap~GTP),RAF1(RBD~u)  @ 'k_411'
+'Raf1_PKA' RAF1(RBD~u,pka),PKA(k) -> RAF1(RBD~p,pka!1),PKA(k!1)  @ 'k71'
+'Raf1_PKA_dis' RAF1(RBD~p,pka!1),PKA(k!1) -> RAF1(RBD~p,pka),PKA(k)  @ 'k_71'
+'Raf1_PKC' RAF1(pkc,s499~u),PKC(k) -> RAF1(pkc!1,s499~p),PKC(k!1)  @ 'k71'
+'Raf1_PKC_dis' RAF1(pkc!1,s499~p),PKC(k!1) -> RAF1(pkc,s499~p),PKC(k)  @ 'k_71'
+'Raf1_Pak1' PAK1(raf),RAF1(RBD!_,pak,s338~u) -> PAK1(raf!1),RAF1(RBD!_,pak!1,s338~p)  @ 'k421'
+'Raf1_Pak1_dis' PAK1(raf!1),RAF1(pak!1,s338~p) -> PAK1(raf),RAF1(pak,s338~p)  @ 'k_421'
+'Raf1_Src' Src(SH2),RAF1(RBD!_,TyrP,t340~u) -> Src(SH2!1),RAF1(RBD!_,TyrP!1,t340~p)  @ 'k51'
+'Raf1_Src_dis' Src(SH2!1),RAF1(TyrP!1,t340~p) -> Src(SH2),RAF1(TyrP,t340~p)  @ 'k_51'
+'Rap_Raf1' Rap1(k,gap~GTP),RAF1(CRR) -> Rap1(k!1,gap~GTP),RAF1(CRR!1)  @ 'k431'
+'Rap_Raf1_dis' Rap1(k!1,gap~GTP),RAF1(CRR!1) -> Rap1(k,gap~GTP),RAF1(CRR)  @ 'k_431'
+'SynGapb_CaMKII' SynGAPb(camkbd),CaMKII(k) -> SynGAPb(camkbd!1),CaMKII(k!1)  @ 'k151'
+'SynGapb_CaMKII_dis' SynGAPb(camkbd!1),CaMKII(k!1) -> SynGAPb(camkbd),CaMKII(k)  @ 'k_151'
+'AKAP_DLG(PSD95)' PSD95(SH3),AKAP(sh3) -> PSD95(SH3!1),AKAP(sh3!1)  @ 'k201'
+'AKAP_DLG_dis(PSD95)' PSD95(SH3!1),AKAP(sh3!1) -> PSD95(SH3),AKAP(sh3)  @ 'k_201'
+'AKAP_DLG(PSD93)' PSD93(SH3),AKAP(sh3) -> PSD93(SH3!1),AKAP(sh3!1)  @ 'k201'
+'AKAP_DLG_dis(PSD93)' PSD93(SH3!1),AKAP(sh3!1) -> PSD93(SH3),AKAP(sh3)  @ 'k_201'
+'AKAP_DLG(SAP102)' SAP102(SH3),AKAP(sh3) -> SAP102(SH3!1),AKAP(sh3!1)  @ 'k201'
+'AKAP_DLG_dis(SAP102)' SAP102(SH3!1),AKAP(sh3!1) -> SAP102(SH3),AKAP(sh3)  @ 'k_201'
+'AKAP_DLG(SAP97)' SAP97(SH3~u),AKAP(sh3) -> SAP97(SH3~u!1),AKAP(sh3!1)  @ 'k201'
+'AKAP_DLG_dis(SAP97)' SAP97(SH3~u!1),AKAP(sh3!1) -> SAP97(SH3~u),AKAP(sh3)  @ 'k_201'
+'CAMKII_DLG(SAP97)' SAP97(SH3~u),CaMKII(k) -> SAP97(SH3~p!1),CaMKII(k!1)  @ 'k151'
+'CAMKII_DLG(SAP97)_dis' SAP97(SH3~p!1),CaMKII(k!1) -> SAP97(SH3~p),CaMKII(k)  @ 'k_151'
+'GKAP_DLG(PSD95)' PSD95(GK),GKAP(GKBD) -> PSD95(GK!1),GKAP(GKBD!1)   @ 'k211'
+'GKAP_DLG_dis(PSD95)' PSD95(GK!1),GKAP(GKBD!1) -> PSD95(GK),GKAP(GKBD)  @ 'k_211'
+'PSD93_CaM' PSD93(HOOK),CaM(h) -> PSD93(HOOK!1),CaM(h!1)  @ 'k91'
+'PSD93_CaM_dis' PSD93(HOOK!1),CaM(h!1) -> PSD93(HOOK),CaM(h)  @ 'k_91'
+'SAP97_CaM' SAP97(HOOK),CaM(h) -> SAP97(HOOK!1),CaM(h!1)  @ 'k91'
+'SAP97_CaM_dis' SAP97(HOOK!1),CaM(h!1) -> SAP97(HOOK),CaM(h)  @ 'k_91'
+'SAP102_CaM' SAP102(HOOK),CaM(h) -> SAP102(HOOK!1),CaM(h!1)  @ 'k91'
+'SAP102_CaM_dis' SAP102(HOOK!1),CaM(h!1) -> SAP102(HOOK),CaM(h)  @ 'k_91'
+'GKAP_DLG(PSD93)' PSD93(GK,HOOK!_),GKAP(GKBD) -> PSD93(GK!1,HOOK!_),GKAP(GKBD!1)   @ 'k211'
+'GKAP_DLG_dis(PSD93)' PSD93(GK!1),GKAP(GKBD!1) -> PSD93(GK),GKAP(GKBD)  @ 'k_211'
+'GKAP_DLG(SAP102)' SAP102(GK,HOOK!_),GKAP(GKBD) -> SAP102(GK!1,HOOK!_),GKAP(GKBD!1)   @ 'k211'
+'GKAP_DLG_dis(SAP102)' SAP102(GK!1),GKAP(GKBD!1) -> SAP102(GK),GKAP(GKBD)  @ 'k_211'
+'GKAP_DLG(SAP97)' SAP97(GK,HOOK!_),GKAP(GKBD) -> SAP97(GK!1,HOOK!_),GKAP(GKBD!1)   @ 'k211'
+'GKAP_DLG_dis(SAP97)' SAP97(GK!1),GKAP(GKBD!1) -> SAP97(GK),GKAP(GKBD)  @ 'k_211'
+'S-SCAM_GKAP' S-SCAM(GK),GKAP(GKBD) -> S-SCAM(GK!1),GKAP(GKBD!1)   @ 'k211'
+'S-SCAM_GKAP_dis' S-SCAM(GK!1),GKAP(GKBD!1) -> S-SCAM(GK),GKAP(GKBD)  @ 'k_211'
+'S-SCAM_nRapGEF' S-SCAM(PDZ2),nRapGEF(c) -> S-SCAM(PDZ2!1),nRapGEF(c!1)   @ 'k81'
+'S-SCAM_nRapGEF_dis' S-SCAM(PDZ2!1),nRapGEF(c!1) -> S-SCAM(PDZ2),nRapGEF(c)  @ 'k_81'
+'kalirin_DLG(PSD95)' PSD95(PDZ3),kalirin(c) -> PSD95(PDZ3!1),kalirin(c!1)   @ 'k191'
+'kalirin_DLG_dis(PSD95)' PSD95(PDZ3!1),kalirin(c!1) -> PSD95(PDZ3),kalirin(c)  @ 'k_191'
+'kalirin_DLG(PSD93)' PSD93(PDZ3),kalirin(c) -> PSD93(PDZ3!1),kalirin(c!1)   @ 'k191'
+'kalirin_DLG_dis(PSD93)' PSD93(PDZ3!1),kalirin(c!1) -> PSD93(PDZ3),kalirin(c)  @ 'k_191'
+'kalirin_DLG(SAP102)' SAP102(PDZ3),kalirin(c) -> SAP102(PDZ3!1),kalirin(c!1)   @ 'k191'
+'kalirin_DLG_dis(SAP102)' SAP102(PDZ3!1),kalirin(c!1) -> SAP102(PDZ3),kalirin(c)  @ 'k_191'
+'kalirin_DLG(SAP97)' SAP97(PDZ3),kalirin(c) -> SAP97(PDZ3!1),kalirin(c!1)   @ 'k191'
+'kalirin_DLG_dis(SAP97)' SAP97(PDZ3!1),kalirin(c!1) -> SAP97(PDZ3),kalirin(c)  @ 'k_191'
+'kalirin_DISC1' kalirin(disc),DISC1(kal) -> kalirin(disc!1),DISC1(kal!1)  @ 'k441'
+'kalirin_DISC1_dis' kalirin(disc!1),DISC1(kal!1) -> kalirin(disc),DISC1(kal)  @ 'k_441'
+'Disc_dimer' DISC1(CC),DISC1(CC) -> DISC1(CC!1),DISC1(CC!1)  @ 'k11'
+'Disc_dimer_dimer' DISC1(CC!1),DISC1(CC!1) -> DISC1(CC),DISC1(CC)  @ 'k_11'
+'CRIPT_DLG(PSD95)' PSD95(PDZ3),CRIPT(c) -> PSD95(PDZ3!1),CRIPT(c!1)   @ 'k191'
+'CRIPT_DLG_dis(PSD95)' PSD95(PDZ3!1),CRIPT(c!1) -> PSD95(PDZ3),CRIPT(c)   @ 'k_191'
+'CRIPT_DLG(PSD93)' PSD93(PDZ3),CRIPT(c) -> PSD93(PDZ3!1),CRIPT(c!1)   @ 'k191'
+'CRIPT_DLG_dis(PSD93)' PSD93(PDZ3!1),CRIPT(c!1) -> PSD93(PDZ3),CRIPT(c)   @ 'k_191'
+'CRIPT_DLG(SAP102)' SAP102(PDZ3),CRIPT(c) -> SAP102(PDZ3!1),CRIPT(c!1)   @ 'k191'
+'CRIPT_DLG_dis(SAP102)' SAP102(PDZ3!1),CRIPT(c!1) -> SAP102(PDZ3),CRIPT(c)   @ 'k_191'
+'CRIPT_DLG(SAP97)' SAP97(PDZ3),CRIPT(c) -> SAP97(PDZ3!1),CRIPT(c!1)   @ 'k191'
+'CRIPT_DLG_dis(SAP97)' SAP97(PDZ3!1),CRIPT(c!1) -> SAP97(PDZ3),CRIPT(c)   @ 'k_191'
+'SPAR_DLG(PSD95)' PSD95(GK),SPAR(GKBD) -> PSD95(GK!1),SPAR(GKBD!1)  @ 'k211'
+'SPAR_DLG_dis(PSD95)' PSD95(GK!1),SPAR(GKBD!1) -> PSD95(GK),SPAR(GKBD)  @ 'k_211'
+'SPAR_DLG(PSD9)' PSD93(GK,HOOK!_),SPAR(GKBD) -> PSD93(GK!1,HOOK!_),SPAR(GKBD!1)  @ 'k211'
+'SPAR_DLG_dis(PSD93)' PSD93(GK!1),SPAR(GKBD!1) -> PSD93(GK),SPAR(GKBD)  @ 'k_211'
+'SPAR_DLG(SAP102)' SAP102(GK,HOOK!_),SPAR(GKBD) -> SAP102(GK!1,HOOK!_),SPAR(GKBD!1)  @ 'k211'
+'SPAR_DLG_dis(SAP102)' SAP102(GK!1),SPAR(GKBD!1) -> SAP102(GK),SPAR(GKBD)  @ 'k_211'
+'SPAR_DLG(SAP97)' SAP97(GK,HOOK!_),SPAR(GKBD) -> SAP97(GK!1,HOOK!_),SPAR(GKBD!1)  @ 'k211'
+'SPAR_DLG_dis(SAP97)' SAP97(GK!1),SPAR(GKBD!1) -> SAP97(GK),SPAR(GKBD)  @ 'k_211'
+'kalirin_Rho(Rac1)' kalirin(c,disc,GEF1),Rac1(gef) -> kalirin(c,disc,GEF1!1),Rac1(gef!1)  @ 'k221'
+'kalirin_Rho_dis(Rac1)' kalirin(GEF1!1),Rac1(gef!1) -> kalirin(GEF1),Rac1(gef)  @ 'k_221'
+'kalirin_Rho(RhoA)' kalirin(c,disc,GEF1),RhoA(gef) -> kalirin(c,disc,GEF1!1),RhoA(gef!1)  @ 'k221'
+'kalirin_Rho_dis(RhoG)' kalirin(GEF1!1),RhoA(gef!1) -> kalirin(GEF1),RhoA(gef)  @ 'k_221'
+'kalirin_NR2' kalirin(PH),NR2(m) -> kalirin(PH!1),NR2(m!1)  @ 'k451'
+'kalirin_NR2_dis'kalirin(PH!1),NR2(m!1) -> kalirin(PH),NR2(m)  @ 'k_451'
+'Rac1_PAK' Rac1(pak),PAK1(PBD) -> Rac1(pak!0),PAK1(PBD!0)   @ 'k241'
+'Rac1_PAK_dis' Rac1(pak!0),PAK1(PBD!0) -> Rac1(pak),PAK1(PBD)  @ 'k_241'
+'Pak1_Grb2' PAK1(PRD),Grb2(SH3) -> PAK1(PRD!1),Grb2(SH3!1)  @ 'k291'
+'Pak1_Grb2_dis' PAK1(PRD!1),Grb2(SH3!1) -> PAK1(PRD),Grb2(SH3)  @ 'k_291'
+'SPAR_actin' SPAR(Act1),actin(act1) -> SPAR(Act1!0),actin(act1!0)   @ 'k251'
+'SPAR_actin_dis' SPAR(Act1!0),actin(act1!0) -> SPAR(Act1),actin(act1)  @ 'k_251'
+'actin_PKC' actin(pkc),PKC(C2) -> actin(pkc!1),PKC(C2!1)  @ 'k71'
+'actin_PKC_dis' actin(pkc!1),PKC(C2!1) ->  actin(pkc),PKC(C2)  @ 'k_71'
+'actin-dimer' actin(a),actin(a) -> actin(a!1),actin(a!1)   @ 'k461'
+'actin-dimer_dis' actin(a!1),actin(a!1) -> actin(a),actin(a)  @ 'k_461'
+#'actin_polimer_a' actin(a),actin(a1) -> actin(a!1),actin(a1!1)   @ 'k461'
+#'actin_polimer_a_dis' actin(a!1),actin(a1!1) -> actin(a),actin(a1)  @ 'k_461'
+#'actin_polimer_a1' actin(a1),actin(a1) -> actin(a1!1),actin(a1!1)   @ 'k461'
+#'actin_polimer_a1_dis' actin(a1!1),actin(a1!1) -> actin(a1),actin(a1)  @ 'k_461'
+'GKAP_Shank' SHANK(PDZ),GKAP(c) -> SHANK(PDZ!1),GKAP(c!1)   @ 'k271'
+'GKAP_Shank_dis' SHANK(PDZ!1),GKAP(c!1) -> SHANK(PDZ),GKAP(c)  @ 'k_271'
+'PROSAPIP1_Shank' SHANK(PDZ),PROSAPIP1(c) -> SHANK(PDZ!1),PROSAPIP1(c!1)  @ 'k271'
+'PROSAPIP1_Shank_dis' SHANK(PDZ!1),PROSAPIP1(c!1) -> SHANK(PDZ),PROSAPIP1(c)  @ 'k_271'
+'PROSAPIP1_SPAR' PROSAPIP1(CC1),SPAR(CC) -> PROSAPIP1(CC1!1),SPAR(CC!1)   @ 'k371'
+'PROSAPIP1_SPAR_dis' PROSAPIP1(CC1!1),SPAR(CC!1) -> PROSAPIP1(CC1),SPAR(CC)  @ 'k_371'
+'PROSAPIP1_dimer' PROSAPIP1(CC),PROSAPIP1(CC) -> PROSAPIP1(CC!0),PROSAPIP1(CC!0)   @ 'k11'
+'PROSAPIP1_dimer_dis' PROSAPIP1(CC!0),PROSAPIP1(CC!0) -> PROSAPIP1(CC),PROSAPIP1(CC)  @ 'k_11'
+'PROSAPIP_LZTS1' PROSAPIP1(CC2),LZTS1(CC) -> PROSAPIP1(CC2!1),LZTS1(CC!1)   @ 'k371'
+'PROSAPIP_LZTS1_dis' PROSAPIP1(CC2!1),LZTS1(CC!1) -> PROSAPIP1(CC2),LZTS1(CC)  @ 'k_371'
+'LZTS1_SPAR' LZTS1(CC1),SPAR(CC) -> LZTS1(CC1!1),SPAR(CC!1)   @ 'k371'
+'LZTS1_SPAR_dis' LZTS1(CC1!1),SPAR(CC!1) -> LZTS1(CC1),SPAR(CC)  @ 'k_371'
+'Shank_mGluR' SHANK(PDZ),mGluR(c~u) -> SHANK(PDZ!1),mGluR(c~u!1)   @ 'k271'
+'Shank_mGluR_dis' SHANK(PDZ!1),mGluR(c~u!1) -> SHANK(PDZ),mGluR(c~u)  @ 'k_271'
+'mGluR_PKC' mGluR(c~u,pkc),PKC(k) -> mGluR(c~p,pkc!1),PKC(k!1)  @ 'k71'
+'mGluR_PKC_dis' mGluR(c~p,pkc!1),PKC(k!1) -> mGluR(c~p,pkc),PKC(k)  @ 'k_71'
+'mGluR_dimer' mGluR(ECD),mGluR(ECD) -> mGluR(ECD!1),mGluR(ECD!1)  @ 'k11'
+'mGluR_dimer_dis' mGluR(ECD!1),mGluR(ECD!1) -> mGluR(ECD),mGluR(ECD)  @ 'k_11'
+'Shank_dimer' SHANK(SAM1),SHANK(SAM1) -> SHANK(SAM1!1),SHANK(SAM1!1)   @ 'k11'
+'Shank_dimer_dis' SHANK(SAM1!1),SHANK(SAM1!1) -> SHANK(SAM1),SHANK(SAM1)  @ 'k_11'
+'Shank_oligo' SHANK(SAM2),SHANK(SAM2) -> SHANK(SAM2!1),SHANK(SAM2!1)   @ 'k11'
+'Shank_oligo_dis' SHANK(SAM2!1),SHANK(SAM2!1) -> SHANK(SAM2),SHANK(SAM2)  @ 'k_11'
+'Shank_Homer' SHANK(PRD),HOMER(EVH1) -> SHANK(PRD!1),HOMER(EVH1!1)   @ 'k281'
+'Shank_Homer_dis' SHANK(PRD!1),HOMER(EVH1!1) -> SHANK(PRD),HOMER(EVH1)  @ 'k_281'
+'Shank_IRSp53' SHANK(PRD),IRSp53(SH3) -> SHANK(PRD!1),IRSp53(SH3!1)   @ 'k291'
+'Shank_IRSp53_dis' SHANK(PRD!1),IRSp53(SH3!1) -> SHANK(PRD),IRSp53(SH3)  @ 'k_291'
+'Shank_cortactin' SHANK(PRD),cortactin(SH3) -> SHANK(PRD!0),cortactin(SH3!0)   @ 'k291'
+'Shank_cortactin_dis' SHANK(PRD!0),cortactin(SH3!0) -> SHANK(PRD),cortactin(SH3)  @ 'k_291'
+'Shank_Dyn' SHANK(SH3),DYN(PRD) -> SHANK(SH3!1),DYN(PRD!1)  @ 'k291'
+'Shank_Dyn_dis' SHANK(SH3!1),DYN(PRD!1) -> SHANK(SH3),DYN(PRD)  @ 'k_291'
+'Dyn_Arc' ARC(PHB),DYN(PH) -> ARC(PHB!1),DYN(PH!1) @ 'k401'
+'Dyn_Arc_dis' ARC(PHB!1),DYN(PH!1) -> ARC(PHB),DYN(PH) @ 'k_401'
+'Shank_ARHGEF7' SHANK(PDZ),ARHGEF7(c) -> SHANK(PDZ!1),ARHGEF7(c!1)  @ 'k271'
+'Shank_ARHGEF7_dis' SHANK(PDZ!1),ARHGEF7(c!1) -> SHANK(PDZ),ARHGEF7(c)  @ 'k_271'
+'Shank_GluR1' SHANK(PDZ),GluR1(c) -> SHANK(PDZ!1),GluR1(c!1)  @ 'k271'
+'Shank_GluR1_dis' SHANK(PDZ!1),GluR1(c!1) -> SHANK(PDZ),GluR1(c)  @ 'k_271'
+'SHank_GRIP' SHANK(SH3),GRIP(shank) -> SHANK(SH3!1),GRIP(shank!1)  @ 'k471'
+'Shank_GRIP_dis' SHANK(SH3!1),GRIP(shank!1) -> SHANK(SH3),GRIP(shank)  @ 'k_471'
+'HOMER_dimer' HOMER(CC),HOMER(CC) -> HOMER(CC!1),HOMER(CC!1)   @ 'k11'
+'HOMER_dimer_dis' HOMER(CC!1),HOMER(CC!1) -> HOMER(CC),HOMER(CC)  @ 'k_11'
+'HOMER_mGluR' HOMER(EVH1),mGluR(PRD) -> HOMER(EVH1!1),mGluR(PRD!1)   @ 'k281'
+'HOMER_mGluR_dis' HOMER(EVH1!1),mGluR(PRD!1) -> HOMER(EVH1),mGluR(PRD)  @ 'k_281'
+'HOMER_PIKE' HOMER(EVH1),PIKE(PRD1) -> HOMER(EVH1!1),PIKE(PRD1!1)   @ 'k281'
+'HOMER_PIKE_dis' HOMER(EVH1!1),PIKE(PRD1!1) -> HOMER(EVH1),PIKE(PRD1)  @ 'k_281'
+'HOMER_TANC1' HOMER(PDZ),TANC1(c) -> HOMER(PDZ!1),TANC1(c!1)  @ 'k271'
+'HOMER_TANC1_dis' HOMER(PDZ!1),TANC1(c!1) -> HOMER(PDZ),TANC1(c)  @ 'k_271'
+'PIKE_PLCg' PIKE(PRD2),PLCg(SH3) -> PIKE(PRD2!1),PLCg(SH3!1)   @ 'k291'
+'PIKE_PLCg_dis' PIKE(PRD2!1),PLCg(SH3!1) -> PIKE(PRD2),PLCg(SH3)  @ 'k_291'
+'PIKE_PI3K' PIKE(PRD3),PI3K(SH3) -> PIKE(PRD3!1),PI3K(SH3!1)   @ 'k291'
+'PIKE_PI3K_dis' PIKE(PRD3!1),PI3K(SH3!1) -> PIKE(PRD3),PI3K(SH3)  @ 'k_291'
+'mGluR_CaM' mGluR(CaMBD),CaM(h) -> mGluR(CaMBD!0),CaM(h!0)   @ 'k91'
+'mGluR_CaM_dis' mGluR(CaMBD!0),CaM(h!0) -> mGluR(CaMBD),CaM(h)  @ 'k_91'
+'AKAP_PKA' AKAP(r),PKA(R) -> AKAP(r!0),PKA(R!0)   @ 'k301'
+'AKAP_PKA_dis' AKAP(r!0),PKA(R!0) -> AKAP(r),PKA(R)  @ 'k_301'
+'AKAP_PKC' AKAP(c),PKC(akap) -> AKAP(c!0),PKC(akap!0)   @ 'k311'
+'AKAP_PKC_dis' AKAP(c!0),PKC(akap!0) -> AKAP(c),PKC(akap)  @ 'k_311'
+'Dynamin_PKC' DYN(pkc),PKC(k) -> DYN(pkc!1),PKC(k!1)  @ 'k71'
+'Dynamin_PKC_dis' DYN(pkc!1),PKC(k!1) -> DYN(pkc),PKC(k)  @ 'k_71'
+'Dynamin_cortactin' DYN(PRD),cortactin(SH3) -> DYN(PRD!0),cortactin(SH3!0)   @ 'k291'
+'Dynamin_cortactin_dis' DYN(PRD!0),cortactin(SH3!0) -> DYN(PRD),cortactin(SH3)  @ 'k_291'
+'Dynamin_TK(Src)' DYN(PRD),Src(SH3) -> DYN(PRD!0),Src(SH3!0)   @ 'k291'
+'Dynamin_TK_dis(Src)' DYN(PRD!0),Src(SH3!0) -> DYN(PRD),Src(SH3)  @ 'k_291'
+'Cortactin_Src' cortactin(TyrP,PRD~u),Src(SH2) -> cortactin(PRD~p,TyrP!1),Src(SH2!1)  @ 'k51'
+'Cortactin_Src_dis' cortactin(TyrP!1),Src(SH2!1) -> cortactin(TyrP),Src(SH2)  @ 'k_51'
+'Dynamin_TK(FYN)' DYN(PRD),FYN(SH3) -> DYN(PRD!0),FYN(SH3!0)   @ 'k291'
+'Dynamin_TK_dis(FYN)' DYN(PRD!0),FYN(SH3!0) -> DYN(PRD),FYN(SH3)  @ 'k_291'
+'Dynamin_PLCg' DYN(PRD),PLCg(SH3) -> DYN(PRD),PLCg(SH3)   @ 'k291'
+'Dynamin_PLCg_dis' DYN(PRD),PLCg(SH3) -> DYN(PRD),PLCg(SH3)  @ 'k_291'
+'Dynamin_Grb2' DYN(PRD),Grb2(SH3) -> DYN(PRD!1),Grb2(SH3!1)   @ 'k291'
+'Dynamin_Grb2_dis' DYN(PRD!1),Grb2(SH3!1) -> DYN(PRD),Grb2(SH3)  @ 'k_291'
+'Dynamin_dimer' DYN(CC),DYN(CC) -> DYN(CC!0),DYN(CC!0)   @ 'k11'
+'Dynamin_dimer_dis' DYN(CC!0),DYN(CC!0) -> DYN(CC),DYN(CC)  @ 'k_11'
+'PLCg_G_bg' PLCg(PH),G_bg(PHB) -> PLCg(PH!1),G_bg(PHB!1)   @ 'k401'
+'PLCg_G_bg_dis' PLCg(PH!1),G_bg(PHB!1) -> PLCg(PH),G_bg(PHB)  @ 'k_401'
+'PI3K_Grb2' PI3K(PRD),Grb2(SH3) -> PI3K(PRD!1),Grb2(SH3!1)   @ 'k291'
+'PI3K_Grb2_dis' PI3K(PRD!1),Grb2(SH3!1) -> PI3K(PRD),Grb2(SH3)  @ 'k_291'
+'PI3K_Src' PI3K(PRD),Src(SH3) -> PI3K(PRD!0),Src(SH3!0)   @ 'k291'
+'PI3K_Src_dis' PI3K(PRD!0),Src(SH3!0) -> PI3K(PRD),Src(SH3)  @ 'k_291'
+'Sos_Grb2' SOS(PRD),Grb2(SH3) -> SOS(PRD!1),Grb2(SH3!1)  @ 'k291'
+'Sos_Grb2_dis' SOS(PRD!1),Grb2(SH3!1) -> SOS(PRD),Grb2(SH3)  @ 'k_291'
+'Grb2_PLCg' Grb2(SH3),PLCg(PRD) -> Grb2(SH3!1),PLCg(PRD!1)  @ 'k_291'
+'Grb2_PLCg_dis' Grb2(SH3!1),PLCg(PRD!1) -> Grb2(SH3),PLCg(PRD)  @ 'k_291'
+'cortactin_actin' cortactin(NTA,PRD~p),actin(cort) -> cortactin(NTA!0,PRD~p),actin(cort!0)  @ 'k321'
+'cortactin_actin_dis' cortactin(NTA!0,PRD~p),actin(cort!0) -> cortactin(NTA,PRD~u),actin(cort)  @ 'k_321'
+'ACTN_actin' ACTN(ABD),actin(actn) -> ACTN(ABD!0),actin(actn!0)   @ 'k331'
+'ACTN_actin_dis' ACTN(ABD!0),actin(actn!0) -> ACTN(ABD),actin(actn)  @ 'k_331'
+'AKAP_PP2B' AKAP(sh3),PP2B(akap) -> AKAP(sh3!1),PP2B(akap!1)   @ 'k341'
+'AKAP_PP2B_dis' AKAP(sh3!1),PP2B(akap!1) -> AKAP(sh3),PP2B(akap)   @ 'k_341'
+'GluR_dimer' GluR1(a) , GluR2(a) -> GluR1(a!1) , GluR2(a!1)  @ 'k61'
+'GluR_dimer_dis' GluR1(a!1) , GluR2(a!1) -> GluR1(a) , GluR2(a)  @ 'k_61'
+'GluR_tetra_b' GluR1(a!1,b),GluR2(a!1,b),GluR1(a!2,b),GluR2(a!2,b) -> GluR1(a!1,b!3),GluR2(a!1,b!4),GluR1(a!2,b!4),GluR2(a!2,b!3)  @ 'k261'
+'GluR_tetra_dis' GluR1(a!_,b!1) , GluR2(a!_,b!1) -> GluR1(a!_,b) , GluR2(a!_,b)  @ 'k_261'
+'GluR_tetra_a' GluR1(a,b!1),GluR2(a,b!1),GluR1(a,b!2),GluR2(a,b!2) -> GluR1(a!3,b!1),GluR2(a!4,b!1),GluR1(a!4,b!2),GluR2(a!3,b!2)  @ 'k261'
+'GluR_tetra-full' GluR1(a!0,b),GluR2(a!0,b!1),GluR1(b!1,a!2),GluR2(a!2,b) -> GluR1(a!0,b!3),GluR2(a!0,b!1),GluR1(b!1,a!2),GluR2(a!2,b!3)  @ 'k1261'
+'GluR_tetra-full_1' GluR1(a,b!1),GluR2(a!0,b!1),GluR1(b!2,a!0),GluR2(a,b!2) -> GluR1(a!3,b!1),GluR2(a!0,b!1),GluR1(b!2,a!0),GluR2(a!3,b!2)  @ 'k1261'
+'stargazin_GluR1' stargazin(glur),GluR1(starg) -> stargazin(glur!1),GluR1(starg!1)   @ 'k351'
+'stargazin_GluR1_dis' stargazin(glur!1),GluR1(starg!1) -> stargazin(glur),GluR1(starg)  @ 'k_351'
+'Pick1_dimer' PICK1(CC),PICK1(CC) -> PICK1(CC!1),PICK1(CC!1)  @ 'k11'
+'Pick1_dimer_dis' PICK1(CC!1),PICK1(CC!1) -> PICK1(CC),PICK1(CC)  @ 'k_11'
+'Pick1_GluR2' PICK1(PDZ),GluR2(c~u) -> PICK1(PDZ!1),GluR2(c~u!1)   @ 'k271'
+'Pick1_GluR2_dis' PICK1(PDZ!1),GluR2(c~u!1) -> PICK1(PDZ),GluR2(c~u)  @ 'k_271'
+'PIck1_PKC' PICK1(pkc),PKC(k) -> PICK1(pkc!1),PKC(k!1)  @ 'k71'
+'PIck1_PKC_dis' PICK1(pkc!1),PKC(k!1) -> PICK1(pkc),PKC(k)  @ 'k_71'
+'GRIP_PDZ45_Glur2' GRIP(PDZ4~u,PDZ5),GluR2(c~u) -> GRIP(PDZ4~u,PDZ5!1),GluR2(c~u!1)   @ 'k361'
+'GRIP_PDZ45_Glur2_dis' GRIP(PDZ4~u,PDZ5!1),GluR2(c~u!1) -> GRIP(PDZ4~u,PDZ5),GluR2(c~u)  @ 'k_361'
+'GluR2_NSF' GluR2(c1),NSF(g) -> GluR2(c1!1),NSF(g!1)   @ 'k391'
+'GluR2_NSF_dis' GluR2(c1!1),NSF(g!1) -> GluR2(c1),NSF(g)  @ 'k_391'
+'GRIP_dimer' GRIP(PDZ6),GRIP(PDZ6) -> GRIP(PDZ6!0),GRIP(PDZ6!0)   @ 'k11'
+'GRIP_dimer_dis' GRIP(PDZ6!0),GRIP(PDZ6!0) -> GRIP(PDZ6),GRIP(PDZ6)  @ 'k_11'
+'GluR2_PKC' GluR2(pkc),PKC(k) -> GluR2(pkc!1),PKC(k!1)   @ 'k71'
+'GluR2_PKC_dis' GluR2(pkc!1),PKC(k!1) -> GluR2(pkc),PKC(k)  @ 'k_71'
+'MAGUIN1_S-SCAM' MAGUIN1(c),S-SCAM(PDZ1) -> MAGUIN1(c!1),S-SCAM(PDZ1!1)  @ 'k81'
+'MAGUIN1_S-SCAM_dis' MAGUIN1(c!1),S-SCAM(PDZ1!1) -> MAGUIN1(c),S-SCAM(PDZ1)  @ 'k_81'
+'MAGUIN1_PSD95' MAGUIN1(c),PSD95(PDZ1) -> MAGUIN1(c!1),PSD95(PDZ1!1)  @ 'k81'
+'MAGUIN1_PSD95_dis' MAGUIN1(c!1),PSD95(PDZ1!1) -> MAGUIN1(c),PSD95(PDZ1)  @ 'k_81'
+'MAGUIN1_PSD93' MAGUIN1(c),PSD93(PDZ1) -> MAGUIN1(c!1),PSD93(PDZ1!1)  @ 'k81'
+'MAGUIN1_PSD93_dis' MAGUIN1(c!1),PSD93(PDZ1!1) -> MAGUIN1(c),PSD93(PDZ1)  @ 'k_81'
+'MAGUIN1_SAP102' MAGUIN1(c),SAP102(PDZ1) -> MAGUIN1(c!1),SAP102(PDZ1!1)  @ 'k81'
+'MAGUIN1_SAP102_dis' MAGUIN1(c!1),SAP102(PDZ1!1) -> MAGUIN1(c),SAP102(PDZ1)  @ 'k_81'
+'MAGUIN1_SAP97' MAGUIN1(c),SAP97(PDZ1) -> MAGUIN1(c!1),SAP97(PDZ1!1)  @ 'k81'
+'MAGUIN1_SAP97_dis' MAGUIN1(c!1),SAP97(PDZ1!1) -> MAGUIN1(c),SAP97(PDZ1)  @ 'k_81'
+'MAGUIN_Raf1' MAGUIN1(PH),RAF1(k) -> MAGUIN1(PH!1),RAF1(k!1)  @ 'k481'
+'MAGUIN_Raf1_dis' MAGUIN1(PH!1),RAF1(k!1) -> MAGUIN1(PH),RAF1(k)  @ 'k_481'
+'PSD95_IQSEC2' PSD95(PDZ3),IQSEC2(c) -> PSD95(PDZ3!1),IQSEC2(c!1)  @ 'k191'
+'PSD95_IQSEC2_dis'PSD95(PDZ3!1),IQSEC2(c!1) -> PSD95(PDZ3),IQSEC2(c)  @ 'k_191'
+'ARF6_IQSEC2' IQSEC2(GEF),ARF6(gef) -> IQSEC2(GEF!1),ARF6(gef!1)   @ 'k221'
+'ARF6_GTP' ARF6(gef!_,gap~GDP) -> ARF6(gef,gap~GTP)  @ 'k_221'
+'GIT1_ARF6'GIT1(RasGAP),ARF6(gap~GTP) -> GIT1(RasGAP!1),ARF6(gap~GTP!1)   @ 'k381'
+'ARF6_GDP' ARF6(gap~GTP!_) -> ARF6(gap~GDP)  @ 'k_381'
+'TANC1_PSD95' TANC1(c),PSD95(PDZ2) -> TANC1(c!0),PSD95(PDZ2!0)  @ 'k81'
+'TANC1_PSD95_dis' TANC1(c!0),PSD95(PDZ2!0) -> TANC1(c),PSD95(PDZ2)  @ 'k_81'
+'TANC1_SAP97' TANC1(c),SAP97(PDZ2) -> TANC1(c!0),SAP97(PDZ2!0)  @ 'k81'
+'TANC1_SAP97_dis' TANC1(c!0),SAP97(PDZ2!0) -> TANC1(c),SAP97(PDZ2)  @ 'k_81'
+'TANC1_TNIK' TANC1(tnik),TNIK(tanc) -> TANC1(tnik!1),TNIK(tanc!1)  @ 'k491'
+'TANC1_TNIK_dis' TANC1(tnik!1),TNIK(tanc!1) -> TANC1(tnik),TNIK(tanc)  @ 'k_491'
+'TNIK_RAP2' TNIK(CNH),RAP2(cnh,gap~GTP) -> TNIK(CNH!1),RAP2(cnh!1,gap~GTP)  @ 'k501'
+'TNIK_RAP2_dis' TNIK(CNH!1),RAP2(cnh!1,gap~GTP) -> TNIK(CNH),RAP2(cnh,gap~GTP)  @ 'k_501'
+'DISC1_PSD95' DISC1(psd95), PSD95(disc) -> DISC1(psd95!1), PSD95(disc!1)  @ 'k511'
+'DISC1_PSD95_dis' DISC1(psd95!1), PSD95(disc!1) -> DISC1(psd95), PSD95(disc)  @ 'k_511'
+'DISC1_TNIK' DISC1(tnik),TNIK(KD) -> DISC1(tnik!1),TNIK(KD!1)  @ 'k521'
+'DISC1_TNIK_dis' DISC1(tnik!1),TNIK(KD!1) -> DISC1(tnik),TNIK(KD)  @ 'k_521'
+'LIN7_NR2' LIN7(PDZ),NR2(c) -> LIN7(PDZ!1),NR2(c!1)  @ 'k81'
+'LIN7_NR2_dis' LIN7(PDZ!1),NR2(c!1) -> LIN7(PDZ),NR2(c)  @ 'k_81'
+'LIN7_CASK' LIN7(L27),CASK(L27_1) -> LIN7(L27!1),CASK(L27_1!1)  @ 'k531'
+'LIN7_CASK_dis' LIN7(L27!1),CASK(L27_1!1) -> LIN7(L27),CASK(L27_1)  @ 'k_531'
+'Lin7_SAP97' LIN7(L27),SAP97(L27) -> LIN7(L27!1),SAP97(L27!1)  @ 'k531'
+'Lin7_SAP97_dis' LIN7(L27!1),SAP97(L27!1) -> LIN7(L27),SAP97(L27)  @ 'k_531'
+'Lin7_IRSp53' LIN7(PDZ),IRSp53(c) -> LIN7(PDZ!1),IRSp53(c!1)  @ 'k271'
+'Lin7_IRSp53-dis' LIN7(PDZ!1),IRSp53(c!1) -> LIN7(PDZ),IRSp53(c)  @ 'k_271'
+'CASK_SynCAM' CASK(PDZ),SynCAM(c) -> CASK(PDZ!1),SynCAM(c!1)  @ 'k271'
+'CASK_SynCAM_dis' CASK(PDZ!1),SynCAM(c!1) -> CASK(PDZ),SynCAM(c)  @ 'k_271'
+'SAP97_CASK' SAP97(L27),CASK(L27_2) -> SAP97(L27!1),CASK(L27_2!1)  @ 'k531'
+'SAP97_CASK_dis' SAP97(L27!1),CASK(L27_2!1) -> SAP97(L27),CASK(L27_2)  @ 'k_531'
+'GRIT_RHOA' GRIT(RhoGAP),RhoA(gap~GTP) -> GRIT(RhoGAP!1),RhoA(gap~GTP!1)   @ 'k381'
+'RHoA_GDP' RhoA(gap~GTP!_) -> RhoA(gap~GDP)  @ 'k_381'
+'GRIT_Rac1' GRIT(RhoGAP),Rac1(gap~GTP) -> GRIT(RhoGAP!1),Rac1(gap~GTP!1)   @ 'k381'
+'Rac1_GDP' Rac1(gap~GTP!_) -> Rac1(gap~GDP)  @ 'k_381'
+'GRIT_NR2' GRIT(nr2),NR2(grit) -> GRIT(nr2!1),NR2(grit!1)  @ 'k541'
+'GRIT_NR2_dis' GRIT(nr2!1),NR2(grit!1) -> GRIT(nr2),NR2(grit)  @ 'k_541'
+'GRIT_Src' GRIT(PRD),Src(SH3) -> GRIT(PRD!1),Src(SH3!1)  @ 'k291'
+'GRIT_Src_dis' GRIT(PRD!1),Src(SH3!1) -> GRIT(PRD),Src(SH3)  @ 'k_291'
+'Rho_ARHGEF7' ARHGEF7(GEF),RhoA(gef) -> ARHGEF7(GEF!1),RhoA(gef!1)   @ 'k221'
+'RhoA_PKA' RhoA(gap~GTP,pka),PKA(k) -> RhoA(gap~GDP,pka!1),PKA(k!1)  @ 'k71'
+'RhoA_PKA_dis' RhoA(gap~GDP,pka!1),PKA(k!1) -> RhoA(gap~GDP,pka),PKA(k)  @ 'k_71'
+'Rho_GTP' RhoA(gef!_,gap~GDP) -> RhoA(gef,gap~GTP)  @ 'k_221'
+'Rac1_ARHGEF7' ARHGEF7(GEF),Rac1(gef) -> ARHGEF7(GEF!1),Rac1(gef!1)   @ 'k221'
+'Rac1_GTP' Rac1(gef!_,gap~GDP) -> Rac1(gef,gap~GTP)  @ 'k_221'
+'Rac1_IRSp53' Rac1(gap~GTP,imd),IRSp53(IMD) -> Rac1(gap~GTP,imd!1),IRSp53(IMD!1)  @ 'k551'
+'Rac1_IRSp53_dis' Rac1(gap~GTP,imd!1),IRSp53(IMD!1) -> Rac1(gap~GTP,imd),IRSp53(IMD)  @ 'k_551'
+'PSD95_DGA' PSD95(PDZ1,PDZ2),GDA(c1) -> PSD95(PDZ1!1,PDZ2),GDA(c1!1)  @ 'k81'
+'PSD95_DGA_dis' PSD95(PDZ1!1,PDZ2),GDA(c1!1) -> PSD95(PDZ1,PDZ2),GDA(c1)  @ 'k_81'
+'PSD95_GDA_1' PSD95(PDZ1!1,PDZ2),GDA(c1!1,c2) -> PSD95(PDZ1!1,PDZ2!0),GDA(c1!1,c2!0)  @ 'k881'
+'PSD93_DGA' PSD93(PDZ1,PDZ2),GDA(c1) -> PSD93(PDZ1!1,PDZ2),GDA(c1!1)  @ 'k81'
+'PSD93_DGA_dis' PSD93(PDZ1!1,PDZ2),GDA(c1!1) -> PSD93(PDZ1,PDZ2),GDA(c1)   @ 'k_81'
+'PSD93_GDA_1'PSD93(PDZ1!1,PDZ2),GDA(c1!1,c2) -> PSD93(PDZ1!1,PDZ2!0),GDA(c1!1,c2!0)  @ 'k881'
+'SAP97_DGA' SAP97(PDZ1,PDZ2),GDA(c1) -> SAP97(PDZ1!1,PDZ2),GDA(c1!1)  @ 'k81'
+'SAP97_DGA_dis' SAP97(PDZ1!1,PDZ2),GDA(c1!1) -> SAP97(PDZ1,PDZ2),GDA(c1)  @ 'k_81'
+'SAP97_GDA_1' SAP97(PDZ1!1,PDZ2),GDA(c1!1,c2) -> SAP97(PDZ1!1,PDZ2!0),GDA(c1!1,c2!0)  @ 'k881'
+'SAP102_DGA' SAP102(PDZ1,PDZ2),GDA(c1) -> SAP102(PDZ1!1,PDZ2),GDA(c1!1)  @ 'k81'
+'SAP102_DGA_dis' SAP102(PDZ1!1,PDZ2),GDA(c1!1) -> SAP102(PDZ1,PDZ2),GDA(c1)  @ 'k_81'
+'SAP102_GDA_1' SAP102(PDZ1!1,PDZ2),GDA(c1!1,c2) -> SAP102(PDZ1!1,PDZ2!0),GDA(c1!1,c2!0)  @ 'k881'
+'SHANK_GRIT' SHANK(PDZ),GRIT(c) -> SHANK(PDZ!1),GRIT(c!1)  @ 'k271'
+'SHANK_GRIT_dis' SHANK(PDZ!1),GRIT(c!1) -> SHANK(PDZ),GRIT(c)  @ 'k_271'
+'ARHGEF7_PAk1' ARHGEF7(SH3),PAK1(PRD) -> ARHGEF7(SH3!1),PAK1(PRD!1)  @ 'k291'
+'ARHGEF7_PAk1_dis' ARHGEF7(SH3!1),PAK1(PRD!1) -> ARHGEF7(SH3),PAK1(PRD)  @ 'k_291'
+'GIT1_ARHGEF7' GIT1(SHD),ARHGEF7(git) -> GIT1(SHD!1),ARHGEF7(git!1)  @ 'k561'
+'GIT1_ARHGEF7_dis' GIT1(SHD!1),ARHGEF7(git!1) -> GIT1(SHD),ARHGEF7(git)  @ 'k_561'
+'GIT1_dimer' GIT1(GRKBD),GIT1(GRKBD) -> GIT1(GRKBD!1),GIT1(GRKBD!1)  @ 'k11'
+'GIT1_dimer_dis' GIT1(GRKBD!1),GIT1(GRKBD!1) -> GIT1(GRKBD),GIT1(GRKBD)  @ 'k_11'
+'GIT1_PLCg' GIT1(SHD),PLCg(SH3) -> GIT1(SHD!1),PLCg(SH3!1)  @ 'k571'
+'GIT1_PLCg_dis' GIT1(SHD!1),PLCg(SH3!1) -> GIT1(SHD),PLCg(SH3)  @ 'k_571'
+'Git1_Src' GIT1(TyrP),Src(SH2) -> GIT1(TyrP!1),Src(SH2!1)  @ 'k51'
+'Git1_Src_dis' GIT1(TyrP!1),Src(SH2!1) -> GIT1(TyrP),Src(SH2)  @ 'k_51'
+'ApoER2_Dab1' ApoER2(c1),DAB1(PTB) -> ApoER2(c1!1),DAB1(PTB!1)  @ 'k581'
+'ApoER2_Dab1_dis' ApoER2(c1!1),DAB1(PTB!1) -> ApoER2(c1),DAB1(PTB)  @ 'k_581'
+'ApoER_NR1' ApoER2(ec),NR1(ec) -> ApoER2(ec!1),NR1(ec!1)  @ 'k591'
+'ApoER_NR1_dis' ApoER2(ec!1),NR1(ec!1) -> ApoER2(ec),NR1(ec)  @ 'k_591'
+'ApoER_PSD95' ApoER2(c),PSD95(PDZ1) -> ApoER2(c!1),PSD95(PDZ1!1)  @ 'k81'
+'ApoER_PSD95_dis' ApoER2(c!1),PSD95(PDZ1!1) -> ApoER2(c),PSD95(PDZ1)  @ 'k_81'
+'ApoER_PSD93' ApoER2(c),PSD93(PDZ1) -> ApoER2(c!1),PSD93(PDZ1!1)  @ 'k81'
+'ApoER_PSD93_dis' ApoER2(c!1),PSD93(PDZ1!1) -> ApoER2(c),PSD93(PDZ1)  @ 'k_81'
+'ApoER_SAP102' ApoER2(c),SAP102(PDZ1) -> ApoER2(c!1),SAP102(PDZ1!1)  @ 'k81'
+'ApoER_SAP102_dis' ApoER2(c!1),SAP102(PDZ1!1) -> ApoER2(c),SAP102(PDZ1)  @ 'k_81'
+'ApoER_SAP97' ApoER2(c),SAP97(PDZ1) -> ApoER2(c!1),SAP97(PDZ1!1)  @ 'k81'
+'ApoER_SAP97_dis' ApoER2(c!1),SAP97(PDZ1!1) -> ApoER2(c),SAP97(PDZ1)  @ 'k_81'
+'DAB1_FYN' DAB1(TyrP_1),FYN(SH2) -> DAB1(TyrP_1!1),FYN(SH2!1)   @ 'k51'
+'DAB1_FYN_dis' DAB1(TyrP_1!1),FYN(SH2!1) -> DAB1(TyrP_1),FYN(SH2)   @ 'k_51'
+'DAB1_PI3K' DAB1(TyrP_2),PI3K(SH2) -> DAB1(TyrP_2!1),PI3K(SH2!1)   @ 'k51'
+'DAB1_PI3K_dis' DAB1(TyrP_2!1),PI3K(SH2!1) -> DAB1(TyrP_2),PI3K(SH2)   @ 'k_51'
+'DAB1_Src' DAB1(TyrP_1),Src(SH2) -> DAB1(TyrP_1!1),Src(SH2!1)   @ 'k51'
+'DAB1_Src_dis' DAB1(TyrP_1!1),Src(SH2!1) -> DAB1(TyrP_1),Src(SH2)   @ 'k_51'
+'DAB2IP_Dab1' DAB2IP(c),DAB1(PTB) -> DAB2IP(c!1),DAB1(PTB!1)  @ 'k601'
+'DAB2IP_Dab1_dis' DAB2IP(c!1),DAB1(PTB!1) -> DAB2IP(c),DAB1(PTB)  @ 'k_601'
+'DAB2IP_Ras(H-RAS)' DAB2IP(RasGAP),H-RAS(gap~GTP) -> DAB2IP(RasGAP!1),H-RAS(gap~GTP!1)  @ 'k381'
+'SORBS2_GKAP' SORBS2(SH3),GKAP(PRD) -> SORBS2(SH3!1),GKAP(PRD!1)  @ 'k291'
+'SORBS2_GKAP_dis' SORBS2(SH3!1),GKAP(PRD!1) -> SORBS2(SH3),GKAP(PRD)  @ 'k_291'
+'PSD95_PRR7' PSD95(PDZ3),PRR7(c) -> PSD95(PDZ3!1),PRR7(c!1)  @ 'k191'
+'PSD95_PRR7_dis' PSD95(PDZ3!1),PRR7(c!1) -> PSD95(PDZ3),PRR7(c)  @ 'k_191'
+'DASM1_SHANK' DASM1(c),SHANK(PDZ) -> DASM1(c!1),SHANK(PDZ!1)  @ 'k271'
+'DASM1_SHANK_dis' DASM1(c!1),SHANK(PDZ!1) -> DASM1(c),SHANK(PDZ)  @ 'k_271'
+'DASM1_S-SCAM' DASM1(c),S-SCAM(PDZ1) -> DASM1(c!1),S-SCAM(PDZ1!1)  @ 'k81'
+'DASM1_S-SCAM_dis' DASM1(c!1),S-SCAM(PDZ1!1) -> DASM1(c),S-SCAM(PDZ1)  @ 'k_81'
+'CLDN7_MUPP1' CLDN7(c),MUPP1(PDZ10) -> CLDN7(c!1),MUPP1(PDZ10!1)  @ 'k271'
+'CLDN7_MUPP1_dis' CLDN7(c!1),MUPP1(PDZ10!1) -> CLDN7(c),MUPP1(PDZ10)  @ 'k_271'
+'CLDN7_ZO-1' CLDN7(c),ZO-1(PDZ1) -> CLDN7(c!1),ZO-1(PDZ1!1)  @ 'k81'
+'CLDN7_ZO-1_dis' CLDN7(c!1),ZO-1(PDZ1!1) -> CLDN7(c),ZO-1(PDZ1)  @ 'k_81'
+'cortactin_ZO-1' cortactin(SH3),ZO-1(GK) -> cortactin(SH3!1),ZO-1(GK!1)  @ 'k101'
+'cortactin_ZO-1_dis' cortactin(SH3!1),ZO-1(GK!1) -> cortactin(SH3),ZO-1(GK)  @ 'k_101'
+'actin_Zo-1' actin(zo),ZO-1(ABR) -> actin(zo!1),ZO-1(ABR!1)  @ 'k611'
+'actin_Zo-1_dis' actin(zo!1),ZO-1(ABR!1) -> actin(zo),ZO-1(ABR)  @ 'k_611'
+'cortactin_Grb2' cortactin(PRD~p),Grb2(SH3) -> cortactin(PRD~p!1),Grb2(SH3!1)  @ 'k291'
+'cortactin_Grb2_dis' cortactin(PRD~p!1),Grb2(SH3!1) -> cortactin(PRD~p),Grb2(SH3)  @ 'k_291'
+'PSD95_Src' PSD95(TyrP),Src(SH2) -> PSD95(TyrP!1),Src(SH2!1)  @ 'k51'
+'PSD95_Src_dis' PSD95(TyrP!1),Src(SH2!1) -> PSD95(TyrP),Src(SH2)  @ 'k_51'
+'SAP102_Src' SAP102(TyrP),Src(SH2) -> SAP102(TyrP!1),Src(SH2!1)  @ 'k51'
+'SAP102_Src_dis' SAP102(TyrP!1),Src(SH2!1) -> SAP102(TyrP),Src(SH2)  @ 'k_51'
+'SAP97_Src' SAP97(TyrP),Src(SH2) -> SAP97(TyrP!1),Src(SH2!1)  @ 'k51'
+'SAP97_Src_dis' SAP97(TyrP!1),Src(SH2!1) -> SAP97(TyrP),Src(SH2)  @ 'k_51'
+'PSD95_FYN' PSD95(TyrP),FYN(SH2) -> PSD95(TyrP!1),FYN(SH2!1)  @ 'k51'
+'PSD95_FYN_dis' PSD95(TyrP!1),FYN(SH2!1) -> PSD95(TyrP),FYN(SH2)  @ 'k_51'
+'PSD93_Src' PSD93(TyrP),Src(SH2) -> PSD93(TyrP!1),Src(SH2!1)  @ 'k51'
+'PSD93_Src_dis' PSD93(TyrP!1),Src(SH2!1) -> PSD93(TyrP),Src(SH2)  @ 'k_51'
+'PSD93_FYN' PSD93(TyrP),FYN(SH2) -> PSD93(TyrP!1),FYN(SH2!1)  @ 'k51'
+'PSD93_FYN_dis' PSD93(TyrP!1),FYN(SH2!1) -> PSD93(TyrP),FYN(SH2)  @ 'k_51'
+'SAP102_FYN' SAP102(TyrP),FYN(SH2) -> SAP102(TyrP!1),FYN(SH2!1)  @ 'k51'
+'SAP102_FYN_dis' SAP102(TyrP!1),FYN(SH2!1) -> SAP102(TyrP),FYN(SH2)  @ 'k_51'
+'SAP97_FYN' SAP97(TyrP),FYN(SH2) -> SAP97(TyrP!1),FYN(SH2!1)  @ 'k51'
+'SAP97_FYN_dis' SAP97(TyrP!1),FYN(SH2!1) -> SAP97(TyrP),FYN(SH2)  @ 'k_51'
+#'SAP97-CASK' SAP97(GK,HOOK!_),CASK(SH3) -> SAP97(GK!1,HOOK!_),CASK(SH3!1)  @ 'k101'
+#'SAP97-CASK_dis' SAP97(GK!1),CASK(SH3!1) -> SAP97(GK),CASK(SH3)  @ 'k_101'
+'CASK_dimer' CASK(GK),CASK(SH3) -> CASK(GK!1),CASK(SH3!1)  @ 'k101'
+'CASK_dimer_dis' CASK(GK!1),CASK(SH3!1) -> CASK(GK),CASK(SH3)  @ 'k_101'
+'PSD95-CASK' PSD95(GK),CASK(SH3) -> PSD95(GK!1),CASK(SH3!1)  @ 'k101'
+'PSD95-CASK_dis' PSD95(GK!1),CASK(SH3!1) -> PSD95(GK),CASK(SH3)  @ 'k_101'
+'PSD95_SAP102' PSD95(GK),SAP102(SH3) -> PSD95(GK!1),SAP102(SH3!1)  @ 'k101'
+'PSD95_SAP102_dis' PSD95(GK!1),SAP102(SH3!1) -> PSD95(GK),SAP102(SH3)  @ 'k_101'
+'LRRC7_MAGUIN1' LRRC7(PDZ),MAGUIN1(c) -> LRRC7(PDZ!1),MAGUIN1(c!1)  @ 'k271'
+'LRRC7_MAGUIN1_dis' LRRC7(PDZ!1),MAGUIN1(c!1) -> LRRC7(PDZ),MAGUIN1(c)  @ 'k_271'
+'SAP97_PSD95' SAP97(NTD),PSD95(SH3) -> SAP97(NTD!1),PSD95(SH3!1)  @ 'k621'
+'SAP97_PSD95_dis' SAP97(NTD!1),PSD95(SH3!1) -> SAP97(NTD),PSD95(SH3)  @ 'k_621'
+'SAP97_PSD93' SAP97(NTD),PSD93(SH3) -> SAP97(NTD!1),PSD93(SH3!1)  @ 'k621'
+'SAP97_PSD93_dis' SAP97(NTD!1),PSD93(SH3!1) -> SAP97(NTD),PSD93(SH3)  @ 'k_621'
+
+
+%init: 'ic_PSD951' PSD95(NH2,PDZ1,PDZ2,PDZ3,GK,SH3,disc,TyrP)
+%init: 'ic_SAP971' SAP97(L27,PDZ1,PDZ2,PDZ3,GK,SH3~u,TyrP,NTD,HOOK)
+%init: 'ic_NR21' NR2(c,a,b,c0,SBS~u,camkbd,TyrP,m,rack,grit)
+%init: 'ic_NR11' NR1(a,b,c0,SBS~u,pkc,ec)
+%init: 'ic_SAP1021' SAP102(L27,PDZ1,PDZ2,PDZ3,GK,SH3,TyrP,HOOK)
+%init: 'ic_PSD931' PSD93(PDZ1,PDZ2,PDZ3,GK,SH3,NH2,TyrP,HOOK)
+%init: 'ic_SynGAPa1' SynGAPa(c~u,C2,RasGAP)
+%init: 'ic_SynGAPb1' SynGAPb(camkbd,C2,RasGAP)
+%init: 'ic_GKAP1' GKAP(c,GKBD,PRD)
+%init: 'ic_SHANK1' SHANK(PDZ,SAM1,SAM2,PRD,SH3)
+%init: 'ic_HOMER1' HOMER(EVH1,CC,PDZ)
+%init: 'ic_IRSp531' IRSp53(c,SH3,IMD)
+%init: 'ic_cortactin1' cortactin(SH3,NTA,PRD~u,TyrP)
+%init: 'ic_AKAP1' AKAP(sh3,r,c)
+%init: 'ic_CaM1' CaM(h)
+%init: 'ic_PKA1' PKA(R,k)
+%init: 'ic_PKC1' PKC(akap,k,PH,Ser~p,C2)
+%init: 'ic_actin1' actin(cort,actn,act1,a,a1,pkc,zo)
+%init: 'ic_PP2B1' PP2B(akap)
+%init: 'ic_GluR11' GluR1(a,b,starg,c~u,pka,s818~u,s831~u,pkc,camkbd)
+%init: 'ic_GluR21' GluR2(c~u,a,b,pkc,c1)
+%init: 'ic_mGluR1' mGluR(PRD,c~u,CaMBD,pkc,ECD)
+%init: 'ic_stargazin1' stargazin(c~u,glur,pka)
+%init: 'ic_PICK11' PICK1(PDZ,pkc,CC)
+%init: 'ic_GRIP1' GRIP(PDZ4~u,PDZ5,PDZ6,shank,PDZ)
+%init: 'ic_ACTN1' ACTN(SR,ABD,camkbd,c,cc)
+%init: 'ic_DYN1' DYN(PRD,CC,PH,pkc)
+%init: 'ic_Src1' Src(SH3,SH2,k)
+%init: 'ic_Grb21' Grb2(SH3,SH2)
+%init: 'ic_SOS1' SOS(PRD,GEF,PRD1)
+%init: 'ic_PLCg1' PLCg(SH3,SH2,PH,PRD)
+%init: 'ic_kalirin1' kalirin(c,GEF1,PH,disc)
+%init: 'ic_Rac11' Rac1(gap~GDP,gef,pak,imd)
+%init: 'ic_RhoA1' RhoA(gef,gap~GDP,pka)
+%init: 'ic_CaMKII1' CaMKII(k,k1,k2,c,ihfm,ad)
+%init: 'ic_PAK11' PAK1(PBD,PRD,raf)
+%init: 'ic_SPAR1' SPAR(GKBD,RasGAP,Act1,CC)
+%init: 'ic_Spectrin1' Spectrin(NRB,SL,PH)
+%init: 'ic_FYN1' FYN(SH2,SH3)
+%init: 'ic_PTP1D1' PTP1D(SH2,TyrP)
+%init: 'ic_NOS1' NOS(ihfm,pka)
+%init: 'ic_RACK11' RACK1(WD,WD1,WD6~p,WD40)
+%init: 'ic_PI3K1' PI3K(PRD,SH3,RBD,SH2)
+%init: 'ic_G_bg1' G_bg(PHB,WD40)
+%init: 'ic_GluR61' GluR6(c)
+%init: 'ic_CRIPT1' CRIPT(c)
+%init: 'ic_NSF1' NSF(g)
+%init: 'ic_S-SCAM1' S-SCAM(PDZ1,GK,PDZ2,PDZ3,PDZ5)
+%init: 'ic_nRapGEF1' nRapGEF(c,GEF)
+%init: 'ic_PROSAPIP11' PROSAPIP1(c,CC1,CC,CC2)
+%init: 'ic_LZTS11' LZTS1(CC,CC1)
+%init: 'ic_PIKE1' PIKE(PRD1,PRD2,PRD3)
+%init: 'ic_MUPP11' MUPP1(PDZ13,PDZ2,PDZ10)
+%init: 'ic_H-RAS1' H-RAS(gap~GDP,k,gef)
+%init: 'ic_Rap11' Rap1(gap~GDP,k,gef,pka)
+%init: 'ic_NF11' NF1(RasGAP)
+%init: 'ic_RAF11' RAF1(RBD~u,k,CRR,pka,pkc,s499~u,s338~u,t340~u,TyrP,pak)
+%init: 'ic_MAGUIN11' MAGUIN1(c,PH)
+%init: 'ic_IQSEC21' IQSEC2(c,GEF)
+%init: 'ic_ARF61' ARF6(gef,gap~GDP)
+%init: 'ic_GIT11' GIT1(RasGAP,SHD,GRKBD,TyrP)
+%init: 'ic_TANC11' TANC1(c,tnik)
+%init: 'ic_TNIK1' TNIK(CNH,tanc, KD)
+%init: 'ic_DISC11' DISC1(kal, psd95,tnik,CC)
+%init: 'ic_LIN71' LIN7(PDZ,L27)
+%init: 'ic_CASK1' CASK(L27_1,L27_2,PDZ,GK,SH3)
+%init: 'ic_GRIT1' GRIT(RhoGAP,c,nr2,PRD)
+%init: 'ic_GDA1' GDA(c1,c2)
+%init: 'ic_ARHGEF71' ARHGEF7(GEF,SH3,git,c)
+%init: 'ic_ApoER21' ApoER2(c1,ec,c)
+%init: 'ic_DAB11' DAB1(PTB,TyrP_1,TyrP_2,TyrP)
+%init: 'ic_DAB2IP1' DAB2IP(c,RasGAP)
+%init: 'ic_SORBS21' SORBS2(SH3)
+%init: 'ic_PRR71' PRR7(c)
+%init: 'ic_DASM11' DASM1(c)
+%init: 'ic_CLDN71' CLDN7(c)
+%init: 'ic_ZO-11' ZO-1(PDZ1,GK,ABR)
+%init: 'ic_LRRC71' LRRC7(camkbd,PDZ)
+%init: 'ic_SynCAM1' SynCAM(c)
+%init: 'ic_RAP21' RAP2(cnh,gap~GTP)
+%init: 'ic_ARC1' ARC(PHB)
+
+%var: 'k11' ('k_11'/'K11')*1e9/('vol'*6.022e23)
+%var: 'k31' ('k_31'/'K31')*1e9/('vol'*6.022e23)
+%var: 'k41' ('k_41'/'K41')*1e9/('vol'*6.022e23)
+%var: 'k51' ('k_51'/'K51')*1e9/('vol'*6.022e23)
+%var: 'k61' ('k_61'/'K61')*1e9/('vol'*6.022e23)
+%var: 'k71' ('k_71'/'K71')*1e9/('vol'*6.022e23)
+%var: 'k81' ('k_81'/'K81')*1e9/('vol'*6.022e23)
+%var: 'k91' ('k_91'/'K91')*1e9/('vol'*6.022e23)
+%var: 'k101' ('k_101'/'K101')*1e9/('vol'*6.022e23)
+%var: 'k111' ('k_111'/'K111')*1e9/('vol'*6.022e23)
+%var: 'k121' ('k_121'/'K121')*1e9/('vol'*6.022e23)
+
+%var: 'k131' ('k_131'/'K131')*1e9/('vol'*6.022e23)
+%var: 'k141' ('k_141'/'K141')*1e9/('vol'*6.022e23)
+%var: 'k151' ('k_151'/'K151')*1e9/('vol'*6.022e23)
+%var: 'k161' ('k_161'/'K161')*1e9/('vol'*6.022e23)
+%var: 'k171' ('k_171'/'K171')*1e9/('vol'*6.022e23)
+%var: 'k181' ('k_181'/'K181')*1e9/('vol'*6.022e23)
+%var: 'k191' ('k_191'/'K191')*1e9/('vol'*6.022e23)
+%var: 'k201' ('k_201'/'K201')*1e9/('vol'*6.022e23)
+%var: 'k211' ('k_211'/'K211')*1e9/('vol'*6.022e23)
+%var: 'k221' ('k_221'/'K221')*1e9/('vol'*6.022e23)
+%var: 'k241' ('k_241'/'K241')*1e9/('vol'*6.022e23)
+%var: 'k251' ('k_251'/'K251')*1e9/('vol'*6.022e23)
+%var: 'k261' ('k_261'/'K261')*1e9/('vol'*6.022e23)
+%var: 'k271' ('k_271'/'K271')*1e9/('vol'*6.022e23)
+%var: 'k281' ('k_281'/'K281')*1e9/('vol'*6.022e23)
+%var: 'k291' ('k_291'/'K291')*1e9/('vol'*6.022e23)
+%var: 'k301' ('k_301'/'K301')*1e9/('vol'*6.022e23)
+%var: 'k311' ('k_311'/'K311')*1e9/('vol'*6.022e23)
+%var: 'k321' ('k_321'/'K321')*1e9/('vol'*6.022e23)
+%var: 'k331' ('k_331'/'K331')*1e9/('vol'*6.022e23)
+%var: 'k341' ('k_341'/'K341')*1e9/('vol'*6.022e23)
+%var: 'k351' ('k_351'/'K351')*1e9/('vol'*6.022e23)
+%var: 'k361' ('k_361'/'K361')*1e9/('vol'*6.022e23)
+%var: 'k371' ('k_371'/'K371')*1e9/('vol'*6.022e23)
+%var: 'k381' ('k_381'/'K381')*1e9/('vol'*6.022e23)
+%var: 'k391' ('k_391'/'K391')*1e9/('vol'*6.022e23)
+%var: 'k401' ('k_401'/'K401')*1e9/('vol'*6.022e23)
+%var: 'k411' ('k_411'/'K411')*1e9/('vol'*6.022e23)
+%var: 'k421' ('k_421'/'K421')*1e9/('vol'*6.022e23)
+%var: 'k431' ('k_431'/'K431')*1e9/('vol'*6.022e23)
+%var: 'k441' ('k_441'/'K441')*1e9/('vol'*6.022e23)
+%var: 'k451' ('k_451'/'K451')*1e9/('vol'*6.022e23)
+%var: 'k461' ('k_461'/'K461')*1e9/('vol'*6.022e23)
+%var: 'k471' ('k_471'/'K471')*1e9/('vol'*6.022e23)
+%var: 'k481' ('k_481'/'K481')*1e9/('vol'*6.022e23)
+%var: 'k491' ('k_491'/'K491')*1e9/('vol'*6.022e23)
+%var: 'k501' ('k_501'/'K501')*1e9/('vol'*6.022e23)
+%var: 'k511' ('k_511'/'K511')*1e9/('vol'*6.022e23)
+%var: 'k521' ('k_521'/'K521')*1e9/('vol'*6.022e23)
+%var: 'k531' ('k_531'/'K531')*1e9/('vol'*6.022e23)
+%var: 'k541' ('k_541'/'K541')*1e9/('vol'*6.022e23)
+%var: 'k551' ('k_551'/'K551')*1e9/('vol'*6.022e23)
+%var: 'k561' ('k_561'/'K561')*1e9/('vol'*6.022e23)
+%var: 'k571' ('k_571'/'K571')*1e9/('vol'*6.022e23)
+%var: 'k581' ('k_581'/'K581')*1e9/('vol'*6.022e23)
+%var: 'k591' ('k_591'/'K591')*1e9/('vol'*6.022e23)
+%var: 'k601' ('k_601'/'K601')*1e9/('vol'*6.022e23)
+%var: 'k611' ('k_611'/'K611')*1e9/('vol'*6.022e23)
+%var: 'k621' ('k_621'/'K621')*1e9/('vol'*6.022e23)
+
+
