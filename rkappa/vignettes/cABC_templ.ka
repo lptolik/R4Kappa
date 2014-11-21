@@ -1,0 +1,29 @@
+#Agent definition
+%agent: A_-(s)
+%agent: B_-(s,t)
+%agent: C_-(s)
+
+# Variables definition
+%var: 'nA_-'  1000 * 'vol_-'
+%var: 'nB_-'  1000 * 'vol_-'
+%var: 'nC_-'  1000 * 'vol_-'
+%var: 'BND_-' 'MOD_-' / 'vol_-' # Bimolecular reaction rate depends upon volume
+
+
+# Reaction rules
+'assocAB_-'  A_-(s), B_-(s,t) -> A_-(s!0), B_-(s!0,t) @ 'BND_-'
+'dissocAB_-' A_-(s!0), B_-(s!0) -> A_-(s), B_-(s) @ 'BRK_-'
+'assocBC'  B_-(t,s), C_-(s) -> B_-(t!0,s), C_-(s!0) @ 'BND_-'
+'dissocBC' B_-(t!0), C_-(s!0) -> B_-(t), C_-(s) @ 'BRK_-'
+
+# Initial conditions definition
+%init: 'nA_-' A_-(s)
+%init: 'nB_-' B_-(s,t)
+%init: 'nC_-' C_-(s)
+
+# Observables 
+%obs: 'AB_-' B_-(s!_)
+%obs: 'BC_-' B_-(t!_)
+%obs: 'B_-' B_-(s,t)
+%obs: 'AB_- fraction' 'AB_-' / 'B_-'
+
