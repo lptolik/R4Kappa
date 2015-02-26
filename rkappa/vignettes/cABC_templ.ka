@@ -13,8 +13,8 @@
 # Reaction rules
 'assocAB_-'  A_-(s), B_-(s,t) -> A_-(s!0), B_-(s!0,t) @ 'BND_-'
 'dissocAB_-' A_-(s!0), B_-(s!0) -> A_-(s), B_-(s) @ 'BRK_-'
-'assocBC'  B_-(t,s), C_-(s) -> B_-(t!0,s), C_-(s!0) @ 'BND_-'
-'dissocBC' B_-(t!0), C_-(s!0) -> B_-(t), C_-(s) @ 'BRK_-'
+'assocBC_-'  B_-(t,s), C_-(s) -> B_-(t!0,s), C_-(s!0) @ 'BND_-'
+'dissocBC_-' B_-(t!0), C_-(s!0) -> B_-(t), C_-(s) @ 'BRK_-'
 
 # Initial conditions definition
 %init: 'nA_-' A_-(s)
