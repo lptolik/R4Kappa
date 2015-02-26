@@ -216,10 +216,7 @@ We are going to change shell templates to be able to run it locally on average L
 To optimize our project for local execution we need to modify run.sh.templ and job.sh.templ. In the run.sh.templ we first decrease simulation time (replace 1000 seconds with 1000 events in lines 16 and 21 of the template). Another way to run simulation faster is to decrease number of model evaluation runs. Each parameter set is evaluated several times (by default 10 times) to moderate the influence of stochastic nature of the kappa simulation engine. At the analysis stage we are averaging results for calculation of the sensitivity coefficients. Here with the toy model we are going to degrease number of evaluation runs to two ($numEv=2$):
 <<update-run.sh, cache=FALSE,tidy_source=TRUE>>=
 abcProj$shLines[["run.sh.templ"]][2]<-"numEv=2"
-abcProj$shLines[["run.sh.templ"]][16]<-
-"$KASIM_EXE _- -e $time -p 100 -d \"./pset***/try$i\" -make-sim prom.kasim"
-abcProj$shLines[["run.sh.templ"]][21]<-
-"$KASIM_EXE -e $time -p 100 -d \"./pset***/try$i\" -load-sim  ./pset***/try1/prom.kasim"
+abcProj$shLines[["run.sh.templ"]][4]<-"out=10"
 
  abcProj$shLines[["run.sh.templ"]]
 @
