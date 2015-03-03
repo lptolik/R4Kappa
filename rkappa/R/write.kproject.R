@@ -4,7 +4,6 @@ write.kproject<-function(
   projectdir=kproject$name##<<optional new destination for the writing
 ){
   system(paste('mkdir -p',projectdir))
-  shLines<-kproject$shLines[['run.sh.templ']]
   shLines<-gsub('numEv=[0-9]+',paste('numEv=',kproject$nRep,sep=''),kproject$shLines[['run.sh.templ']])
   jLines<-kproject$shLines[['job.sh.templ']];
   jCLines<-kproject$shLines[['jobConc.sh.templ']];
@@ -13,19 +12,21 @@ write.kproject<-function(
   if(length(kproject$constLines)>0){
     for(i in 1:length(kproject$constLines)){
       writeLines(kproject$constLines[[i]],paste(projectdir,'/',names(kproject$constLines[i]),sep=''))
-      cLine<-paste(cLine,'-i',names(kproject$constLines[i]))
       cLine<-paste(cLine,' -i ../../',names(kproject$constLines[i]),sep='')
     }
   }
   constLine<-cLine
-  for(i in 1:dim(kproject$paramSets)[1]){
-    cLineL<-paste('-i',paste('param.ka.',i,sep=''))
+  if(kproject$nSets<dim(kproject$paramSets)[1]){
+    warning("nSets is less than a number of parameter sets, not all sets will be written down!!!")
+  }else if(kproject$nSets>dim(kproject$paramSets)[1]){
+    stop("nSets is larger than a number of parameter sets!!! Create more parameter sets with 'addSets' function and try again")
+  }
+  for(i in 1:kproject$nSets){
     cLineL<-paste(' -i ../../',paste('param.ka.',i,sep=''),sep='')
     #		cLineL<-''
     for(j in names(kproject$templateLines)){
       tLines<-gsub(repReg,i,kproject$templateLines[[j]])
       writeLines(tLines,paste(projectdir,'/',j,'.',i,sep=''))
-      cLineL<-paste(cLineL,'-i',paste(j,'.',i,sep=''))
       cLineL<-paste(cLineL,' -i ../../',paste(j,'.',i,sep=''),sep='')
     }
     #		browser()
