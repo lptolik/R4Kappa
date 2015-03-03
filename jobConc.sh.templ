@@ -1,0 +1,21 @@
+#!/bin/bash
+########################################
+#                                      #
+# SGE MPI job script for ECDF Cluster  #
+#                                      #
+# by ECDF System Team                  #
+# ecdf-systems-team@lists.ed.ac.uk     #
+#                                      #
+########################################
+
+# Grid Engine options
+
+#$ -N jsimConc 
+#$ -cwd
+#$ -l h_rt=24:00:00
+
+# Initialise environment module
+
+export KASIM_EXE=KKKKKK
+N=$SGE_TASK_ID
+./runConc.sh 
