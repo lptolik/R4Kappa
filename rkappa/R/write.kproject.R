@@ -5,6 +5,7 @@ write.kproject<-function(
 ){
   system(paste('mkdir -p',projectdir))
   shLines<-kproject$shLines[['run.sh.templ']]
+  shLines<-gsub('numEv=[0-9]+',paste('numEv=',kproject$nRep,sep=''),kproject$shLines[['run.sh.templ']])
   jLines<-kproject$shLines[['job.sh.templ']];
   jCLines<-kproject$shLines[['jobConc.sh.templ']];
   repReg<-kproject$replaceRegexp
