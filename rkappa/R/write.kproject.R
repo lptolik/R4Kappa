@@ -55,6 +55,34 @@ write.kproject<-function(
                paste(projectdir,'/job.sh',sep=''))
     system(paste('chmod a+x ',projectdir,'/job.sh',sep=''))
   }
+  if(!is.null(kproject$shLines$validate)){
+    shLines<-gsub('KKKKKK',kproject$execPath,gsub('\\*\\*\\*','Val',gsub(repReg,cLine,kproject$shLines$validate)))
+    writeLines(shLines,paste(projectdir,'/validate.sh',sep=''))
+    system(paste('chmod a+x ',projectdir,'/validate.sh',sep=''))
+  }
   r4kproject<-kproject
   save(r4kproject,file=paste(projectdir,'/project.Rdat',sep=''))
 }
+
+validate.kproject<-function(
+  ###Prepare validate batch, write content of the \code{kproject} to the temp folder and run the project
+  kproject,##<<object to write
+  dir=tempdir(),##<<optional new destination for the writing
+  exe=kproject$execPath##<<optional local KaSim executable path to validate the model, if different from the execPath of the main project
+){
+  vproject<-kproject
+  vLines<-vproject$shLines[['run.sh.templ']]
+  vLines[13]<-"export KASIM_EXE=KKKKKK"
+  vproject$shLines$validate<-vLines
+  vproject$execPath=exe
+  vproject$nRep<-2
+  vproject$nSets<-2
+  write.kproject(vproject,dir)
+  cwd<-getwd()
+  setwd(dir)
+  system2('./validate.sh',args=c(2,0.01),stderr=TRUE,stdout=TRUE)->out
+  setwd(cwd)
+  return(out)
+  ###return the output of simulation 
+}
+
