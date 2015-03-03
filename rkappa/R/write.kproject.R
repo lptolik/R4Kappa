@@ -94,7 +94,7 @@ validate.kproject<-function(
   write.kproject(vproject,dir)
   cwd<-getwd()
   setwd(dir)
-  system2('./validate.sh',args=c(2,0.01),stderr=TRUE,stdout=TRUE)->out
+  system2('./validate.sh',args=c(nrep,0.01),stderr=TRUE,stdout=TRUE)->out
   setwd(cwd)
   return(out)
   ###return the output of simulation 
