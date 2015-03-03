@@ -13,16 +13,19 @@ write.kproject<-function(
     for(i in 1:length(kproject$constLines)){
       writeLines(kproject$constLines[[i]],paste(projectdir,'/',names(kproject$constLines[i]),sep=''))
       cLine<-paste(cLine,'-i',names(kproject$constLines[i]))
+      cLine<-paste(cLine,' -i ../../',names(kproject$constLines[i]),sep='')
     }
   }
   constLine<-cLine
   for(i in 1:dim(kproject$paramSets)[1]){
     cLineL<-paste('-i',paste('param.ka.',i,sep=''))
+    cLineL<-paste(' -i ../../',paste('param.ka.',i,sep=''),sep='')
     #		cLineL<-''
     for(j in names(kproject$templateLines)){
       tLines<-gsub(repReg,i,kproject$templateLines[[j]])
       writeLines(tLines,paste(projectdir,'/',j,'.',i,sep=''))
       cLineL<-paste(cLineL,'-i',paste(j,'.',i,sep=''))
+      cLineL<-paste(cLineL,' -i ../../',paste(j,'.',i,sep=''),sep='')
     }
     #		browser()
     pLines<-c(paste('#parameters for set',i))
