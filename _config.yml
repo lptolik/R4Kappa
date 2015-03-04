@@ -21,6 +21,9 @@ url: http://lptolik.github.io
 # then add in the baseurl here, like this: "/repository-name"
 baseurl: "/R4Kappa"
 
+# Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
+google_analytics: UA-41525829-3
+
 # Build settings
 markdown: redcarpet
 highlighter: pygments
