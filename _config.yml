@@ -6,8 +6,8 @@ description: > # this means to ignore newlines until "baseurl:"
   в среде моделирования R/Bioconductor. Основной целью этого пакета
   является идентификация параметров, многомерный разведочный анализ
   поведения моделей и анализ их параметрической чувствительности. 
-baseurl: "/ru" # the subpath of your site, e.g. /blog/
-url: "http://lptolik.github.io/R4Kappa" # the base hostname & protocol for your site
+#baseurl: "/ru" # the subpath of your site, e.g. /blog/
+#url: "http://lptolik.github.io/R4Kappa" # the base hostname & protocol for your site
 twitter_username: lptolik
 github_username:  lptolik
 
