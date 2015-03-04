@@ -1,5 +1,5 @@
 highlighter: pygments
-github: [Repository metadata]
+permalink: /blog/:categories/:year/:month/:day/:title.html
 # Site settings
 title: "rkappa по-русски"
 email: lptolik@gmail.com
