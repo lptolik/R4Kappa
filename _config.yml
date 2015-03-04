@@ -1,3 +1,5 @@
+highlighter: pygments
+github: [Repository metadata]
 # Site settings
 title: rkappa по-русски
 email: lptolik@gmail.com
