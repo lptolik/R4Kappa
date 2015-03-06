@@ -6,8 +6,6 @@ dir##<<name of the folder with project simulation results
 	if(!require(futile.logger)){
          stop('Function is required package "futile.logger"');
 	}
-	config_logger()
-	logger<-getLogger()
 	flog.info('start')
 	res<-read.snap.folder(paste(dir,'pset1',sep='/'))
 	res$Set<-1;
