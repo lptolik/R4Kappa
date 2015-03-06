@@ -50,10 +50,10 @@ write.kproject<-function(
       }
     }
     writeLines(pLines,paste(projectdir,'/param.ka.',i,sep=''))
-    cLine<-paste(cLine,cLineL)
+    cLine<-paste(cLineL,cLine)
     if(kproject$type=='parallel'|kproject$type=='both'){
       shLinesL<-replaceValue('setIndx',i,
-                             replaceValue('inputs',paste(constLine,cLineL),shLines))
+                             replaceValue('inputs',paste(cLineL,constLine),shLines))
       writeLines(shLinesL,paste(projectdir,'/run',i,'.sh',sep=''))
       system(paste('chmod a+x ',projectdir,'/run',i,'.sh',sep=''))
     }
