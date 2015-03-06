@@ -8,7 +8,7 @@ prepare.validation.project<-function(
   vproject<-kproject
   vLines<-vproject$shLines[['run.sh.templ']]
   emptylines<-which(grepl('^\\s*$',vLines))
-  vLines[emptylines[1]]<-"export KASIM_EXE=KKKKKK"
+  vLines[emptylines[1]]<-"export KASIM_EXE=%execPath%"
   vproject$shLines$validate<-vLines
   vproject$execPath=exe
   vproject$nRep<-nrep
