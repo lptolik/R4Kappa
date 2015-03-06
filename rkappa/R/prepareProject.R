@@ -47,7 +47,11 @@ writeDir=FALSE
 		pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]
 	}
 #replace regex, string supposed to be replaced with index of the param set
-	parTest<-paste("^'[0-9A-Za-z_-]+",repReg,"'$",sep="")
+  if(!is.na(repReg)){
+    parTest<-paste("^'[0-9A-Za-z_-]+",repReg,"'$",sep="")
+  }else{
+    parTest<-"^'[0-9A-Za-z_-]+'$"
+  }
 	paramTab<-data.frame(i=0,name="n",min=0.00,max=0.00,stringsAsFactors=FALSE)[FALSE,]
 	n<-1
 	nL<-list()

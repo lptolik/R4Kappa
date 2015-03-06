@@ -32,14 +32,22 @@ write.kproject<-function(
     cLineL<-paste(' -i ../../',paste('param.ka.',i,sep=''),sep='')
     #		cLineL<-''
     for(j in names(kproject$templateLines)){
-      tLines<-gsub(repReg,i,kproject$templateLines[[j]])
+      if(!is.na(repReg)){
+        tLines<-gsub(repReg,i,kproject$templateLines[[j]])
+      }else{
+        tLines<-kproject$templateLines[[j]]
+      }
       writeLines(tLines,paste(projectdir,'/',j,'.',i,sep=''))
       cLineL<-paste(cLineL,' -i ../../',paste(j,'.',i,sep=''),sep='')
     }
     #		browser()
     pLines<-c(paste('#parameters for set',i))
     for(k in 1:dim(kproject$pTable)[1]){
+      if(!is.na(repReg)){
       pLines[k+1]<-paste("%var: '",gsub(repReg,i,kproject$pTable[k,'name']),"' ",kproject$paramSets[i,k],sep='')
+      }else{
+        pLines[k+1]<-paste("%var: '",kproject$pTable[k,'name'],"' ",kproject$paramSets[i,k],sep='')        
+      }
     }
     writeLines(pLines,paste(projectdir,'/param.ka.',i,sep=''))
     cLine<-paste(cLine,cLineL)
