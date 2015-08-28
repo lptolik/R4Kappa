@@ -1,9 +1,9 @@
 prepareProject <-function(
 ###Creates a infrastructure required to simulate kappa model with various parameter sets 
 ###and generate correspondent folder infrastructure
-project=paste("multi",format(Sys.time(), "%Y%m%d%H%M%S"),sep=''),
+project=NA,
 ###name of the project to be created, new folder will be created to contain the project 
-###files
+###files, if not specified multi_current_date stub will be used.
 numSets=500,
 ###number of parameter sets to be generated
 pTable,
@@ -42,6 +42,9 @@ writeDir=FALSE
 #         stop('Function is required package "gdata"');
 #       }
 ##files that do not need to be modified by the code
+  if(is.na(project)){
+    project<-paste("multi",format(Sys.time(), "%Y%m%d%H%M%S"),sep='')
+  }
 	kproject<-make.kproject(project,numSets,exec.path,repReg,type)
 	if(missing(pTable)){
 		pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]
@@ -116,9 +119,9 @@ writeDir=FALSE
 		data(templProject)
 			kproject$shLines<-templProject$shLines
 	}
-	if(!is.na(shFile)) kproject$shLines[['run.sh.templ']]<-readFiles(shFile)
-	if(!is.na(jobFile)) kproject$shLines[['job.sh.templ']]<-readFiles(jobFile)
-	if(!is.na(jobCFile)) kproject$shLines[['jobConc.sh.templ']]<-readFiles(jobCFile)
+	if(!is.na(shFile)) kproject$shLines[['run.sh.templ']]<-readFiles(shFile)[[1]]
+	if(!is.na(jobFile)) kproject$shLines[['job.sh.templ']]<-readFiles(jobFile)[[1]]
+	if(!is.na(jobCFile)) kproject$shLines[['jobConc.sh.templ']]<-readFiles(jobCFile)[[1]]
 	if(writeDir){
 		write.kproject(kproject)
 	}
@@ -131,9 +134,9 @@ writeDir=FALSE
 make.kproject<-function(
 ###Creates a infrastructure required to simulate kappa model with various parameter sets 
 ###and generate correspondent folder infrastructure
-project=paste("multi",format(Sys.time(), "%Y%m%d%H%M%S"),sep=''),
+project=NA,
 ###name of the project to be created, new folder will be created to contain the project 
-###files
+###files, if not specified multi_current_date stub will be used.
 numSets=500,
 ###list of parameter file names
 exec.path="~/kasim3/KaSim",
@@ -143,7 +146,10 @@ repReg="_-",
 type=c('parallel','concurrent','both')
 ###type of the project
 ){
-kproject<-list(name=project,createDate=format(Sys.time(), "%Y%m%d%H%M%S"))
+  if(is.na(project)){
+    project<-paste("multi",format(Sys.time(), "%Y%m%d%H%M%S"),sep='')
+  }
+  kproject<-list(name=project,createDate=format(Sys.time(), "%Y%m%d%H%M%S"))
 	class(kproject)<-'kproject'
 	paramTab<-data.frame(i=0, name="n", min=0.00, max=0.00, stringsAsFactors=FALSE)[FALSE,]
 	kproject$constLines<-list()
@@ -258,5 +264,6 @@ seed = 100##<<random generator seed to expand existing set in the project use \c
   }else{
     kproject$paramSets[nStart:numSets,]<-paramSets[nStart:numSets,]
   }
+  kproject$nSets<-dim(kproject$paramSets)[1]
   invisible(kproject) 
 }
