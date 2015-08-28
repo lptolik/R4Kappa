@@ -3,8 +3,7 @@
 \title{prepareProject}
 \description{Creates a infrastructure required to simulate kappa model with various parameter sets 
 and generate correspondent folder infrastructure}
-\usage{prepareProject(project = paste("multi", format(Sys.time(), "\%Y\%m\%d\%H\%M\%S"), 
-    sep = ""), numSets = 500, pTable, constantfiles = c("main_rnap_def_rule.ka", 
+\usage{prepareProject(project = NA, numSets = 500, pTable, constantfiles = c("main_rnap_def_rule.ka", 
     "main_rnap_init.ka", "main_rnap_param.ka"), templatefiles = c("var_prom_def.ka", 
     "var_prom_init.ka", "var_prom_rule.ka"), paramfile = c("var_prom_param.ka"), 
     k_min = 0.1, k_max = 10, exec.path = "~/kasim3/KaSim", shFile = NA, 
@@ -12,7 +11,7 @@ and generate correspondent folder infrastructure}
         "concurrent", "both"), writeDir = FALSE)}
 \arguments{
   \item{project}{name of the project to be created, new folder will be created to contain the project 
-files}
+files, if not specified multi_current_date stub will be used.}
   \item{numSets}{number of parameter sets to be generated}
   \item{pTable}{Parameter ranges data frame. Should contain columns \code{param} with parameter names, 
 \code{Min} and \code{Max} with parameter ranges. Names in \code{param} column should 

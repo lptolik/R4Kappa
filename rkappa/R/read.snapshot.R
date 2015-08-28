@@ -12,7 +12,7 @@ dir##<<name of the folder with project simulation results
 	flog.info(paste('snap',1))
 	for(i in 2:kproject$nSets){
 		r<-read.snap.folder(paste(dir,paste('pset',i,sep=''),sep='/'))
-		if(!is.na(r)){
+		if(!any(is.na(r))){
 			r$Set<-i;
 			res<-rbind(res,r);
 		}
