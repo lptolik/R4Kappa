@@ -45,7 +45,7 @@ columns=fullflexible,						%makes character spacing nice
 %\VignetteIndexEntry{RKappa ABC Binding Model Analysis Examples}
 
 \begin{document}
-<<setup, include = FALSE, cache=FALSE>>=
+<<setup, include = FALSE, cache=FALSE,message=FALSE,warning=FALSE>>=
 library(knitr)
 # set global chunk options
 opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
@@ -57,7 +57,7 @@ library(xtable)
 \setlength{\parskip}{0.3cm}
 \title{RKappa ABC complex Examples}
 \author{Anatoly Sorokin}
-\date{Package version 1.0.140923}
+\date{Package version 1.1.1509023}
 \maketitle
 \tableofcontents
 \bigskip
@@ -150,7 +150,7 @@ In theory for parallel sensitivity we could keep most of the model in constant p
 \section{Project definition. Parallel sensitivity}
 
 We will start working with library rkappa by loading it:
-<<load-library, include = TRUE, cache=FALSE, results='hide'>>=
+<<load-library, include = TRUE, cache=FALSE, results='hide',message=FALSE,warning=FALSE>>=
 library(rkappa)
 @
 
@@ -270,7 +270,7 @@ xyplot(values~time|ind,t)
 @
 
 The PRCC sensitivity value could be calculated with command:
-<<timed-parallel-sens, results='hide', cache=TRUE,tidy_source=TRUE>>=
+<<timed-parallel-sens, results='hide', cache=TRUE,tidy_source=TRUE,message=FALSE,warning=FALSE>>=
 tcs<-timed.concurrent.sensitivity(abcProj$paramSet, 
            abcObs$resPar, outName='AB[0-9]+', nboot=0)
 @
