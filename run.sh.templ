@@ -1,5 +1,5 @@
 #!/bin/bash
-numEv=10
+numEv=%nRep%
 time=1000
 out=100
 if [ "$1" != "" ]; then
@@ -13,10 +13,10 @@ fi
 
 i=1
 echo $i
-mkdir -p "./pset***/try$i"
-cd "./pset***/try$i"
+mkdir -p "./pset%setIndx%/try$i"
+cd "./pset%setIndx%/try$i"
 echo "$KASIM_EXE -t $time -p $out -d "./" -make-sim ../prom.kasim"
-$KASIM_EXE _- -t $time -p $out -d "./" -make-sim ../prom.kasim
+$KASIM_EXE %inputs% -t $time -p $out -d "./" -make-sim ../prom.kasim
 cd ../
 while [ $i -lt $numEv ]
 do
