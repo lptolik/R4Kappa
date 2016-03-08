@@ -13,4 +13,4 @@ R CMD INSTALL rkappa_version_number.tar.gs
 Models for the paper "RKappa: Statistical sampling suite for Kappa models" are located in the directory models.
 
 ## License
-This library is licenced under the GNU General Public Licence Version 3 (GPLv3), included as <LICENSE.txt>. 
+This library is licenced under the GNU General Public Licence Version 3 (GPLv3), included as **LICENSE.txt**. 
