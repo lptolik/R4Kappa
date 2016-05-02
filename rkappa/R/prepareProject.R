@@ -126,7 +126,7 @@ writeDir=FALSE
 		write.kproject(kproject)
 	}
 #	save(x1,paramTab,project,numSets,ptFile,constantfiles,templatefiles,paramfile,exec.path,shFile,jobFile,repReg,file=paste(project,'/param.Rdat',sep=''))
-	kproject$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
+  kproject$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
 	return(kproject)
 ###project object
 }
@@ -189,7 +189,8 @@ type=project$type
 #         stop('Function is required package "gdata"');
 #       }
 	res<-project
-	res$date=format(Sys.time(), "%Y%m%d%H%M%S")
+	res$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
+	res$dateC=format(Sys.time(), "%Y%m%d%H%M%S")
 	if(!is.na(name)){
 		res$name<-name
 	}else{
@@ -265,5 +266,6 @@ seed = 100##<<random generator seed to expand existing set in the project use \c
     kproject$paramSets[nStart:numSets,]<-paramSets[nStart:numSets,]
   }
   kproject$nSets<-dim(kproject$paramSets)[1]
+  kproject$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
   invisible(kproject) 
 }
