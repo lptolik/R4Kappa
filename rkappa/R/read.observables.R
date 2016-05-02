@@ -10,18 +10,23 @@ read.observables.default <-function(
 file,##<<name of the observable file
 ...##<<other parameters
 ){
-l<-readLines(file)
-l[1]<-sub('#','',l[1])
-l<-sub('^ *','',l)
-top<-options(show.error.messages=FALSE)
-dat<-try(read.table(header=TRUE,text=l,sep=' '))
-if(inherits(dat,'try-error')){
-l<-l[1:(length(l)-1)]
-dat<-read.table(header=TRUE,text=l,sep=' ')
-}
-options(top)
-return(dat)
-###data frame of observables
+  top<-options(show.error.messages=FALSE)
+  l<-try(readLines(file))
+  if(!inherits(l,'try-error')){
+    
+    l[1]<-sub('#','',l[1])
+    l<-sub('^ *','',l)
+    dat<-try(read.table(header=TRUE,text=l,sep=' '))
+    if(inherits(dat,'try-error')){
+      l<-l[1:(length(l)-1)]
+      dat<-read.table(header=TRUE,text=l,sep=' ')
+    }
+  }else{
+    dat<-data.frame()
+  }
+  options(top)
+  return(dat)
+  ###data frame of observables
 }
 
 read.observables.kproject<-function(
@@ -79,39 +84,49 @@ file,##<<location of the folder to read
 aggregate=FALSE,##<<wether aggregate data on the fly or return raw dataset
 block.size=10##<<number of simulations to aggregate
 ){
-	dir(file,pattern='try*')->tries
-	res<-c();
-	if(length(tries)>0){
-		res<-read.observables(paste(file,tries[1],'data.out',sep='/'))
-		res<-cbind(res,data.frame(N=1))
-		flog.info(paste(file,tries[1],'data.out',sep='/'))
-		block<-1;
-		for(i in tries[-1]){
-			r<-read.observables(paste(file,i,'data.out',sep='/'))
-			if(dim(r)[1]==0) next;
-			res<-rbind(res,cbind(r,
-				data.frame(N=1)))
-			if(aggregate){
-				if(block>=block.size){
-					block=0;
-					flog.info('aggregate start')
-					res<-ddply(res,.(time),function(.x)colSums(.x[,names(.x)!='time']))
-					flog.info('aggregate over')
-				}
-			}
-			block<-block+1;
-			flog.info(paste(block,paste(file,i,'data.out',sep='/')))
-		}
-		if(aggregate){
-			flog.info('aggregate start')
-			res<-ddply(res,.(time),function(.x)colSums(.x[,names(.x)!='time']))
-			flog.info('aggregate over')
-			ind<-!names(res)%in%c('time','N')
-			res[,ind]<-res[,ind]/res$N;
-		}
-	}
-	return(res)
-###data from the folder
+  dir(file,pattern='try*')->tries
+  res<-c();
+  if(length(tries)>0){
+    res<-read.observables(paste(file,tries[1],'data.out',sep='/'))
+    if(dim(res)[1]>0){
+      res<-cbind(res,data.frame(N=1))
+    }
+    flog.info(paste(file,tries[1],'data.out',sep='/'))
+    block<-1;
+    if(length(tries)>1){
+      for(j in 2:length(tries)){
+        i<-tries[j]
+        r<-read.observables(paste(file,i,'data.out',sep='/'))
+        if(dim(r)[1]==0) next;
+        if(dim(res)[1]>0){
+          res<-rbind(res,cbind(r,
+                               data.frame(N=j)))
+        }else{
+          res<-cbind(r,
+                     data.frame(N=j))
+        }
+        if(aggregate){
+          if(block>=block.size){
+            block=0;
+            flog.info('aggregate start')
+            res<-ddply(res,.(time),function(.x)colSums(.x[,names(.x)!='time']))
+            flog.info('aggregate over')
+          }
+        }
+        block<-block+1;
+        flog.info(paste(block,paste(file,i,'data.out',sep='/')))
+      }
+    }
+    if(aggregate){
+      flog.info('aggregate start')
+      res<-ddply(res,.(time),function(.x)colSums(.x[,names(.x)!='time']))
+      flog.info('aggregate over')
+      ind<-!names(res)%in%c('time','N')
+      res[,ind]<-res[,ind]/res$N;
+    }
+  }
+  return(res)
+  ###data from the folder
 }
 
 accum<-function(
