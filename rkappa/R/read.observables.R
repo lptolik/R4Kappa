@@ -140,7 +140,7 @@ getSmoothTS<-function(
   tStep<-mean(timeSum$timeStep)
   nStep<-round(mean(timeSum$num))
   nTime<-seq(from=0,by=tStep,length.out = nStep+1)
-  res<-data.frame(time=nTime)
+  res<-data.frame(time=nTime,N=max(N))
   for(c in dataC){
     ny<-predict(smooth.spline(x = dat$time,y=dat[,c]),nTime)
     res[,c]<-ny$y
