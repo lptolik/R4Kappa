@@ -1,4 +1,7 @@
-makeSiteGraph<-function(kp){
+makeSiteGraph<-function(
+  ###function to create igraph representation of kappa string with sites being separate nodes
+  kp##<< kappa string to convert
+  ){
   edges<-list()
   agents<-list()
   agmarks<-list()
@@ -50,7 +53,15 @@ makeSiteGraph<-function(kp){
   }
   g$marks<-agmarks
   return(g) 
+  ###site graph in igraph 
 }
-plotRuleGraph(kp){
-  
+
+plotRuleGraph<-function(
+  ### Creates site graph and plot it
+  kp##<< kappa string to convert
+){
+  gLHS<-makeSiteGraph(kp)
+  lL<-layout_with_fr(gLHS)
+  lL<-layout_(gLHS,with_fr(coords = lL),normalize())
+  plot(gLHS,layout=lL,vertex.shape='sphere',rescale=FALSE,vertex.label.cex=2)
 }

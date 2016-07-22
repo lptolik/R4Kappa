@@ -6,7 +6,7 @@
 \arguments{
   \item{kproject}{project to prepare sets for}
   \item{nStart}{start index of the set}
-  \item{nSets}{number of the set}
+  \item{nSets}{number of the sets to be added}
   \item{seed}{random generator seed to expand existing set in the project use \code{kproject$seed}}
 }
 
