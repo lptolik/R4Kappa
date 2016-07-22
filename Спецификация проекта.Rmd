@@ -74,14 +74,35 @@ header-includes:
 ### nSets
 Число точек в пространстве параметров, которые будут выведены для симуляции. Должно быть меньше либо равно числу строк в таблице paramSets. Если nSets>paramSets, при попытки экспорта проекта в исполняемый фолдер возникнет ошибка. В этом случае дополнительные строки можно создать используя функцию *addSets*.
 
-### pTable"
+### pTable
 Таблица диапазонов параметров. 
 
-### seed"
-Таблица 
-### paramSets"
+### seed
+Затравка для генератора случайных чисел, обеспечивающая возможность увеличения числа точек наблюдения без перестройки всей таблицы параметров.
+
+### paramSets
+Таблица наборов параметров. Число столбцов совпадает с количеством меняемых параметров, число строк должно быть больше или равно nSets. Если число строк меньше nSets при записи проекта будет выдано сообщение об ошибке и фолдер проекта создан не будет, если больше -- предупреждение и в фолдере будут только nSets наборов.
 
 ## Шаблоны симуляции моделей
+
+### paramLines
+Файл содержащий определение изменяемых параметров. Ничего кроме них в файле быть не должно.
+
+### shLines
+#### run.sh.templ
+
+the script defining some basic steps to evaluate one parameter set. The script repeat simulation of the defined model several times and store results in predefined set of folders. It is this script that defines the simulation engine and it has to be modified for use with different version of KaSim or other simulation engine (NFsim for example).
+
+#### job.sh.templ
+
+the whole job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+
+#### jobConc.sh
+the concurrent sensitivity job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+
+### templateLines
+
+### constLines
 
 ### Необходимые
 * eventNum -- число реакционных событий, которые должны быть просимулированы

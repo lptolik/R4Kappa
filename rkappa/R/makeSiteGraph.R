@@ -51,3 +51,6 @@ makeSiteGraph<-function(kp){
   g$marks<-agmarks
   return(g) 
 }
+plotRuleGraph(kp){
+  
+}
