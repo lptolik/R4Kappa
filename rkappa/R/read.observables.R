@@ -17,10 +17,10 @@ file,##<<name of the observable file
     
     l[1]<-sub('#','',l[1])
     l<-sub('^ *','',l)
-    dat<-try(read.table(header=TRUE,text=l,sep=' '))
+    dat<-try(read.table(header=TRUE,text=l,sep=' ',na.strings = "NAN"))
     if(inherits(dat,'try-error')){
       l<-l[1:(length(l)-1)]
-      dat<-read.table(header=TRUE,text=l,sep=' ')
+      dat<-read.table(header=TRUE,text=l,sep=' ',na.strings = "NAN")
     }
   }else{
     dat<-data.frame()
@@ -141,9 +141,10 @@ getSmoothTS<-function(
   tStep<-mean(timeSum$timeStep)
   nStep<-round(mean(timeSum$num))
   nTime<-seq(from=0,by=tStep,length.out = nStep+1)
-  res<-data.frame(time=nTime,N=max(N))
+  res<-data.frame(time=nTime,N=max(timeSum$N))
   for(c in dataC){
-    ny<-predict(smooth.spline(x = dat$time,y=dat[,c]),nTime)
+    indx<-which(!is.na(dat[,c]))
+    ny<-predict(smooth.spline(x = dat$time[indx],y=dat[indx,c]),nTime)
     res[,c]<-ny$y
   }
   return(res)
