@@ -7,8 +7,8 @@ prepare.validation.project<-function(
 ){
   vproject<-kproject
   vLines<-vproject$shLines[['run.sh.templ']]
-#  emptylines<-which(grepl('^\\s*$',vLines))
-#  vLines[emptylines[1]]<-"export KASIM_EXE=%execPath%"
+  #  emptylines<-which(grepl('^\\s*$',vLines))
+  #  vLines[emptylines[1]]<-"export KASIM_EXE=%execPath%"
   vproject$shLines$validate<-vLines
   vproject$execPath=exe
   vproject$nRep<-nrep
@@ -36,6 +36,36 @@ validate.kproject<-function(
     system2('rm',args=c('-rf',dir),stderr=FALSE,stdout=FALSE,wait=FALSE)
   }
   return(out)
+  ###return the output of simulation 
+}
+
+run.kproject<-function(
+  ###Prepare content of the \code{kproject} to the temp folder and run particular paramset
+  kproject,##<<object to write
+  dir=tempdir(),##<<optional destination directory to execute validation package
+  nrep=10,##<<optional number of repetitive evaluation calls to KaSim. 10 is recommended as it allows to check proper generation and invocation of simulation package
+  ntime=10,##<<optional number of repetitive evaluation calls to KaSim. 10 is recommended as it allows to check proper generation and invocation of simulation package
+  nset=1,##<<optional vector of indexes for the parameter set to execute
+  save=FALSE,##<<logical which indicates wether to save results of the simulation
+  exe=kproject$execPath##<<optional local KaSim executable path to validate the model, if different from the execPath of the main project
+){
+  write.kproject(kproject,dir)
+  cwd<-getwd()
+  setwd(dir)
+  out<-list()
+  for(i in nset){
+    system2(paste0('./run',i,'.sh'),args=c(nrep,ntime),stderr=TRUE,stdout=TRUE)->o
+    out[[paste0('pset',i)]]<-o
+  }
+  respr<-read.observables.kproject(kproject = kproject,dir = './')
+  snap<-read.snapshot.kproject(kproject = kproject,dir = './')
+  respr$snapshots<-snap
+  respr$simulationOutput<-out
+  setwd(cwd)
+  if(!save){
+    system2('rm',args=c('-rf',dir),stderr=FALSE,stdout=FALSE,wait=FALSE)
+  }
+  return(respr)
   ###return the output of simulation 
 }
 

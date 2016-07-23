@@ -1,0 +1,14 @@
+# Reaction rules
+'assocAB'  A(b), B(a) -> A(b!0), B(a!0) @ 'BNDab'
+'dissocAB' A(b!0), B(a!0) -> A(b), B(a) @ 'BRK'
+'assocAA'  A(a), A(a) -> A(a!0), A(a!0) @ 'BNDaa'
+'dissocAA' A(a!0), A(a!0) -> A(a), A(a) @ 'BRK'
+'assocBB'  B(b), B(b) -> B(b!0), B(b!0) @ 'BNDbb'
+'dissocBB' B(b!0), B(b!0) -> B(b), B(b) @ 'BRK'
+
+'assocAC'  A(c), C(a) -> A(c!0), C(a!0) @ 'BNDac'
+'dissocAC' A(c!0), C(a!0) -> A(c), C(a) @ 'BRK'
+
+'assocBD'  B(d), D(b) -> B(d!0), D(b!0) @ 'BNDbd'
+'dissocBD' B(d!0), D(b!0) -> B(d), D(b) @ 'BRK'
+

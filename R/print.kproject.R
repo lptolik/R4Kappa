@@ -9,6 +9,7 @@ x
 	cat("Sets:",x$nSets,"\n")
 	cat("---------------\n")
 }
+
 summary.kproject<-function(
 ###Kproject class summary method
 object
@@ -21,6 +22,7 @@ object
 	class(res)<-'summary.kproject'
 ###kproject.summary object
 }
+
 print.summary.kproject<-function(
 ###Kproject.summary print method
 x,

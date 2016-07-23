@@ -1,0 +1,2 @@
+# Snapshot definition
+%mod: repeat ([E+] > 1) && ([E+] [mod] 100)=0 do $SNAPSHOT "cABCD" until [false]

@@ -1,0 +1,12 @@
+# Template parameters definition
+%var: 'vol' 0.1
+%var: 'nA'  1000 * 'vol'
+%var: 'nB'  1000 * 'vol'
+%var: 'nC'  1000 * 'vol'
+%var: 'nD'  1000 * 'vol'
+%var: 'BND' 'MOD_-' / 'vol' # Bimolecular reaction rate depends upon volume
+%var: 'BNDaa' 'BND' * 'aa_-'
+%var: 'BNDbb' 'BND' * 'bb_-'
+%var: 'BNDab' 'BND' * 'ab_-'
+%var: 'BNDac' 'BND' * 'ac_-'
+%var: 'BNDbd' 'BND' * 'bd_-'

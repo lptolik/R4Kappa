@@ -2,24 +2,34 @@ read.snapshot.kproject<-function(
 ###function to read and parse KaSim simulation results
 kproject,##<<project to handle
 dir##<<name of the folder with project simulation results
-){
-	if(!require(futile.logger)){
-         stop('Function is required package "futile.logger"');
-	}
-	flog.info('start')
-	res<-read.snap.folder(paste(dir,'pset1',sep='/'))
-	res$Set<-1;
-	flog.info(paste('snap',1))
-	for(i in 2:kproject$nSets){
-		r<-read.snap.folder(paste(dir,paste('pset',i,sep=''),sep='/'))
-		if(!any(is.na(r))){
-			r$Set<-i;
-			res<-rbind(res,r);
-		}
-	flog.info(paste('snap',i))
-	}
-	return(res);
+) {
+  if (!require(futile.logger)) {
+    stop('Function is required package "futile.logger"')
+    
+  }
+  flog.info('start')
+  psets<-dir(dir,pattern='pset.*')
+  f<-psets[1]
+  i<-as.integer(gsub('pset','',f))
+    res <- read.snap.folder(paste(dir, f, sep = '/'))
+    res$Set <- i
+    
+    flog.info(paste('snap', 1))
+    for (f in psets[-1]) {
+      i<-as.integer(gsub('pset','',f))
+      r <- read.snap.folder(paste(dir, f, sep = '/'))
+      if (!any(is.na(r))) {
+        r$Set <- i
+        
+        res <- rbind(res, r)
+        
+      }
+      flog.info(paste('snap', i))
+    }
+  return(res)
+  
 }
+
 read.snap.folder<-function(
 ###utulity function to read content of one \code{pset} folder
 file##<<location of the folder to read

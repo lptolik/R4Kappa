@@ -126,7 +126,7 @@ writeDir=FALSE
 		write.kproject(kproject)
 	}
 #	save(x1,paramTab,project,numSets,ptFile,constantfiles,templatefiles,paramfile,exec.path,shFile,jobFile,repReg,file=paste(project,'/param.Rdat',sep=''))
-	kproject$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
+  kproject$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
 	return(kproject)
 ###project object
 }
@@ -189,7 +189,8 @@ type=project$type
 #         stop('Function is required package "gdata"');
 #       }
 	res<-project
-	res$date=format(Sys.time(), "%Y%m%d%H%M%S")
+	res$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
+	res$dateC=format(Sys.time(), "%Y%m%d%H%M%S")
 	if(!is.na(name)){
 		res$name<-name
 	}else{
@@ -227,10 +228,13 @@ readFiles<-function(
 files##<<vector of file names to read
 ){
 	cF<-list();
+	fNames<-gsub('.*[^/]+/([^/]+)$','\\1',files)
 	if(!any(is.na(files))){
-		for(file in files){
+		for(i in 1:length(files)){
+		  file<-files[i]
+		  fn<-fNames[i]
 			nmLines<-readLines(file)
-			cF[file]<-list(nmLines)
+			cF[fn]<-list(nmLines)
 		}
 	}
 	return(cF)
@@ -241,7 +245,7 @@ addSets<-function(
 ###Prepare new set of parameter vectors for \code{kproject}
 kproject,##<<project to prepare sets for
 nStart=1,##<<start index of the set
-nSets=500,##<<number of the set
+nSets=500,##<<number of the sets to be added
 seed = 100##<<random generator seed to expand existing set in the project use \code{kproject$seed}
 ){
   kproject$pTable->paramTab
@@ -265,5 +269,6 @@ seed = 100##<<random generator seed to expand existing set in the project use \c
     kproject$paramSets[nStart:numSets,]<-paramSets[nStart:numSets,]
   }
   kproject$nSets<-dim(kproject$paramSets)[1]
+  kproject$updateDate=format(Sys.time(), "%Y%m%d%H%M%S")
   invisible(kproject) 
 }

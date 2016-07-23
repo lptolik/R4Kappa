@@ -5,6 +5,7 @@ object,##<<object to read from
 ){
 UseMethod("read.observables")
 }
+
 read.observables.default <-function(
 ###function to read and parse KaSim simulation results
 file,##<<name of the observable file
@@ -16,10 +17,10 @@ file,##<<name of the observable file
     
     l[1]<-sub('#','',l[1])
     l<-sub('^ *','',l)
-    dat<-try(read.table(header=TRUE,text=l,sep=' '))
+    dat<-try(read.table(header=TRUE,text=l,sep=' ',na.strings = "NAN"))
     if(inherits(dat,'try-error')){
       l<-l[1:(length(l)-1)]
-      dat<-read.table(header=TRUE,text=l,sep=' ')
+      dat<-read.table(header=TRUE,text=l,sep=' ',na.strings = "NAN")
     }
   }else{
     dat<-data.frame()
@@ -49,30 +50,29 @@ dir##<<name of the folder with project simulation results
 	}
 	pPar<-NA
 	if(kproject$type=='parallel'|kproject$type=='both'){
-		p<-read.sim.folder(paste(dir,'pset1',sep='/'))
-		pPar<-ddply(p, .(time), colMeans)
+	  psets<-dir(dir,pattern='pset.*')
+	  f<-psets[1]
+		p<-read.sim.folder(paste(dir,f,sep='/'))
+		i<-as.integer(gsub('pset','',f))
+		#pPar<-ddply(p, .(time), colMeans)
+		pst<-data.frame(pset=i)
+		pOrig<-cbind(p,pst)
+		pPar<-cbind(getSmoothTS(p),pst)
 		names(pPar)->n
 		flog.info(paste('parallel',1))
-		for(i in 2:kproject$nSets){
-			p<-read.sim.folder(paste(dir,paste('pset',i,sep=''),sep='/'))
+		for(f in psets[-1]){
+		  i<-as.integer(gsub('pset','',f))
+		  pst<-data.frame(pset=i)
+			p<-read.sim.folder(paste(dir,f,sep='/'))
 			if(length(p)>0){
-				s<-ddply(p,.(time),colMeans,.progress = "text")
-				if(any(names(s) %in% n)){
-					names(s)[names(s) %in% n]<-paste(names(s)[names(s) %in% n],i,sep='')
-				}
-				if(dim(pPar)[1]!=dim(s)[1]){
-					if(dim(pPar)[1]>dim(s)[1]){
-						s[dim(pPar)[1],]<-NA
-					}else if(dim(pPar)[1]<dim(s)[1]){
-						pPar[dim(s)[1],]<-NA
-					}
-				}
-				pPar<-cbind(pPar,s)
+				s<-cbind(getSmoothTS(p),pst)#ddply(p,.(time),colMeans,.progress = "text")
+				pPar<-rbind(pPar,s)
+				pOrig<-rbind(pOrig,cbind(p,pst))
 				flog.info(paste('parallel',i))
 			}
 		}
 	}
-	kprojectSimExp<-list(project=kproject,resConc=pConc,resPar=pPar)
+	kprojectSimExp<-list(project=kproject,resConc=pConc,resPar=pPar,orgPar=pOrig)
 	class(kprojectSimExp)<-'kprojectSimExp'
 	return(kprojectSimExp)
 ###object of \code{kprojectSimExp} class that stores both project and simulation experiment results
@@ -127,6 +127,31 @@ block.size=10##<<number of simulations to aggregate
   }
   return(res)
   ###data from the folder
+}
+
+getSmoothTS<-function(
+### utility function to calculate smoothed version of time series observables. Infinite values and NA points will be ignored
+  dat,##<< data.frame with oblervables for paramset in long format (i.e. try sets stacked together)
+  timeC='time',##<< name of the time column
+  nC='N',##<< name of try number column
+  dataC=setdiff(names(dat),c('time','N'))##<< names of the columns to make smoothing over
+){
+  ddply(dat,.(N),
+        summarize,
+        mTime=max(time),
+        timeStep=max(time)/length(time),
+        num=length(time)
+        )->timeSum
+  tStep<-mean(timeSum$timeStep)
+  nStep<-round(mean(timeSum$num))
+  nTime<-seq(from=0,by=tStep,length.out = nStep+1)
+  res<-data.frame(time=nTime,N=max(timeSum$N))
+  for(c in dataC){
+    indx<-which(is.finite(dat[,c]))
+    ny<-predict(smooth.spline(x = dat$time[indx],y=dat[indx,c]),nTime)
+    res[,c]<-ny$y
+  }
+  return(res)
 }
 
 accum<-function(
