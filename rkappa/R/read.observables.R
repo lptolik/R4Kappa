@@ -50,16 +50,20 @@ dir##<<name of the folder with project simulation results
 	}
 	pPar<-NA
 	if(kproject$type=='parallel'|kproject$type=='both'){
-		p<-read.sim.folder(paste(dir,'pset1',sep='/'))
+	  psets<-dir(dir,pattern='pset.*')
+	  f<-psets[1]
+		p<-read.sim.folder(paste(dir,f,sep='/'))
+		i<-as.integer(gsub('pset','',f))
 		#pPar<-ddply(p, .(time), colMeans)
-		pst<-data.frame(pset=1)
+		pst<-data.frame(pset=i)
 		pOrig<-cbind(p,pst)
 		pPar<-cbind(getSmoothTS(p),pst)
 		names(pPar)->n
 		flog.info(paste('parallel',1))
-		for(i in 2:kproject$nSets){
+		for(f in psets[-1]){
+		  i<-as.integer(gsub('pset','',f))
 		  pst<-data.frame(pset=i)
-			p<-read.sim.folder(paste(dir,paste('pset',i,sep=''),sep='/'))
+			p<-read.sim.folder(paste(dir,f,sep='/'))
 			if(length(p)>0){
 				s<-cbind(getSmoothTS(p),pst)#ddply(p,.(time),colMeans,.progress = "text")
 				pPar<-rbind(pPar,s)
@@ -126,7 +130,7 @@ block.size=10##<<number of simulations to aggregate
 }
 
 getSmoothTS<-function(
-### utility function to calculate smoothed version of time series observables
+### utility function to calculate smoothed version of time series observables. Infinite values and NA points will be ignored
   dat,##<< data.frame with oblervables for paramset in long format (i.e. try sets stacked together)
   timeC='time',##<< name of the time column
   nC='N',##<< name of try number column
@@ -143,7 +147,7 @@ getSmoothTS<-function(
   nTime<-seq(from=0,by=tStep,length.out = nStep+1)
   res<-data.frame(time=nTime,N=max(timeSum$N))
   for(c in dataC){
-    indx<-which(!is.na(dat[,c]))
+    indx<-which(is.finite(dat[,c]))
     ny<-predict(smooth.spline(x = dat$time[indx],y=dat[indx,c]),nTime)
     res[,c]<-ny$y
   }

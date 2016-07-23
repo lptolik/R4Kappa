@@ -45,16 +45,22 @@ run.kproject<-function(
   dir=tempdir(),##<<optional destination directory to execute validation package
   nrep=10,##<<optional number of repetitive evaluation calls to KaSim. 10 is recommended as it allows to check proper generation and invocation of simulation package
   ntime=10,##<<optional number of repetitive evaluation calls to KaSim. 10 is recommended as it allows to check proper generation and invocation of simulation package
-  nset=1,##<<optional index of the parameter set to execute
+  nset=1,##<<optional vector of indexes for the parameter set to execute
   save=FALSE,##<<logical which indicates wether to save results of the simulation
   exe=kproject$execPath##<<optional local KaSim executable path to validate the model, if different from the execPath of the main project
 ){
   write.kproject(kproject,dir)
   cwd<-getwd()
   setwd(dir)
-  system2(paste0('./run',nset,'.sh'),args=c(nrep,ntime),stderr=TRUE,stdout=TRUE)->out
-  respr<-read.observables.kproject(kproject = kproject,dir = dir)
-  respr$simout<-out
+  out<-list()
+  for(i in nset){
+    system2(paste0('./run',i,'.sh'),args=c(nrep,ntime),stderr=TRUE,stdout=TRUE)->o
+    out[[paste0('pset',i)]]<-o
+  }
+  respr<-read.observables.kproject(kproject = kproject,dir = './')
+  snap<-read.snapshot.kproject(kproject = kproject,dir = './')
+  respr$snapshots<-snap
+  respr$simulationOutput<-out
   setwd(cwd)
   if(!save){
     system2('rm',args=c('-rf',dir),stderr=FALSE,stdout=FALSE,wait=FALSE)
