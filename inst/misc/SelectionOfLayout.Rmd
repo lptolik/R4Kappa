@@ -1,0 +1,255 @@
+---
+title: "SelectionOfLayout"
+author: "Anatoly Sorokin"
+date: "26 Sep 2015"
+output: html_document
+---
+```{r libraries, echo=TRUE,message=FALSE,warning=FALSE}
+library(knitr)
+library(igraph)
+library(rkappa)
+makeSiteGraph<-function(kp){
+  edges<-list()
+  agents<-list()
+  g <- graph.empty(n = 0, directed =FALSE)
+  cl<-colors()
+  vcl<-list()
+  idx<-0
+  subg<-0
+  #kp<-triskelia
+  subg<-subg+1
+  k<-sub('\\)$','',kp)
+  unlist(strsplit(k,'),',fixed=TRUE))->parts
+  strs<-lapply(strsplit(parts,'[(,]'),function(x) strsplit(x,'!'))
+  for(i in 1:length(strs)){
+    idx<-idx+1
+    n<-strs[[i]][[1]]
+    nname=paste(n,idx,sep='_')
+    nidx<-idx
+    if(!(n %in% names(vcl))){
+      vcl[[n]]<-colors()[8+length(vcl)*3]
+    }
+    if(!(n %in% names(agents))){
+      agents[[n]]<-list()
+    }
+    g<-add.vertices(g,1,attr=list(name=n,name2=nname,color=vcl[[n]],type='agent',size=30))
+    for(j in 2:length(strs[[i]])){
+      s<-strs[[i]][[j]][1]
+      if(!(s %in% names(agents[[n]]))){
+        agents[[n]][[s]]<-list()
+      }
+      idx<-idx+1
+      g<-add.vertices(g,1,attr=list(name=s,name2=paste0('site_',s),color=vcl[[n]],type='site',size=15))
+      g<-add.edges(g,c(nidx,idx),type='site',weight=10)
+      if(length(strs[[i]][[j]])>1){
+        agents[[n]][[s]]<-append(agents[[n]][[s]],strs[[i]][[j]][2])
+        e<-paste(strs[[i]][[j]][2],subg,sep='_')
+        if(e %in% names(edges)){
+          g<-add.edges(g,c(edges[[e]],idx),type='bond',weight=1)
+        }else{
+          edges[e]<-idx
+        }
+      }
+    }
+  }
+  return(g)
+}
+
+```
+
+# Make graphs
+
+```{r prepare.graph}
+triskelia<-'Cl(l!1,r!2),Cl(r!1,l!3),Cl(r!3,l!2)'
+pentagonLHS<-paste0('Cl(Pd!0,l!1,r!2),Cl(Pp!3,d!4,l!5,r!1),',
+                    'Cl(Pd!6,Pp!7,d!8,l!2,r!5),Cl(Pd!9,l!10,r!11),',
+                    'Cl(Pp,d,l!12,r!10),Cl(Pd,Pp!13,d!14,l!11,r!12),',
+                    'Cl(Pd!4,l!15,r!16),Cl(Pp!17,d!18,l!19,r!15),',
+                    'Cl(Pd!20,Pp!3,d!6,l!16,r!19),Cl(Pd!8,Pp,d,l!29,r!30),',
+                    'Cl(Pd,l!32,r!29),Cl(Pp!7,d!0,l!30,r!32),',
+                    'Cl(Pp!13,d!9,l!33,r!34),Cl(Pd!14,Pp!17,d!20,l!35,r!33),',
+                    'Cl(Pd!18,l!34,r!35)')
+gLarge<-makeSiteGraph(pentagonLHS)
+gSmall<-makeSiteGraph(triskelia)
+```
+
+# Layout
+
+## Circule
+```{r layout.circule}
+l<-layout_in_circle(gLarge)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_in_circle(gSmall)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+
+```
+
+## Kamada-Kavai
+### Standard weight
+```{r layout.kk.base}
+l<-layout_with_kk(gLarge,weights = 1/(E(gLarge)$weight))
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_kk(gSmall,weights = 1/(E(gSmall)$weight))
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+### Scaled weight
+```{r layout.kk.scale}
+l<-layout_with_kk(gLarge,weights = 10/(E(gLarge)$weight))
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_kk(gSmall,weights = 10/(E(gSmall)$weight))
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+### Size-scaled weight
+```{r layout.kk.size}
+l<-layout_with_kk(gLarge,weights = vcount(gLarge)^2/(E(gLarge)$weight))
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_kk(gSmall,weights = vcount(gSmall)^2/(E(gSmall)$weight))
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+## Bipartite
+```{r layout.bipartite}
+l<-layout_as_bipartite(gLarge,types = V(gLarge)$type=='agent')
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_as_bipartite(gSmall,types = V(gSmall)$type=='agent')
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+## Sugiyama
+```{r layout.sugiyama}
+l<-layout_with_sugiyama(gLarge)
+plot(l$extd_graph,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_sugiyama(gSmall)
+plot(l$extd_graph,main=paste('Smal with ',opts_current$get("label")))
+```
+
+## Nicely
+```{r layout.nicely}
+l<-layout_nicely(gLarge)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_nicely(gSmall)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+### Nicely with weight
+```{r layout.nicely.weight}
+l<-layout_nicely(gLarge,weights=V(gLarge)$weight*vcount(gLarge))
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_nicely(gSmall,weights=V(gSmall)$weight*vcount(gSmall))
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+## Davidson-Harel
+```{r layout.dh}
+l<-layout_with_dh(gLarge)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_dh(gSmall)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+
+```
+
+## The GEM layout algorithm
+```{r layout.gem}
+l<-layout_with_gem(gLarge)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_gem(gSmall)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+
+```
+
+## GraphOpt
+```{r layout.graphopt}
+l<-layout_with_graphopt(gLarge)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_graphopt(gSmall)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+### With spring length
+```{r layout.graphopt.spring.length}
+l<-layout_with_graphopt(gLarge,spring.length =1/V(gLarge)$weight)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_graphopt(gSmall,spring.length =1/V(gSmall)$weight)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+### With spring constant
+```{r layout.graphopt.spring.strength}
+l<-layout_with_graphopt(gLarge,spring.constant  =V(gLarge)$weight)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_graphopt(gSmall,spring.constant = V(gSmall)$weight)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+### With initial placement
+```{r layout.graphopt.init}
+lc<-layout_in_circle(gLarge)
+l<-layout_with_graphopt(gLarge,start = lc)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+lc<-layout_in_circle(gSmall)
+l<-layout_with_graphopt(gSmall,start = lc)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+```
+
+## MDS
+```{r layout.mds}
+l<-layout_with_mds(gLarge)
+plot(gLarge,layout=l,main=paste('Large with ',opts_current$get("label")))
+l<-layout_with_mds(gSmall)
+plot(gSmall,layout=l,main=paste('Smal with ',opts_current$get("label")))
+
+```
+
+# Communtities
+```{r plot.communities.walktrap}
+g<-gLarge
+x<-cluster_walktrap(g)
+plot(x, g,main=opts_current$get("label"))
+#, col = membership(x),
+#  mark.groups = communities(x), edge.color = c("black", "red")[crossing(x,
+#  g) + 1], ...)
+```
+
+```{r plot.communities.betweenness}
+g<-gLarge
+x<-cluster_edge_betweenness(g)
+plot(x, g,main=opts_current$get("label"))
+#, col = membership(x),
+#  mark.groups = communities(x), edge.color = c("black", "red")[crossing(x,
+#  g) + 1], ...)
+```
+
+```{r plot.communities.infomap}
+g<-gLarge
+x<-cluster_infomap(g)
+plot(x, g,main=opts_current$get("label"))
+#, col = membership(x),
+#  mark.groups = communities(x), edge.color = c("black", "red")[crossing(x,
+#  g) + 1], ...)
+```
+
+```{r plot.communities.fast.greedy}
+g<-gLarge
+x<-cluster_fast_greedy(g)
+plot(x, g,main=opts_current$get("label"))
+#, col = membership(x),
+#  mark.groups = communities(x), edge.color = c("black", "red")[crossing(x,
+#  g) + 1], ...)
+```
+
+```{r plot.communities.fast.greedy}
+g<-gLarge
+x<-cluster_fast_greedy(g)
+plot(x, g,main=opts_current$get("label"))
+#, col = membership(x),
+#  mark.groups = communities(x), edge.color = c("black", "red")[crossing(x,
+#  g) + 1], ...)
+```
+
+# SessionInfo
+```{r sessioninfo}
+sessionInfo()
+```
+

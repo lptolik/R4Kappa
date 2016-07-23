@@ -1,0 +1,6 @@
+#Agent definition
+%agent: A(a,b,c)
+%agent: B(a,b,d)
+%agent: C(a,d)
+%agent: D(b,c)
+
