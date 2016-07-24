@@ -7,8 +7,8 @@ project=NA,
 numSets=500,
 ###number of parameter sets to be generated
 pTable,
-###Parameter ranges data frame. Should contain columns \code{param} with parameter names, 
-###\code{Min} and \code{Max} with parameter ranges. Names in \code{param} column should 
+###Parameter ranges data frame. Should contain columns \code{name} with parameter names, 
+###\code{min} and \code{max} with parameter ranges. Names in \code{name} column should 
 ###match names in the content of \code{paramfile} files.
 constantfiles=c("main_rnap_def_rule.ka","main_rnap_init.ka","main_rnap_param.ka"),
 ###list of file names containing constant part of the model 
@@ -47,7 +47,7 @@ writeDir=FALSE
   }
 	kproject<-make.kproject(project,numSets,exec.path,repReg,type)
 	if(missing(pTable)){
-		pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]
+		pTable<-data.frame(name='s',min=1,max=1)[FALSE,]
 	}
 #replace regex, string supposed to be replaced with index of the param set
   if(!is.na(repReg)){
@@ -94,7 +94,7 @@ writeDir=FALSE
 	if(dim(pTable)[1]>0){
 		pTable$param=trim(pTable$param)
 		for(i in 1:dim(pTable)[1]){
-			paramTab[paramTab$name==pTable[i,'param'],c('min','max')]<-pTable[i,c('Min','Max')]
+			paramTab[paramTab$name==pTable[i,'param'],c('min','max')]<-pTable[i,c('min','max')]
 		}
 	}
 	kproject$pTable<-paramTab
