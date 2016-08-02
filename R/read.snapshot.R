@@ -1,7 +1,8 @@
 read.snapshot.kproject<-function(
 ###function to read and parse KaSim simulation results
 kproject,##<<project to handle
-dir##<<name of the folder with project simulation results
+dir,##<<name of the folder with project simulation results
+getAll=TRUE##<< should all snapshots be read. If False only last one will be considered
 ) {
   if (!require(futile.logger)) {
     stop('Function is required package "futile.logger"')
@@ -11,13 +12,13 @@ dir##<<name of the folder with project simulation results
   psets<-dir(dir,pattern='pset.*')
   f<-psets[1]
   i<-as.integer(gsub('pset','',f))
-    res <- read.snap.folder(paste(dir, f, sep = '/'))
+    res <- read.snap.folder(paste(dir, f, sep = '/'),getAll=getAll)
     res$Set <- i
     
     flog.info(paste('snap', 1))
     for (f in psets[-1]) {
       i<-as.integer(gsub('pset','',f))
-      r <- read.snap.folder(paste(dir, f, sep = '/'))
+      r <- read.snap.folder(paste(dir, f, sep = '/'),getAll=getAll)
       if (!any(is.na(r))) {
         r$Set <- i
         
@@ -32,12 +33,14 @@ dir##<<name of the folder with project simulation results
 
 read.snap.folder<-function(
 ###utulity function to read content of one \code{pset} folder
-file##<<location of the folder to read
+file,##<<location of the folder to read
+getAll=TRUE##<< should all snapshots be read. If False only last one will be considered
 ){
 	dir(file,pattern='try*')->tries
 	res<-NA
 	for(t in tries){
-		fka<-dir(paste(file,t,sep='/'),pattern='*.ka$');
+	  fka<-dir(paste(file,t,sep='/'),pattern='*.ka$');
+	  if(getAll){
 		for(f in fka){
 			r<-read.snapshot(paste(file,t,f,sep='/'));
 			r$Try<-t;
@@ -47,7 +50,13 @@ file##<<location of the folder to read
 				res<-rbind(res,r);
 			}
 		}
-		flog.info(paste('snap',t,sep='.'))
+	  }else{
+	    i<-as.integer(gsub("^.*_([0-9]+).*ka$","\\1",fka))
+	    r<-read.snapshot(paste(file,t,fka[which.max(i)],sep='/'));
+	    r$Try<-t;
+	    res<-r;
+	  }
+		flog.info(paste('snap',file,t,sep='.'))
 	}
 	return(res);
 }
