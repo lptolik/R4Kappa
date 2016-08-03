@@ -47,7 +47,8 @@ run.kproject<-function(
   ntime=10,##<<optional number of repetitive evaluation calls to KaSim. 10 is recommended as it allows to check proper generation and invocation of simulation package
   nset=1,##<<optional vector of indexes for the parameter set to execute
   save=FALSE,##<<logical which indicates wether to save results of the simulation
-  exe=kproject$execPath##<<optional local KaSim executable path to validate the model, if different from the execPath of the main project
+  exe=kproject$execPath,##<<optional local KaSim executable path to validate the model, if different from the execPath of the main project
+  ...
 ){
   write.kproject(kproject,dir)
   cwd<-getwd()
@@ -58,7 +59,7 @@ run.kproject<-function(
     out[[paste0('pset',i)]]<-o
   }
   respr<-read.observables.kproject(kproject = kproject,dir = './')
-  snap<-read.snapshot.kproject(kproject = kproject,dir = './')
+  snap<-read.snapshot.kproject(kproject = kproject,dir = './',...)
   respr$snapshots<-snap
   respr$simulationOutput<-out
   setwd(cwd)
