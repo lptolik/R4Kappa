@@ -72,7 +72,7 @@ dir##<<name of the folder with project simulation results
 			}
 		}
 	}
-	kprojectSimExp<-list(project=kproject,resConc=pConc,resPar=pPar,orgPar=pOrig)
+	kprojectSimExp<-list(project=kproject,resConc=pConc,resPar=pOrig,aggPar=pPar)
 	class(kprojectSimExp)<-'kprojectSimExp'
 	return(kprojectSimExp)
 ###object of \code{kprojectSimExp} class that stores both project and simulation experiment results
