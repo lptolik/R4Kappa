@@ -56,7 +56,8 @@ read.snap.folder<-function(
         }
       }else{
         i<-as.integer(gsub("^.*_([0-9]+).*ka$","\\1",fka))
-        r<-read.snapshot(paste(file,t,fka[which.max(i)],sep='/'));
+        f<-fka[which.max(i)]
+        r<-read.snapshot(paste(file,t,f,sep='/'));
         r$Try<-t;
         r$File<-f;
         if(all(is.na(res))){
@@ -70,7 +71,7 @@ read.snap.folder<-function(
       if(file.exists(f)){
         r<-read.snapshot(f);
         r$Try<-t;
-        r$File<-f;
+        r$File<-sfile;
         if(all(is.na(res))){
           res<-r;
         }else{
