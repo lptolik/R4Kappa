@@ -1,0 +1,27 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+.gitignore
+INSTALL[.]md
+OVERVIEW[.]md
+README[.]md
+aux$
+log$
+out$
+png$
+NEWS.md
+ka$
+
+#----------------------------
+# R related
+#----------------------------
+
+^vignettes/.*[.](pdf|PDF)$
+^vignettes/.*[.](r|R)$
+^vignettes/[.]install_extras$
+^[.]test
+^[.]check
+^.*[.]tar[.]gz$
+.Rhistory
+.gdbinit
+.*.tar.gz
+.Rdata

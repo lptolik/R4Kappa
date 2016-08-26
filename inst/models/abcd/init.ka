@@ -1,0 +1,6 @@
+# Initial conditions definition
+%init: 'nA' A(a,b,c)
+%init: 'nB' B(a,b,d)
+%init: 'nC' C(a,d)
+%init: 'nD' D(b,c)
+

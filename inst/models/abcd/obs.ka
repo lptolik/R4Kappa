@@ -1,0 +1,7 @@
+# Observables 
+%obs: 'Ev' [E+]
+%obs: 'AB2' A(a!1,b!2),B(a!2,b!3),A(a!1,b!4),B(a!4,b!3)
+%obs: 'AA' A(a!_)
+%obs: 'BB' B(b!_)
+%obs: 'AB' B(a!_)
+%obs: 'AB2BB' 'AB' / 'BB'

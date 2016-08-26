@@ -1,0 +1,114 @@
+---
+title: "Спецификация проекта"
+author: "Anatoly Sorokin"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output:
+  html_document: default
+  pdf_document:
+    keep_tex: yes
+    number_sections: yes
+header-includes:
+- \usepackage[T2A]{fontenc}
+- \usepackage[utf8]{inputenc}
+- \usepackage[english,russian]{babel}
+- \usepackage{grffile}
+- \usepackage{rotating}
+- \usepackage{caption}
+- \usepackage{longtable}
+- \usepackage{lscape}
+---
+# Rkappa проект
+
+Проект Rkappa задумывался как сжатое описание вычислительного эксперимента по вычислению коэффициентов чувствительности и анализа достижимости для rule-based моделей, в частности написанных на языке kappa. В некотором смысле Rkappa можно рассматривать как независимую реализацию SED-ML на каппа. И в будущем планируется построить модуль экспорта проекта в SED-ML.
+
+Основными модулями данных в проекте Rkappa являются:
+
+1. Метаданные
+1. Код модели
+2. Диапазоны параметров
+3. Шаблоны симуляции моделей
+
+В целом проект содержит 16 полей:
+
+* "name" 
+* "createDate"
+* "constLines"
+* "templateLines"
+* "replaceRegexp"
+* "nRep"
+* "nSets"
+* "execPath"
+* "type"
+* "shLines"
+* "paramLines"
+* "pTable"
+* "dateC"
+* "seed"
+* "paramSets"
+* "updateDate"
+
+Разберем структуру и назначение каждого поля более подробно:
+
+## Метаданные
+
+### name
+Название проекта, если имя не задано в явном виде при создании проекта, имя будет иметь вид "multi%Y%m%d%H%M%S", где %Y%m%d%H%M%S -- дата и время создания проекта с точностью до секунд.
+
+### createDate 
+Дата создания изначальной версии проекта.
+
+### dateC
+Дата создания дочернего проекта в фунции *recreate.kproject*.
+
+### updateDate
+Дата последнего обновления проекта. Это может быть генерация полной таблицы параметров, расширение таблицы параметров и т.д. Это поле необходимо для контроля того, что версия проекта локальная совпадает с версией проекта на удаленном сервере.
+
+### type
+Тип проекта: 'parallel' 'concurrent' 'both'. 
+
+### Необходимые
+* note/description -- необязательное поле содержащее описание проекта.
+
+## Код модели
+## Диапазоны параметров
+### nSets
+Число точек в пространстве параметров, которые будут выведены для симуляции. Должно быть меньше либо равно числу строк в таблице paramSets. Если nSets>paramSets, при попытки экспорта проекта в исполняемый фолдер возникнет ошибка. В этом случае дополнительные строки можно создать используя функцию *addSets*.
+
+### pTable
+Таблица диапазонов параметров. 
+
+### seed
+Затравка для генератора случайных чисел, обеспечивающая возможность увеличения числа точек наблюдения без перестройки всей таблицы параметров.
+
+### paramSets
+Таблица наборов параметров. Число столбцов совпадает с количеством меняемых параметров, число строк должно быть больше или равно nSets. Если число строк меньше nSets при записи проекта будет выдано сообщение об ошибке и фолдер проекта создан не будет, если больше -- предупреждение и в фолдере будут только nSets наборов.
+
+## Шаблоны симуляции моделей
+
+### paramLines
+Файл содержащий определение изменяемых параметров. Ничего кроме них в файле быть не должно.
+
+### shLines
+#### run.sh.templ
+
+the script defining some basic steps to evaluate one parameter set. The script repeat simulation of the defined model several times and store results in predefined set of folders. It is this script that defines the simulation engine and it has to be modified for use with different version of KaSim or other simulation engine (NFsim for example).
+
+#### job.sh.templ
+
+the whole job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+
+#### jobConc.sh
+the concurrent sensitivity job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+
+### templateLines
+
+### constLines
+
+### Необходимые
+* eventNum -- число реакционных событий, которые должны быть просимулированы
+* outNum -- число событий, после которого выводится очередная строка в выходной файл
+
+# SessionInfo
+```{r sessionInfo}
+sessionInfo()
+```

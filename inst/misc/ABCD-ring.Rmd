@@ -1,0 +1,209 @@
+---
+title: "ABCD-ring"
+author: "Anatoly Sorokin"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output:
+  pdf_document:
+    keep_tex: yes
+    number_sections: no
+  html_document: default
+params:
+  format: if(opts_knit$get("rmarkdown.pandoc.to") == 'html') 'interactive' else 'print'
+header-includes:
+- \usepackage[utf8]{inputenc}
+- \usepackage{grffile}
+- \usepackage{rotating}
+- \usepackage{caption}
+- \usepackage{longtable}
+- \usepackage{lscape}
+---
+```{r loadPackages, include=FALSE, cache=FALSE}
+## load additional packages in this chunk
+library(reportMD)
+library(knitr)
+library(pander)
+library(ggplot2)
+library(igraph)
+library(rkappa)
+library(plotly)
+```
+
+
+```{r setup, include=FALSE, cache=FALSE}
+## This chunk should contain global configuration commands.
+## Use this to set knitr options and related things. Everything
+## in this chunk will be included in an appendix to document the
+## configuration used.
+output <- opts_knit$get("rmarkdown.pandoc.to")
+
+## By default R code is only included in HTML versions of the report
+## (where it can be collapsed). You can generate a PDF version
+## using rmarkdown::pdf_document to get a copy for print. Extensive
+## chunks of R code may or may not be desired in that setting. If you
+## want them simply change the following arguments to `echo = TRUE`.
+## In either case the default can be overwritten for individual chunks.
+opts_chunk$set(echo = TRUE)
+opts_chunk$set(warning = output=="html")
+opts_chunk$set(message = output=="html")
+
+## Cache options
+opts_chunk$set(cache=TRUE)
+
+## Figure options
+## Set default figure format
+options(reportmd.figure.format=params$format)
+
+## Set 'hide.fig.code' to FALSE to include code chunks that
+## produce Figures in the output. Note that this affects all chunks
+## that provide a figure caption.
+opts_chunk$set(hold=TRUE, hide.fig.code=TRUE)
+
+## Set up default plotting options for different formats.
+## These can be overwritten for individual chunks
+interactiveFig()
+screenFig()
+printFig(dpi=900)
+
+## Pander options
+panderOptions("digits", 3)
+panderOptions("table.split.table", 160)
+
+## Configure Figure and Table lables
+options(figcap.prefix = "", figcap.sep = "", figcap.prefix.highlight = "")
+options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
+
+## Install required knitr hooks
+installHooks()
+```
+
+```{r functions, include=FALSE}
+## Custom functions used in the analysis should go into this chunk.
+## They will be listed in their own section of the appendix.
+makeSiteGraph<-function(kp){
+  edges<-list()
+  agents<-list()
+  agmarks<-list()
+  g <- graph.empty(n = 0, directed =FALSE) 
+  cl<-colors()
+  vcl<-list()
+  idx<-0
+  subg<-0
+  #kp<-triskelia
+  subg<-subg+1
+  k<-sub('\\)$','',kp) 
+  unlist(strsplit(k,'),',fixed=TRUE))->parts 
+  strs<-lapply(strsplit(parts,'[(,]'),function(x) strsplit(x,'!')) 
+  for(i in 1:length(strs)){
+    idx<-idx+1
+    n<-strs[[i]][[1]] 
+    nname=paste(n,idx,sep='_') 
+    agmarks[[nname]]<-idx 
+    nidx<-idx
+    if(!(n %in% names(vcl))){
+      vcl[[n]]<-colors()[8+length(vcl)*3] 
+    }
+    if(!(n %in% names(agents))){ 
+      agents[[n]]<-list()
+    } 
+    g<-add.vertices(g,1,attr=list(name=n,name2=nname,color=vcl[[n]],type='agent',size=30)) 
+    for(j in 2:length(strs[[i]])){
+      s<-strs[[i]][[j]][1]
+      if(!(s %in% names(agents[[n]]))){
+        agents[[n]][[s]]<-list() 
+      }
+      if(!(s %in% names(vcl))){ 
+        vcl[[s]]<-colors()[8+length(vcl)*3]
+      }
+      idx<-idx+1
+      agmarks[[nname]]<-c(agmarks[[nname]],idx) 
+      g<-add.vertices(g,1,attr=list(name=s,name2=paste0('site_',s),color=vcl[[s]],type='site',size=15)) 
+      g<-add.edges(g,c(nidx,idx),type='site',weight=10,color='grey40',width=10) 
+      if(length(strs[[i]][[j]])>1){
+        agents[[n]][[s]]<-append(agents[[n]][[s]],strs[[i]][[j]][2]) 
+        e<-paste(strs[[i]][[j]][2],subg,sep='_')
+        if(e %in% names(edges)){
+          g<-add.edges(g,c(edges[[e]],idx),type='bond',weight=1,color='black',width=3)
+        }else{ 
+          edges[e]<-idx
+        } 
+      }
+    } 
+  }
+  g$marks<-agmarks
+  return(g) 
+}
+
+```
+# Introduction
+We going to demonstrate the workflow of RKappa package.
+## Model definition
+
+```{r child = 'models/abcd/agents.ka'}
+```
+
+
+```{r plot.lhs,out.width='250px', fig.cap="AB2 observable structure"}
+gLHS<-makeSiteGraph('A(a!1,b!2),B(a!2,b!3),A(a!1,b!4),B(a!4,b!3)')
+lL<-layout_with_fr(gLHS)
+lL<-layout_(gLHS,with_fr(coords = lL),normalize())
+plot(gLHS,layout=lL,vertex.shape='sphere',rescale=FALSE,vertex.label.cex=2)
+
+```
+```{r read.snap}
+snap<-read.snapshot('models/abcd/test/cABCD_98000.ka')
+g<-makeIGraph(snap$Kappa)
+l<-layout_nicely(g)
+l<-layout_with_fr(g,coords=l)
+```
+
+```{r plot.snap,fig.cap='Structure of the snapshot mixture'}
+plot(g,layout=l,vertex.label=NA,vertex.size=5)
+```
+# Prepare model
+```{r define.pRanges}
+parTable<-data.frame(param=c('MOD','BRK','aa','bb','ab','ac','bd'),Min=c(rep(1e-9,2),rep(0.01,5)),Max=c(rep(1.0,2),rep(100,5)),stringsAsFactors=FALSE)
+
+```
+```{r define.project}
+abcdProj<-prepareProject(project='abcd',
+numSets=50,
+exec.path="~/kasim",
+constantfiles=c('models/abcd/agents.ka','models/abcd/rules.ka','models/abcd/init.ka','models/abcd/obs.ka','models/abcd/snap.ka'),
+templatefiles=c('models/abcd/templ_par.ka'),
+paramfile=c("models/abcd/params.ka"),
+type='parallel')
+abcdProj
+```
+
+```{r generate.more.paramsets}
+abcdProj<-addSets(abcdProj,nStart = 51,nSets = 30,seed = abcdProj$seed)
+abcdProj
+```
+
+```{r validate.project}
+validate.kproject(abcdProj)
+```
+```{r check.error}
+abcdProj$constLines$rules.ka[3]
+```
+
+```{r fix.error}
+abcdProj$templateLines$templ_par.ka[13]<-"%var: 'BRK' 'BRK_-'"
+validate.kproject(abcdProj)
+```
+
+
+# Appendix {.tabset}
+## Custom Functions
+```{r functions, eval=FALSE, include=TRUE}
+```
+
+## Configuration
+```{r setup, eval=FALSE}
+```
+
+## Session Info
+```{r sessionInfo, echo=FALSE, results='asis', class='text', warning=FALSE}
+pander(devtools::session_info())
+```
+

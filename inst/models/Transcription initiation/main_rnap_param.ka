@@ -1,0 +1,7 @@
+%var: 'AV'  1.0e8 #AV value for E.coli according to KaSim manual
+#%var: 'kns'  1.0e3/'AV' # non-specific DNA binding constant, value from Bai:2005fl
+%var: 'kns'  4.0e7/'AV' # non-specific DNA binding constant, value from Sclavi:2005fl
+%var: 'k_ns'  2.9 # non-specific DNA unbinding constant, value from Bai:2006be
+%var: 'ksigma'  'kns' # binding of sigma subunit to the apo-enzyme, value is diffusion limit
+%var: 'Ksigma'  0.26e-9 #M: sigma subunit dissociation constant, 0.26 nM from Ishihama
+%var: 'k_sigma'  'Ksigma'*4.0e7 #, unbinding of sigma subunit from the holo-enzyme

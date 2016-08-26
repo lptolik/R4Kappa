@@ -1,0 +1,37 @@
+#!/bin/bash
+numEv=%nRep%
+time=%simTime%
+out=100
+if [ "$1" != "" ]; then
+numEv=$1
+echo "number of events to simulate=$numEv" 
+fi
+if [ "$2" != "" ]; then
+time=$2
+echo "number of seconsd to simulate=$time" 
+fi
+
+
+i=1
+echo $i
+[ ! -d "./pset%setIndx%/try$i" ] && mkdir -p "./pset%setIndx%/try$i"
+cd "./pset%setIndx%/try$i"
+if [ ! -f ./data.out ]
+then
+    echo "$KASIM_EXE -t $time -p $out -d "./" -make-sim ../prom.kasim"
+    $KASIM_EXE %inputs% -t $time -p $out -d "./" -make-sim ../prom.kasim 
+fi
+cd ../
+while [ $i -lt $numEv ]
+do
+i=$[$i+1]
+mkdir -p "./try$i"
+cd "./try$i"
+if [ ! -f ./data.out ]
+then
+    echo "$KASIM_EXE -t $time -p $out -d "./" -load-sim  ../prom.kasim"
+    $KASIM_EXE -t $time -p $out -d "./" -load-sim  ../prom.kasim
+fi
+cd ..
+done
+cd ..

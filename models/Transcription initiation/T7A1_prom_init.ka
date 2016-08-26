@@ -1,2 +1,0 @@
-%init: 'PT7' promoterT7A1(ns,up,s35,s10~f,gene)
-%init: 'prom' proteinT7A1()

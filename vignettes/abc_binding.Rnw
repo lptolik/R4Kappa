@@ -1,0 +1,319 @@
+% 
+\documentclass[a4paper,twoside,openany,10pt]{article}
+\usepackage[
+  a4paper, mag=1000, includefoot,
+  left=2cm, right=2cm, top=2cm, bottom=2cm, headsep=1cm, footskip=1cm
+]{geometry}
+\usepackage[OT1]{fontenc}
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage[english]{babel}
+\ifpdf\usepackage{epstopdf}\fi
+%\usepackage[pdftex]{graphicx} 
+%\usepackage{graphicx, subfigure}
+%\usepackage[]{subfig}
+%\usepackage[colorlinks,urlcolor=blue]{hyperref} 
+\usepackage{float}
+\usepackage{alltt}
+\usepackage{rotating}
+
+\usepackage{color}
+\definecolor{lightgray}{gray}{0.95}
+
+\usepackage{listings}
+\lstset{
+language=R,                			% choose the language of the code
+basicstyle=\verbatim@font,      % the size of the fonts that are used for the code
+%breaklines=true,                % sets automatic line breaking
+%breakatwhitespace=true,					%force breaks at white space
+showspaces=false,								%don't display funky characters where there are spaces
+showstringspaces=false,					%show spaces within strings
+columns=fullflexible,						%makes character spacing nice
+,captionpos=t,tabsize=3,frame=tb,
+%   keywordstyle=\color{blue},
+%   commentstyle=\color{gray},stringstyle=\color{red},
+   numbers=right,
+   numberstyle=\small,
+   numbersep=5pt,breaklines=true,showstringspaces=false,
+   basicstyle=\footnotesize,emph={label},breakatwhitespace=false,escapeinside={`}{`}
+}
+\floatstyle{ruled}
+\newfloat{program}{thp}{lop}
+\floatname{program}{Listing}
+
+
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{RKappa ABC Binding Model Analysis Examples}
+
+\begin{document}
+<<setup, include = FALSE, cache=FALSE,message=FALSE,warning=FALSE>>=
+library(knitr)
+# set global chunk options
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(formatR.arrow=TRUE,width=70)
+library(xtable)
+@
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.3cm}
+\title{RKappa ABC complex Examples}
+\author{Anatoly Sorokin}
+\date{Package version 1.1.1509023}
+\maketitle
+\tableofcontents
+\bigskip
+\section{Overview}
+
+Dynamic modelling of biological processes is now established as a powerful tool for revealing the systems-level behaviour emerging from the interaction of molecular components. Modelling techniques based on a range mathematical grounds have been introduced over the past century, including kinetic modelling, deterministic and stochastic Petri nets, logical Boolean modelling, etc. The choice of the modelling approach generally depends upon system size, complexity, level of kinetic detail available and expected outcome. However, for a given model building task, there is no guarantee that a sufficient number of parameters are known well enough to approach biological plausibility or to ensure that the resulting simulation will be computationally tractable.
+
+A relatively new modelling approach – rule-based modelling – is one of several developed to deal with combinatorial complexity emerging in multicomponent multistate systems [1]. These have been implemented using several different semantics (Kappa, BioNetGen, StochSim, etc.) and successfully applied to a number of well-described signalling pathways [2-4]. Rule-based modelling enables representation, simulation and analysis of the behaviour of large-scale systems where knowledge of exact mechanisms and parameters is limited. These features make it very appealing to a wide variety of biological modelling problems [5].
+
+The process of building and analysing a dynamic model generally consists of the following essential steps: model assembling, model simulation, analysis of the results and model revision. As a rule, the whole process is highly iterative, therefore, an general–purpose infrastructure that supports all the steps described above would be desirable. 
+
+Indeed, for other widely used modeling techniques, such as ODE solving, a number of effective infrastructures (toolboxes) have been developed and subsequently proven their value such as COPASI, SBTOOLBOX2, SBML-SAT, SBML-PET, PottersWheel, etc [8-12]. As an example, SBTOOLBOX2 is based around the SUNDIALS simulating engine and includes a library of Matlab scripts that support model development, model simulation, fitting of models to experimental results, parameter estimation and analysis of results, including the important options for sensitivity and identifiability analysis [10]. The SBML-SAT toolbox provides the Matlab platform for local and global sensitivity analysis [11].
+
+For the relatively new rule-based techniques, such infrastructure is sparse in its coverage. For example, a Matlab-based library is available for BioNetGen, enabling parameter scanning, visualization and analysis of simulation results [13]. 
+
+What is clearly needed is a method that facilitates the development and analysis of rule-based models within a mature statistically empowered framework. Here we present the R-Kappa package that embodies this need in the widely available statistical package R and demonstrate its effectiveness through its application to Global Sensitivity Analysis (GSA).
+
+In addition to traditional GSA that we call here “parallel” for simplicity, we have introduced a computational experimental setup based upon the distinctive compositionality feature of rule-based models, which was named “concurrent” sensitivity. 
+
+\section{ABC binding toy model description}
+\subsection{Basic model}
+Here we illustrate the concept with small toy model of interaction of three agents A, B and C.  The kappa model is in Listing~\ref{code:cABC} and the graphical representation of interactions between agents are shown on the Fig.~\ref{fig:contact.map}. According them B can bind either A or C, but not both (lines~\ref{lst:a.not.c},~\ref{lst:c.not.a} on the Listing~\ref{code:cABC}). We are going to calculate sensitivity of AB fraction of B agent.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.7]{./figures/abcContacts.jpg}
+\caption{Contact map for the model from Listing~\ref{code:cABC}}
+\label{fig:contact.map}
+\end{center}
+\end{figure}
+
+
+\begin{program}[htbp]
+%  \begin{verbatim}
+\begin{lstlisting}
+
+#Agent definition
+%agent: A(s)
+%agent: B(s,t)
+%agent: C(s)
+
+# Reaction kinetic parameters
+`\label{lst:vol.def}`%var: 'vol' 0.1
+`\label{lst:bind.def}`%var: 'BDB' 0.0005
+%var: 'BRK' 0.1
+
+# Variables definition
+%var: 'nA'  1000 * 'vol'
+%var: 'nB'  1000 * 'vol'
+%var: 'nC'  1000 * 'vol'
+%var: 'BND' 'BDB' / 'vol' # Bimolecular reaction rate depends upon volume
+
+# Reaction rules
+`\label{lst:a.not.c}`'assocAB'  A(s), B(s,t) -> A(s!0), B(s!0,t) @ 'BND'
+'dissocAB' A(s!0), B(s!0) -> A(s), B(s) @ 'BRK'
+`\label{lst:c.not.a}`'assocBC'  B(t,s), C(s) -> B(t!0,s), C(s!0) @ 'BND'
+'dissocBC' B(t!0), C(s!0) -> B(t), C(s) @ 'BRK'
+
+# Initial conditions definition
+%init: 'nA' A(s)
+%init: 'nB' B(s,t)
+%init: 'nC' C(s)
+
+# Observables 
+%obs: 'AB' B(s!_)
+%obs: 'BC' B(t!_)
+%obs: 'B' B(s,t)
+%obs: 'AB fraction' 'AB' / 'B'
+
+# Snapshot definition
+%mod: repeat ([E+] > 1) && ([E+] [mod] 1000)=0 do $SNAPSHOT "iABCD" until [false]
+\end{lstlisting}
+%\end{verbatim}
+  \caption{The toy kappa model of B interacting with A and C.}
+  \label{code:cABC}
+
+\end{program}
+
+\subsection{Model split}
+The key feature of RKappa simulation strategy is ability to run simulation of different parameter sets in parallel and combine their results after completion. It is possible because in any model we are clearly designate parts that depends upon parameters varied in the experiment either directly or by, for example, storing results of simulation that could be mixed between different parameter sets. So we separate three parts in the model:
+
+\begin{description}
+\item[constant part] is the part of the model, which neither depends on nor modified by the application of the new values to the parameter set. In our toy model the only statement that belongs to that part is the snapshot definition.
+\item[parameter part] is the definition of variables that is substituted by new parameter value assignment (listing~\ref{code:paramfile}).
+\item[variable part] is the part that while is not modified by the parameter assignment, influenced by the parameter values directly, like reaction rules, or indirectly, like observables (listing~\ref{code:varfile}).
+\end{description}
+
+In theory for parallel sensitivity we could keep most of the model in constant part, moving to the variable part only reaction rules and observables, but for concurrent sensitivity, when we are going to merge many models into one metamodel, it is important to keep constant part as small as possible.
+
+\section{Project definition. Parallel sensitivity}
+
+We will start working with library rkappa by loading it:
+<<load-library, include = TRUE, cache=FALSE, results='hide',message=FALSE,warning=FALSE>>=
+library(rkappa)
+@
+
+The model depends upon three parameters: system volume $vol$ (line~\ref{lst:vol.def}); binding rate constant $BDB$ (line~\ref{lst:bdb.def}); and dissociation rate constant $BRK$ (line~\ref{lst:brk.def}). For analysis we have to provide boundaries for those parameters. In our case we set boundaries for all parameters so that their value will be always between $10^{-9}$ and $1$:
+
+<<prepare-parTab,  cache=FALSE>>=
+parTable<-data.frame(name=c('vol','BDB','BRK'),min=1e-9,max=1.0,stringsAsFactors=FALSE)
+@
+result is shown below:
+<<print-parTab,  echo = FALSE, results = 'asis'>>=
+xtable(parTable)
+@
+
+The key element of the RKappa library is the kproject class. Objects of that class stores all information required for generation of the simulation task. To create new project we need to specify number of parameters:
+
+<<make-project, cache=TRUE,warning=FALSE>>=
+abcProj<-prepareProject(project='abc',
+     numSets=50,
+     exec.path="~/kasim3/KaSim",
+     constantfiles=c('cABC_const.ka'),
+     templatefiles=c("cABC_templ.ka"),
+     paramfile=c("cABC_param.ka"),
+     type='parallel')
+@
+
+In this case we are going to simulate model locally so we will generate small number of parameter sets ($numSets=50$). We already split our original model into three parts: constant part of the model (listing~\ref{code:constfile}), parameter definition (listing~\ref{code:paramfile}) and variable part of the model (listing~\ref{code:varfile}). 
+
+\begin{program}[htbp]
+\lstinputlisting{cABC_const.ka}
+  \caption{The constant part of the toy model.}
+  \label{code:constfile}
+
+\end{program}
+
+\begin{program}[htbp]
+\lstinputlisting{cABC_templ.ka}
+  \caption{The variable part of the toy model.}
+  \label{code:varfile}
+
+\end{program}
+
+Original project template contains scripts for execution on SGE MPI job management system:
+
+ <<list-shells, cache=FALSE>>=
+print(abcProj$shLines)
+@
+
+\begin{program}[htbp]
+\lstinputlisting{cABC_param.ka}
+  \caption{The parameter definition of the toy kappa model .}
+  \label{code:paramfile}
+
+\end{program}
+
+
+We are going to change shell templates to be able to run it locally on average Linux or Mac system. There are three shell script templates in the project: 
+\begin{description}
+\item[run.sh.templ] the script defining some basic steps to evaluate one parameter set. The script repeat simulation of the defined model several times and store results in predefined set of folders. It is this script that defines the simulation engine and it has to be modified for use with different version of KaSim or other simulation engine (NFsim for example).
+\item[job.sh.templ] the whole job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+\item[jobConc.sh] the concurrent sensitivity job execution script. The template provided with the package is designed for execution with the Sun Grid Engine  batch-queuing system and was tested on ECDF Cluster in the Edinburgh University. Execution of the job with other system like HTCondor or in AmazonEC2 will require modification of the template. 
+\end{description}
+
+To optimize our project for local execution we need to modify run.sh.templ and job.sh.templ. In the run.sh.templ we first decrease simulation time (replace 1000 seconds with 1000 events in lines 16 and 21 of the template). Another way to run simulation faster is to decrease number of model evaluation runs. Each parameter set is evaluated several times (by default 10 times) to moderate the influence of stochastic nature of the kappa simulation engine. At the analysis stage we are averaging results for calculation of the sensitivity coefficients. Here with the toy model we are going to degrease number of evaluation runs to two ($numEv=2$):
+<<update-run.sh, cache=FALSE,tidy_source=TRUE>>=
+abcProj$shLines[["run.sh.templ"]][2]<-"numEv=2"
+abcProj$shLines[["run.sh.templ"]][4]<-"out=10"
+
+ abcProj$shLines[["run.sh.templ"]]
+@
+
+After modifications made in run.sh.template execution time come down to several seconds and nowe we are ready to run it locally. There is no need for batch-queuing system on the local machine so cannot rely on it in execution all our jobs. So we are going to modify job.sh.templ to make it loop through all jobs and execute them one by one:
+<<update-job.sh, cache=FALSE,tidy_source=TRUE>>=
+ abcProj$shLines[["job.sh.templ"]][20]<-"#N=$SGE_TASK_ID"
+ abcProj$shLines[["job.sh.templ"]][21]<-"for runN in $(ls run*.sh)"
+ abcProj$shLines[["job.sh.templ"]][22]<-"do"
+ abcProj$shLines[["job.sh.templ"]][23]<-"echo $runN"
+ abcProj$shLines[["job.sh.templ"]][24]<-"./$runN"
+ abcProj$shLines[["job.sh.templ"]][25]<-"done"
+
+ abcProj$shLines[["job.sh.templ"]]
+@
+
+To run the project we need to create set of executables in the local or remote machine:
+
+<<write-project, eval=FALSE>>=
+write.kproject(abcProj)
+@
+
+That command would create folder with name of your project\$name and write all required files there. The next step is to execute the simulator with all model parameter sets. 
+call the system command for execution job.sh:
+
+<<run-job, eval=FALSE>>=
+system('./abc/job.sh')
+@
+
+The results of the simulation could be then loaded to the R system with command:
+
+<<read-obs, eval=FALSE>>=
+abcObs<-read.observables(abcProj,dir='abc')
+@
+
+<<load-obs, include=FALSE>>=
+data(abcProject)
+@
+Now we can plot time series for our observables at different parameter sets (graph is shown on fig~\ref{fig:val-xplot}):
+
+<<val-xplot,fig.cap='Concentration of AB complex at different parameter sets',tidy_source=TRUE>>=
+library(lattice)
+par.settings <- list(superpose.symbol = list(col = c("red", 
+"blue", "green"), fill = c("red", "blue", "green")), superpose.line = list(col = 
+c("red", "blue", "green")) ) 
+
+grep('AB[0-9]+$',names(abcObs$resPar))->ind
+tabPlot<-abcObs$resPar[,c(1,ind[1:9])]
+t<-cbind(data.frame(time=tabPlot$time),stack(tabPlot,select=-time))
+xyplot(values~time|ind,t)
+@
+
+The PRCC sensitivity value could be calculated with command:
+<<timed-parallel-sens, results='hide', cache=TRUE,tidy_source=TRUE,message=FALSE,warning=FALSE>>=
+tcs<-timed.concurrent.sensitivity(abcProj$paramSet, 
+           abcObs$resPar, outName='AB[0-9]+', nboot=0)
+@
+the result is a data.frame with time dependent sensitivity value of selected variable against all parameters. Summary of that data.frame is shown in the table~\ref{tab:tcs.sum}. For each observable there are sensitivity coefficient in the column with prefix 'sc', p-value of accepting the null hypothesis that sensitivity value is equal to zero in the column with prefix 'pval', and value of T-statistics in the column with prefix 'T'.
+
+<<timed-parallel-res, results='asis',tidy_source=TRUE>>=
+xts<-xtable(summary(tcs), label='tab:tcs.sum', 
+            caption='Summary of timed sensitivity analysis results')
+ print(xts, floating.environment = 'sidewaystable') 
+@
+
+The last thing is to plot the time series for the sensitivity coefficient:
+
+<<sc-plot,fig.cap='Sensitivity coefficients of three parameters relative to concentration of AB complex'>>=
+xyplot(sc.AB  ~time|param,tcs,type='l',title='abc binding'
+       , par.settings = par.settings)
+@
+
+We can see that initially when concentration of AB complex is small and fluctuating sensitivity coefficients are close to zero and only whith time it achieves its real value. It is even better seen on the significance plot (fig~\ref{fig:pval-xplot}), where we plot the probability that real sensitivity is equals to zero.
+<<pval-xplot,fig.cap='Significance of the sensitivity coefficients of three parameters relative to concentration of AB complex',out.width='.75\\linewidth'>>=
+xyplot(pval.AB  ~time,tcs,groups=param,type='l',title='abc binding'
+       , par.settings = par.settings
+       ,scales=list(y = list(log = TRUE))
+       ,auto.key = list( 
+               text = paste(sort(unique(tcs$param))), 
+               lines = TRUE,
+               points = FALSE,
+               columns=2
+       ) 
+)
+@
+
+It is also possible to estimate the value below which sensitivity coefficient is insignificant at certain value:
+
+<<sig-level, results = 'asis'>>=
+N<-attr(tcs,'N')
+p<-attr(tcs,'p')
+threshold<-prccConfidenceInterval(c(1e-3,5e-3,1e-2,5e-2,1e-1),N,p)
+xths<-xtable(threshold, label='tab:sig.level', 
+            caption='Sensitivity value thresholds for different significance levels')
+ print(xths, floating.environment = 'table') 
+
+@
+
+
+\end{document}

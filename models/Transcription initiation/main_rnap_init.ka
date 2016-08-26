@@ -1,3 +1,0 @@
-%init: 2000 RNAP(dna,st~f,alpha,sigmaS)
-%init: 800 sigma(rnap,S10,S35)
-%init: 10000 DNA(ns)

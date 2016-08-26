@@ -1,0 +1,9 @@
+# Reaction kinetic parameters
+%var: 'MOD_-' 0.0005
+%var: 'BRK_-' 0.1
+%var: 'aa_-' 1
+%var: 'bb_-' 1
+%var: 'ab_-' 1
+%var: 'ac_-' 1
+%var: 'bd_-' 1
+
