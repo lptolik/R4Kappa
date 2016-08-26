@@ -157,7 +157,7 @@ library(rkappa)
 The model depends upon three parameters: system volume $vol$ (line~\ref{lst:vol.def}); binding rate constant $BDB$ (line~\ref{lst:bdb.def}); and dissociation rate constant $BRK$ (line~\ref{lst:brk.def}). For analysis we have to provide boundaries for those parameters. In our case we set boundaries for all parameters so that their value will be always between $10^{-9}$ and $1$:
 
 <<prepare-parTab,  cache=FALSE>>=
-parTable<-data.frame(param=c('vol','BDB','BRK'),Min=1e-9,Max=1.0,stringsAsFactors=FALSE)
+parTable<-data.frame(name=c('vol','BDB','BRK'),min=1e-9,max=1.0,stringsAsFactors=FALSE)
 @
 result is shown below:
 <<print-parTab,  echo = FALSE, results = 'asis'>>=

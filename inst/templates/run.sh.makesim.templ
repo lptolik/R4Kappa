@@ -1,6 +1,6 @@
 #!/bin/bash
 numEv=%nRep%
-time=1000
+time=%simTime%
 out=100
 if [ "$1" != "" ]; then
 numEv=$1
@@ -14,9 +14,9 @@ fi
 
 i=1
 echo $i
-[ ! -d "./pset%setIndx%/try$i" ] mkdir -p "./pset%setIndx%/try$i"
+[ ! -d "./pset%setIndx%/try$i" ] && mkdir -p "./pset%setIndx%/try$i"
 cd "./pset%setIndx%/try$i"
-if [ ! -f ./data.out]
+if [ ! -f ./data.out ]
 then
     echo "$KASIM_EXE -t $time -p $out -d "./" -make-sim ../prom.kasim"
     $KASIM_EXE %inputs% -t $time -p $out -d "./" -make-sim ../prom.kasim 
@@ -27,7 +27,7 @@ do
 i=$[$i+1]
 mkdir -p "./try$i"
 cd "./try$i"
-if [ ! -f ./data.out]
+if [ ! -f ./data.out ]
 then
     echo "$KASIM_EXE -t $time -p $out -d "./" -load-sim  ../prom.kasim"
     $KASIM_EXE -t $time -p $out -d "./" -load-sim  ../prom.kasim

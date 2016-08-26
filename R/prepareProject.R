@@ -7,8 +7,8 @@ project=NA,
 numSets=500,
 ###number of parameter sets to be generated
 pTable,
-###Parameter ranges data frame. Should contain columns \code{param} with parameter names, 
-###\code{Min} and \code{Max} with parameter ranges. Names in \code{param} column should 
+###Parameter ranges data frame. Should contain columns \code{name} with parameter names, 
+###\code{min} and \code{max} with parameter ranges. Names in \code{name} column should 
 ###match names in the content of \code{paramfile} files.
 constantfiles=c("main_rnap_def_rule.ka","main_rnap_init.ka","main_rnap_param.ka"),
 ###list of file names containing constant part of the model 
@@ -22,6 +22,8 @@ k_max= 10,
 ###maximum parameter value factor to be used if \code{pTable==NA}
 exec.path="~/kasim3/KaSim",
 ###path to kappa language simulator executables in simulation environment
+simTime=1000,
+###time span to simulate
 shFile=NA,#'run.sh.templ',
 ###run script template file name
 jobFile=NA,#'job.sh.templ',
@@ -45,9 +47,9 @@ writeDir=FALSE
   if(is.na(project)){
     project<-paste("multi",format(Sys.time(), "%Y%m%d%H%M%S"),sep='')
   }
-	kproject<-make.kproject(project,numSets,exec.path,repReg,type)
+	kproject<-make.kproject(project,numSets,simTime,exec.path,repReg,type)
 	if(missing(pTable)){
-		pTable<-data.frame(param='s',Min=1,Max=1)[FALSE,]
+		pTable<-data.frame(name='s',min=1,max=1)[FALSE,]
 	}
 #replace regex, string supposed to be replaced with index of the param set
   if(!is.na(repReg)){
@@ -94,7 +96,7 @@ writeDir=FALSE
 	if(dim(pTable)[1]>0){
 		pTable$param=trim(pTable$param)
 		for(i in 1:dim(pTable)[1]){
-			paramTab[paramTab$name==pTable[i,'param'],c('min','max')]<-pTable[i,c('Min','Max')]
+			paramTab[paramTab$name==pTable[i,'param'],c('min','max')]<-pTable[i,c('min','max')]
 		}
 	}
 	kproject$pTable<-paramTab
@@ -139,6 +141,8 @@ project=NA,
 ###files, if not specified multi_current_date stub will be used.
 numSets=500,
 ###list of parameter file names
+simTime=1000,
+###time span to simulate
 exec.path="~/kasim3/KaSim",
 ###path to kappa language simulator executables in simulation environment
 repReg="_-",
@@ -157,6 +161,7 @@ type=c('parallel','concurrent','both')
 	kproject$templateLines<-list()
 	kproject$replaceRegexp<-repReg
 	kproject$nRep<-10
+	kproject$simTime<-simTime
 	kproject$nSets<-numSets
 	kproject$execPath<-exec.path
 	kproject$type<-type
@@ -246,7 +251,7 @@ addSets<-function(
 kproject,##<<project to prepare sets for
 nStart=1,##<<start index of the set
 nSets=500,##<<number of the sets to be added
-seed = 100##<<random generator seed to expand existing set in the project use \code{kproject$seed}
+seed = kproject$seed##<<random generator seed to expand existing set in the project use \code{kproject$seed}
 ){
   kproject$pTable->paramTab
   ind<-which((paramTab$max-paramTab$min)>0)
