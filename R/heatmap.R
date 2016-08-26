@@ -18,7 +18,7 @@ heatmap.pop<-function (x,
 }
 
 levelplot.point.sensitivity<-function(
-  ### Function to plot sensitivity valueso of several experiments with levelplot
+  ### Function to plot sensitivity values of several experiments with levelplot
   sens,##<< data frame of sensitivity coefficients with experiments on the columns and parameters on the rows
   pval=NA,##<< data frame of P-values with experiments on the columns and parameters on the rows. If NA then 
   ### conf.value is ignored and npar parameters with greatest absolute values in the first column is plotted.

@@ -1,8 +1,8 @@
 Package: rkappa
 Type: Package
 Title: Kappa simulation Project
-Version: 1.1.160502
-Date: 2016-05-02
+Version: 1.1.160722
+Date: 2016-07-22
 Author: Anatoly Sorokin
 Maintainer: Anatoly Sorokin <lptolik@gmail.com>
 Description: The package provides a infrastructure required to simulate kappa model with various parameter sets and analyse results of such simulations.
